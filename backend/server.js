@@ -16,6 +16,15 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+const profileRoutes = require('./routes/profile');
+
+
+//routes
+app.use('/api/profiles', profileRoutes);
+
+
+
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

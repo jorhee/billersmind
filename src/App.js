@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Content from './components/Content';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UserProfile from './components/UserProfile';
 
 
 function App() {
