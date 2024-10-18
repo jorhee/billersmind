@@ -4,9 +4,13 @@ const connectDB = require('./config');
 
 const app = express();
 
+require('dotenv').config();
+
+
 // Middleware
 app.use(cors());
 app.use(express.json());
+
 
 // Connect to MongoDB
 connectDB();
@@ -20,7 +24,7 @@ const profileRoutes = require('./routes/profile');
 
 
 //routes
-app.use('/api/profiles', profileRoutes);
+app.use('/profiles', profileRoutes);
 
 
 

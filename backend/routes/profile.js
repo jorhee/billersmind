@@ -1,63 +1,34 @@
 // routes/profile.js
 const express = require('express');
-const UserProfile = require('../models/UserProfile');
+
+const profileController = require("../controllers/profile");
+const auth = require("../middleware/auth");
+const { verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
+
+
 const router = express.Router();
-const authMiddleware = require('../middleware/auth'); // Assume you have an auth middleware
+
 const multer = require('multer');
 const path = require('path');
 
+// Register user profile
+router.post('/', profileController.registerUser);
+
+//Login user
+router.post("/login", profileController.loginUser);
+
 // Get user profile
-router.get('/:userId', authMiddleware, async (req, res) => {
-  try {
-    const profile = await UserProfile.findOne({ userId: req.params.userId });
-    if (!profile) return res.status(404).send('Profile not found');
-    res.json(profile);
-  } catch (error) {
-    res.status(500).send('Server error');
-  }
-});
+router.get('/details', verify, isLoggedIn, profileController.getUserProfile);
 
-// Create or update user profile
-router.post('/', authMiddleware, async (req, res) => {
-  const { name, email, bio, profilePicture } = req.body;
+//Set user as admin
 
-  try {
-    let profile = await UserProfile.findOne({ userId: req.user.id });
-    if (profile) {
-      // Update existing profile
-      profile.name = name;
-      profile.email = email;
-      profile.bio = bio;
-      profile.profilePicture = profilePicture;
-      await profile.save();
-      return res.json(profile);
-    }
+router.patch('/:id/set-as-admin', verify, verifyAdmin, isLoggedIn,profileController.updateUserAdminStatus);
 
-    // Create new profile
-    profile = new UserProfile({
-      userId: req.user.id,
-      name,
-      email,
-      bio,
-      profilePicture,
-    });
-    await profile.save();
-    res.status(201).json(profile);
-  } catch (error) {
-    res.status(500).send('Server error');
-  }
-});
+//update password
+router.patch('/update-password', verify, isLoggedIn, profileController.updatePassword);    
 
 // Delete user profile
-router.delete('/:userId', authMiddleware, async (req, res) => {
-  try {
-    await UserProfile.deleteOne({ userId: req.params.userId });
-    res.send('Profile deleted');
-  } catch (error) {
-    res.status(500).send('Server error');
-  }
-});
-
+router.delete('/:userId', verify, verifyAdmin, profileController.deleteProfile);
 
 
 // Configure multer
@@ -73,9 +44,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Add route for uploading profile pictures
-router.post('/upload/:userId', authMiddleware, upload.single('profilePicture'), async (req, res) => {
+router.post('/upload/:userId', verify, upload.single('profilePicture'), async (req, res) => {
   try {
-    const profile = await UserProfile.findOne({ userId: req.params.userId });
+    const profile = await User.findOne({ userId: req.params.userId });
     if (!profile) return res.status(404).send('Profile not found');
 
     // Update profile picture
@@ -88,6 +59,18 @@ router.post('/upload/:userId', authMiddleware, upload.single('profilePicture'), 
 });
 
 
+// Add this route to get the current user's profile
+router.get('/me', verify, async (req, res) => {
+  try {
+    const profile = await UserProfile.findOne({ userId: req.user.id });
+    if (!profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+    res.json(profile);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 
