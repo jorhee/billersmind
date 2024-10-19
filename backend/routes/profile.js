@@ -5,27 +5,29 @@ const profileController = require("../controllers/profile");
 const auth = require("../middleware/auth");
 const { verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
 
-
 const router = express.Router();
 
 const multer = require('multer');
 const path = require('path');
 
+// User model (for reference)
+const User = require('../models/User'); // Ensure you require your User model
+
 // Register user profile
-router.post('/', profileController.registerUser);
+router.post('/addUser', profileController.registerUser);
 
 //Login user
 router.post("/login", profileController.loginUser);
 
 // Get user profile
-router.get('/details', verify, isLoggedIn, profileController.getUserProfile);
+router.get('/me', verify, isLoggedIn, profileController.getUserProfile);
 
 //Set user as admin
 
 router.patch('/:id/set-as-admin', verify, verifyAdmin, isLoggedIn,profileController.updateUserAdminStatus);
 
 //update password
-router.patch('/update-password', verify, isLoggedIn, profileController.updatePassword);    
+router.patch('/update/', verify, isLoggedIn, profileController.updateUserDetails);    
 
 // Delete user profile
 router.delete('/:userId', verify, verifyAdmin, profileController.deleteProfile);
@@ -46,34 +48,32 @@ const upload = multer({ storage });
 // Add route for uploading profile pictures
 router.post('/upload/:userId', verify, upload.single('profilePicture'), async (req, res) => {
   try {
-    const profile = await User.findOne({ userId: req.params.userId });
+    const profile = await User.findById(req.params.userId);
     if (!profile) return res.status(404).send('Profile not found');
 
-    // Update profile picture
-    profile.profilePicture = `/${req.file.path}`; // Save path to profile picture
-    await profile.save();
-    res.json(profile);
+    // Handle file upload (store the file path temporarily if needed)
+    const profilePicturePath = `/${req.file.path}`; // Save path to the uploaded image
+    res.json({ message: 'Profile picture uploaded successfully', profilePicturePath });
   } catch (error) {
     res.status(500).send('Server error');
   }
 });
 
 
-// Add this route to get the current user's profile
+/*// Get the current logged-in user's profile
 router.get('/me', verify, async (req, res) => {
   try {
-    const profile = await UserProfile.findOne({ userId: req.user.id });
-    if (!profile) {
-      return res.status(404).json({ message: 'Profile not found' });
-    }
-    res.json(profile);
+    const user = await User.findById(req.user.id).select('-password'); // Fetch user profile excluding password
+    if (!user) return res.status(404).json({ message: 'Profile not found' });
+    
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
 });
 
 
-
+*/
 
 
 module.exports = router;

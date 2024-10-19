@@ -15,11 +15,11 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
-// Example route
+/*// Example route
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
-
+*/
 const profileRoutes = require('./routes/profile');
 
 

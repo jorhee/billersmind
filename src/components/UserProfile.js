@@ -1,71 +1,71 @@
 // src/components/UserProfile.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+//import { useNavigate } from 'react-router-dom';
 
-const UserProfile = ({ userId }) => {
-  const [profile, setProfile] = useState({});
-  const [formData, setFormData] = useState({
-    name: '',
+
+const UserProfile = () => {
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
-    bio: '',
-    profilePicture: '',
-    phone: '', 
+    mobileNo: '',
+    userPicture: '', // Ensure this exists
   });
-  const [file, setFile] = useState(null);
-  const [isEditing, setIsEditing] = useState(false); // State to manage edit mode
-
-/*  useEffect(() => {
-    const fetchProfile = async () => {
-      const response = await axios.get(`/profiles/${userId}`);
-      setProfile(response.data);
-      setFormData(response.data);
-    };
-
-    fetchProfile();
-  }, [userId]);*/
+  const [file, setFile] = useState(null); // For profile picture upload
+  const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem('token'); // Get token from local storage
-      const response = await axios.get('/api/profiles/me', {
-        headers: { Authorization: token }, // Set Authorization header
-      });
-      setProfile(response.data);
-      setFormData(response.data);
+      try {
+        const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+        const response = await axios.get('/profiles/me', {
+          headers: { Authorization: `Bearer ${token}` }, // Attach token to headers
+        });
+        setUser(response.data); // Set the profile data in state
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
     };
 
     fetchProfile();
   }, []);
-  
-
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]); // Save selected file
+    setFile(e.target.files[0]); // Set the selected profile picture file
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    formDataToSend.append('profilePicture', file);
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('email', formData.email);
-    formDataToSend.append('bio', formData.bio);
-    formDataToSend.append('phone', formData.phone);
+    const formData = new FormData();
+    if (file) formData.append('userPicture', file); // Add the file if one was selected
 
-    // Send a POST request to update the user profile
     try {
-      const response = await axios.post(`/api/profiles/upload/${userId}`, formDataToSend);
-      setProfile(response.data); // Update profile data with the response
-      setIsEditing(false); // Exit edit mode after saving
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`/api/profiles/upload/${user._id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`, // Attach token to headers
+        },
+      });
+      console.log("Profile picture uploaded:", response.data);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Error uploading profile picture:", error);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear JWT token from localStorage
+    window.location.href = '/login'; // Redirect to login page
   };
 
   return (
     <div>
       <h1>User Profile</h1>
+
       {isEditing ? (
+        // Editing form
         <form onSubmit={handleSubmit}>
           <input
             type="file"
@@ -74,43 +74,45 @@ const UserProfile = ({ userId }) => {
           />
           <input
             type="text"
-            name="name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            placeholder="Name"
+            value={user.firstName}
+            onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+            placeholder="First Name"
+            required
+          />
+          <input
+            type="text"
+            value={user.lastName}
+            onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+            placeholder="Last Name"
             required
           />
           <input
             type="email"
-            name="email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
             placeholder="Email"
             required
           />
           <input
             type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            placeholder="Phone"
+            value={user.mobileNo}
+            onChange={(e) => setUser({ ...user, mobileNo: e.target.value })}
+            placeholder="Mobile Number"
+            required
           />
-          <textarea
-            name="bio"
-            value={formData.bio}
-            onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-            placeholder="Bio"
-          />
-          <button type="submit">Save</button>
+          <button type="submit">Save Changes</button>
           <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
         </form>
       ) : (
+        // Display profile details
         <div>
-          <img src={profile.profilePicture} alt="Profile" />
-          <h2>{profile.name}</h2>
-          <p>{profile.email}</p>
-          <p>{profile.bio}</p>
+          <h2>{user.firstName} {user.lastName}</h2>
+          <p>Email: {user.email}</p>
+          <p>Mobile No: {user.mobileNo}</p>
+          <img src={user.userPicture || 'default-profile.png'} alt="Profile" />
+
           <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       )}
     </div>
@@ -118,5 +120,3 @@ const UserProfile = ({ userId }) => {
 };
 
 export default UserProfile;
-
-

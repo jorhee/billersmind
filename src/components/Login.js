@@ -17,12 +17,13 @@ const navigate = useNavigate();
     try {
       // Send login request to backend
       const response = await axios.post('http://localhost:5000/profiles/login', { email, password });
-      
+      const token = response.data.token;
+
       // Save token to localStorage
       localStorage.setItem('token', response.data.token);
-
+      
       // Redirect to profile page
-      navigate('/profile');  // Redirect after successful login
+      navigate('/profile/me');  // Redirect after successful login
     } catch (error) {
       // If login fails, display error
       if (error.response && error.response.data.message) {

@@ -100,7 +100,7 @@ module.exports.loginUser = (req, res) => {
 
 // get User profile:
 
-module.exports.getUserProfile = async (req, res) => {
+/*module.exports.getUserProfile = async (req, res) => {
 
 		return User.findById(req.user.id)
     .then(user => {
@@ -116,6 +116,19 @@ module.exports.getUserProfile = async (req, res) => {
     })
     .catch(error => errorHandler(error, req, res));
 };
+*/
+module.exports.getUserProfile = async (req, res) => {
+
+	try {
+	    const userId = req.user.id; // Assuming you set req.user.id in the verify middleware
+	    const user = await User.findById(userId).select('-password'); // Exclude password from response
+	    if (!user) return res.status(404).json({ message: 'User not found' });
+	    res.json(user);
+	  } catch (error) {
+	    res.status(500).json({ message: 'Server error' });
+	  }
+	};
+
 
 
 //update user to admin
@@ -159,9 +172,9 @@ module.exports.updateUserAdminStatus = async (req, res) => {
     }
 };
 
-//Update Password -
+//Update Password - v1
 
-module.exports.updatePassword = async (req,res) => {
+/*module.exports.updatePassword = async (req,res) => {
 
 	const userId = req.user.id 
 
@@ -205,6 +218,68 @@ module.exports.updatePassword = async (req,res) => {
         });
     }
 
+};*/
+
+//vr2 update user's pw or email:
+
+module.exports.updateUserDetails = async (req, res) => {
+  const userId = req.user.id; // Authenticated user ID
+  const { currentPassword, newPassword, newEmail } = req.body; // Extract fields
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    let isUpdated = false; // To track if any updates are made
+
+    // If the user wants to update their password
+    if (newPassword && newPassword.trim() !== "") {
+      // Check if currentPassword is provided and correct
+      if (!currentPassword || !bcrypt.compareSync(currentPassword, user.password)) {
+        return res.status(403).send({ message: 'Current password does not match' });
+      }
+
+      // Check if new password is different from the current password
+      if (bcrypt.compareSync(newPassword, user.password)) {
+        return res.status(400).send({ message: 'New password cannot be the same as the current password.' });
+      }
+
+      if (newPassword.length < 8) {
+        return res.status(400).send({ message: 'Password must be at least 8 characters long.' });
+      }
+
+      // Update the password
+      user.password = bcrypt.hashSync(newPassword, 10);
+      isUpdated = true;
+    }
+
+    // If the user wants to update their email
+    if (newEmail && newEmail.trim() !== "" && newEmail !== user.email) {
+      const emailExists = await User.findOne({ email: newEmail });
+      if (emailExists) {
+        return res.status(400).send({ message: 'Email is already in use.' });
+      }
+
+      user.email = newEmail; // Update email
+      isUpdated = true;
+    }
+
+    if (isUpdated) {
+      await user.save(); // Save only if there are updates
+      return res.status(200).send({ message: 'User details updated successfully!' });
+    } else {
+      return res.status(400).send({ message: 'No changes made. Please provide valid data to update.' });
+    }
+
+  } catch (error) {
+    // Catch any errors and respond
+    return res.status(500).send({
+      message: 'Error updating user details',
+      error: error.message,
+    });
+  }
 };
 
 // Delete user profile
