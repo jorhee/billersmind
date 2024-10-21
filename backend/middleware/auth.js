@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User'); // Adjust the path as needed
 
 require('dotenv').config();
 
 
-module.exports.authMiddleware = (user) =>{
+/*module.exports.authMiddleware = (user) =>{
 
   const data = {
     id: user._id,
@@ -16,11 +17,56 @@ module.exports.authMiddleware = (user) =>{
     // SECRET_KEY is a User defined string data that will be used to create our JSON web tokens
   return jwt.sign(data, process.env.JWT_SECRET, {});
 
+};*/
+
+//version 2
+
+// Middleware to verify token
+/*module.exports.authMiddleware = (req, res, next) => {
+  // Get the token from the Authorization header
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'No token provided, authorization denied' });
+  }
+
+  const token = authHeader.split(' ')[1]; // Extract the token
+  console.log("This is the token: " + token);
+
+  try {
+    // Verify token and extract user information
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your secret key
+    req.user = { id: decoded.id}; // Attach user info to req.user (e.g., req.user.id)
+    next(); // Move to the next middleware or route handler
+  } catch (error) {
+    return res.status(401).json({ message: 'Token is not valid' });
+  }
+};
+*/
+
+//version 3
+
+module.exports.authMiddleware = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) return res.status(401).json({ message: 'No token provided' });
+
+  const token = authHeader.split(' ')[1];
+  console.log("This is the token: " + token);
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your secret
+    req.user = await User.findById(decoded.id);
+    if (!req.user) return res.status(401).json({ message: 'User not found' });
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
 };
 
 //[Token Verification]
 
-module.exports.verify = (req, res, next) =>{
+/*module.exports.verify = (req, res, next) =>{
 
   console.log(req.headers.authorization);
   //bearer token
@@ -61,7 +107,36 @@ module.exports.verify = (req, res, next) =>{
       }
     })
   }
+};*/
+
+
+//version 2
+module.exports.verify = async (req, res, next) =>{
+  
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
+    const user = await User.findById(decoded.id).select('-password'); // Exclude password from response
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    req.user = user; // Attach user information to the request object
+    next(); // Proceed to the next middleware/controller
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
 };
+
+
 
 //[Verify Admin]
 

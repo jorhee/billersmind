@@ -90,7 +90,7 @@ body{
   transform: scale(1.1);
 }
 
-.navbar a {
+/*.navbar a {
   font-size: 1.8rem;
   color: white;
   margin-left: 4rem;
@@ -98,8 +98,15 @@ body{
   transition: 0.3s ease;
   border-bottom: 3px solid transparent;
 }
+*/
 
+.navbar a {
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+}
 .navbar a:hover, 
+
 .navbar a.active{
   color: var(--main-color);
   border-bottom: 3px solid var(--main-color);

@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
 const User = require('../models/User');
 const auth = require("../middleware/auth");
-const { errorHandler } = auth;
+const { errorHandler, authMiddleware } = auth;
+const jwt = require('jsonwebtoken');
 
 
 // Create or update user profile
@@ -64,7 +65,7 @@ module.exports.registerUser = (req, res) => {
 
 
 //Login User
-
+/*
 module.exports.loginUser = (req, res) => {
 	
 	if(req.body.email.includes("@")){
@@ -95,6 +96,37 @@ module.exports.loginUser = (req, res) => {
         return res.status(400).send({ error: 'Invalid Email' });
     }
 
+};*/
+
+
+//version 2.
+
+module.exports.loginUser = async (req, res) => {
+
+const { email, password } = req.body;
+  // Authenticate user (find user in the database, verify password, etc.)
+try {
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Send token back to the client
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
 
 
@@ -123,8 +155,15 @@ module.exports.getUserProfile = async (req, res) => {
 	    const userId = req.user.id; // Assuming you set req.user.id in the verify middleware
 	    const user = await User.findById(userId).select('-password'); // Exclude password from response
 	    if (!user) return res.status(404).json({ message: 'User not found' });
-	    res.json(user);
+	    
+	    res.json({
+	    	firstName: user.firstName,
+  			lastName: user.lastName,
+  			email: user.email,
+  			mobileNo: user.mobileNo
+	    });
 	  } catch (error) {
+	  	console.error('Error fetching user profile:', error); // Log the error
 	    res.status(500).json({ message: 'Server error' });
 	  }
 	};

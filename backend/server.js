@@ -4,13 +4,15 @@ const connectDB = require('./config');
 
 const app = express();
 
+const profileRoutes = require('./routes/profile');
+
 require('dotenv').config();
 
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({extended:true}));   
 
 // Connect to MongoDB
 connectDB();
@@ -20,7 +22,16 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 */
-const profileRoutes = require('./routes/profile');
+
+//will allow us to customize CORS options to meet our specific requirements
+const corsOptions = {
+    origin: [`http:localhost:8000`, `http:localhost:3000`], //allows request from this origin (client's URL)
+    //method: ['GET','POST'] - You can add this property to limit the access to this method.
+    credentials: true, //allow credentials (e.g. authorization headers)
+    optionsSuccessStatus:200 //provides status code to use for successful OPTIONS requests.
+}
+app.use(cors(corsOptions));
+
 
 
 //routes

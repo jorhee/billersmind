@@ -2,21 +2,13 @@ import React from 'react';
 
 
 
-const Home = () => {
+export default function Home() {
   return (
     <>  
     <section className="home" id="home">
     <div className="home-img">
       <img src="/images/bmlogo.jpg" alt="Billers Mind Logo" />
-    </div>
-    
-    <div className="home-content">
-      <h3>Hello</h3>
-      <h1>Welcome to <span>Billers Mind </span>BPO</h1>
-      <h3 className="text-animation">We are a <span></span></h3>
-      <p>Billers Mind is a medical billing and outsourcing service company with more than 14 years of experience. We prioritize quality and compassion while adhering to best practices. Our goal is to provide new and existing clients with resources to stay updated on current medicare and medicaid regulations. Since our founding, Billers Mind US has been known for exceptional efficiency and the highest level of professionalism.</p>
-
-      <div className="social-icons">
+       <div className="social-icons text-center">
             {/* External links should open in a new tab with proper security attributes */}
             <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
               <i className="bx bxl-linkedin-square"></i>
@@ -28,7 +20,14 @@ const Home = () => {
               <i className="bx bxl-github"></i>
             </a>
           </div>
-
+    </div>
+    
+    <div className="home-content">
+      <h3>Hello</h3>
+      <h1>Welcome to <span>Billers Mind </span>BPO</h1>
+      <h3 className="text-animation">We are a <span></span></h3>
+      <p>Billers Mind is a medical billing and outsourcing service company with more than 14 years of experience. We prioritize quality and compassion while adhering to best practices. Our goal is to provide new and existing clients with resources to stay updated on current medicare and medicaid regulations. Since our founding, Billers Mind US has been known for exceptional efficiency and the highest level of professionalism.</p>
+     
           <a href="#contact" className="btncontact">CONTACT US</a>
         </div>
     </section>
@@ -37,4 +36,4 @@ const Home = () => {
   )
 };
 
-export default Home;
+

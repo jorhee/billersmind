@@ -1,7 +1,19 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 
-const CustomNavbar = () => {
+
+import { useNavigate } from 'react-router-dom';
+
+export default function CustomNavbar() {
+
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token'); // Check if token exists
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear the token
+    navigate('/login'); // Redirect to the login page
+  };
+
   return (
     <Navbar  className="header">
       <Container>
@@ -16,7 +28,18 @@ const CustomNavbar = () => {
             <Nav.Link href="#about">About</Nav.Link>
             <Nav.Link href="#services">Services</Nav.Link>
             <Nav.Link href="#contact">Contact</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>  {/* Updated to use /login route */}
+            {token ? ( // Conditional rendering based on token
+            <>
+              <Nav.Link href="/profile/me">Profile</Nav.Link>
+              <Button variant="outline-danger" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Button className="" variant="outline-success" onClick={() => navigate('/login')}>
+              Login
+            </Button>
+          )}
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -24,4 +47,4 @@ const CustomNavbar = () => {
   );
 }
 
-export default CustomNavbar;
+

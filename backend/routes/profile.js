@@ -1,9 +1,12 @@
 // routes/profile.js
+const jwt = require('jsonwebtoken');
+
 const express = require('express');
 
 const profileController = require("../controllers/profile");
 const auth = require("../middleware/auth");
-const { verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
+
+const { authMiddleware, verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
 
 const router = express.Router();
 
