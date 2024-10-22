@@ -7,21 +7,29 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import ProfilePage from './pages/ProfilePage';
 
 
 function App() {
   return (
     <>
     <Router>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<><Home /></>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile/me" element={<UserProfile />} />
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path="/login" element={<Layout><Login /></Layout>} />
+        <Route path="/profile/me" element={<ProfilePage />} />
       </Routes>
-      <Footer />
     </Router>
+    </>
+  );
+}
+
+function Layout({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
     </>
   );
 }

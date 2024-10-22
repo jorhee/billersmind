@@ -41,7 +41,7 @@ const handleLogin = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await axios.post('http://localhost:5000/profiles/login', { email, password });
+    const response = await axios.post('http://localhost:4000/profiles/login', { email, password });
     const token = response.data.token;
 
     // Check if the token exists
@@ -50,7 +50,7 @@ const handleLogin = async (e) => {
     localStorage.setItem('token', token);
 
     // Redirect to the profile page
-    window.location.href = '/profile/me';
+    window.location.href = '/profiles/me';
   } catch (error) {
     console.error('Login failed', error);
     alert('Login failed');

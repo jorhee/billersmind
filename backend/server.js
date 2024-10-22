@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 
 //will allow us to customize CORS options to meet our specific requirements
 const corsOptions = {
-    origin: [`http:localhost:8000`, `http:localhost:3000`], //allows request from this origin (client's URL)
+    origin: [`http:localhost:3000`], //allows request from this origin (client's URL)
     //method: ['GET','POST'] - You can add this property to limit the access to this method.
     credentials: true, //allow credentials (e.g. authorization headers)
     optionsSuccessStatus:200 //provides status code to use for successful OPTIONS requests.
@@ -41,7 +41,7 @@ app.use('/profiles', profileRoutes);
 
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

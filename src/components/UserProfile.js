@@ -1,118 +1,11 @@
 // src/components/UserProfile.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card, Button, Navbar, } from 'react-bootstrap';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the user icon
 
+import { useNavigate } from 'react-router-dom';
 
-//import { useNavigate } from 'react-router-dom';
-//const profilecontroller =require('.../backend/controllers/profile');
-
-/*export default function UserProfile() {
-  const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobileNo: '',
-  });
-  const [file, setFile] = useState(null); // For profile picture upload
-  const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      
-        const token = localStorage.getItem('token'); // Get JWT token from localStorage
-
-    try {   
-        const response = await axios.get('http://localhost:5000/profiles/me', {
-          headers: { Authorization: `Bearer ${token}` }, // Attach token to headers
-        });
-        console.log('Profile', response.data)//check if the data being returned.
-        setUser(response.data); // Set the profile data in state
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    fetchProfile();
-  }, []);
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]); // Set the selected profile picture file
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    if (file) formData.append('userPicture', file); // Add the file if one was selected
-
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(`/api/profiles/upload/${user._id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`, // Attach token to headers
-        },
-      });
-      console.log("Profile picture uploaded:", response.data);
-    } catch (error) {
-      console.error("Error uploading profile picture:", error);
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // Clear JWT token from localStorage
-    window.location.href = '/login'; // Redirect to login page
-  };
-
-  return (
-    <div>
-      <h1>User Profile</h1>
-
-      {isEditing ? (
-        // Editing form
-        <form onSubmit={handleSubmit}>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-          <input
-            type="email"
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-            placeholder="Email"
-            required
-          />
-          <input
-            type="text"
-            value={user.mobileNo}
-            onChange={(e) => setUser({ ...user, mobileNo: e.target.value })}
-            placeholder="Mobile Number"
-            required
-          />
-          <button type="submit">Save Changes</button>
-          <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
-        </form>
-      ) : (
-        // Display profile details
-        <div>
-          <h2>{user.firstName} {user.lastName}</h2>
-          <p>Email: {user.email}</p>
-          <p>Mobile No: {user.mobileNo}</p>
-          
-
-          <button onClick={() => setIsEditing(true)}>Edit Profile</button>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      )}
-    </div>
-  );
-};
-
-*/
-
-//version 2
 
 
 export default function UserProfile() {
@@ -124,6 +17,9 @@ export default function UserProfile() {
     profilePicture: null // Add this to hold the profile picture
   });
 
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('token'); // Get JWT token from localStorage
@@ -134,7 +30,7 @@ export default function UserProfile() {
       return; // Exit if there's no token
       }
       try {
-        const response = await axios.get('http://localhost:5000/profiles/me', {
+        const response = await axios.get('http://localhost:4000/profiles/me', {
           headers: { Authorization: `Bearer ${token}` }, // Attach token to headers
         });
         setUser(response.data); // Set the profile data in state
@@ -147,11 +43,25 @@ export default function UserProfile() {
     fetchProfile();
   }, []);
 
+  const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login'); // Redirect to login page after logout
+    };
+
+  
+
 return (
-    <Container className="mt-1">
+  <>
+    <Navbar fixed="top" bg="light" className="justify-content-end">
+      <Button variant="outline-danger" onClick={handleLogout}>
+          Logout
+      </Button>
+    </Navbar>
+    <div>
+    <Container fluid className="mt-1">
       <Card className="text-center">
         <Card.Header>
-          <h2>User Profile</h2>
+          <h2>Welcome to Billers Mind</h2>
         </Card.Header>
         <Card.Body>
           {/* Displaying the profile picture or the default icon */}
@@ -176,6 +86,23 @@ return (
           </Button>
         </Card.Footer>
       </Card>
-    </Container>
+    
+    
+    
+      <Card>
+            <Card.Body>
+                <Card.Title>Name</Card.Title>
+                <Card.Subtitle>description</Card.Subtitle>
+                <Card.Text>PHP price</Card.Text>
+                <Card.Subtitle>Enrollees:</Card.Subtitle>
+                <Card.Text>count</Card.Text>
+                <Card.Subtitle>Available Slots:</Card.Subtitle>
+                <Card.Text>slots</Card.Text>
+                
+            </Card.Body>
+        </Card>
+        </Container>
+    </div>
+    </>
   );
 }

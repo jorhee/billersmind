@@ -17,7 +17,7 @@ const path = require('path');
 const User = require('../models/User'); // Ensure you require your User model
 
 // Register user profile
-router.post('/addUser', profileController.registerUser);
+router.post('/register', profileController.registerUser);
 
 //Login user
 router.post("/login", profileController.loginUser);

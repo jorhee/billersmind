@@ -7,7 +7,7 @@ export default function Home() {
     <>  
     <section className="home" id="home">
     <div className="home-img">
-      <img src="/images/bmlogo.jpg" alt="Billers Mind Logo" />
+      <img src="images/bmlogo.jpg" alt="Billers Mind Logo" />
        <div className="social-icons text-center">
             {/* External links should open in a new tab with proper security attributes */}
             <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
