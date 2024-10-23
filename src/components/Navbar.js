@@ -1,30 +1,34 @@
-import React from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-
-
+import React, { useState, useEffect } from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 export default function CustomNavbar() {
 
+  const [user, setUser] = useState(localStorage.getItem("token"));
+  console.log(user);
+
   return (
-    <Navbar  className="header">
+    <Navbar className="header">
       <Container>
-        <div class="logo-container">
-        <img src="./images/bmfav.png" alt="bm favicon" id="logofav"/>
+        <div className="logo-container">
+          <img src="./images/bmfav.png" alt="bm favicon" id="logofav"/>
         </div>
         <Navbar.Brand href="#home" className="logo">Billers <span>Mind BPO</span></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
-            <Nav.Link href="#services">Services</Nav.Link>
-            <Nav.Link href="#contact">Contact</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link as={NavLink} to="/" exact="true">Home</Nav.Link>
+            <Nav.Link as={NavLink} to="/about" exact="true">About</Nav.Link>
+            <Nav.Link as={NavLink} to="/services" exact="true">Services</Nav.Link>
+            <Nav.Link as={NavLink} to="/contact" exact="true">Contact</Nav.Link>
+            {user !== null ? (
+              <Nav.Link as={NavLink} to="/logout" exact="true">Logout</Nav.Link>
+            ) : (
+              <Nav.Link as={NavLink} to="/login" exact="true">Login</Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
-
-

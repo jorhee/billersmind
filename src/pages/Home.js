@@ -1,11 +1,13 @@
 import React from 'react';
+import Container from 'react-bootstrap/Container';
 
 
 
 export default function Home() {
   return (
-    <>  
-    <section className="home" id="home">
+    <> 
+    
+    <div className="home pb-0 m-0" id="home">
     <div className="home-img">
       <img src="images/bmlogo.jpg" alt="Billers Mind Logo" />
        <div className="social-icons text-center">
@@ -30,7 +32,7 @@ export default function Home() {
      
           <a href="#contact" className="btncontact">CONTACT US</a>
         </div>
-    </section>
+    </div>
     
     </>
   )

@@ -52,11 +52,11 @@ export default function UserProfile() {
 
 return (
   <>
-    <Navbar fixed="top" bg="light" className="justify-content-end">
+   /* <Navbar fixed="top" bg="light" className="justify-content-end">
       <Button variant="outline-danger" onClick={handleLogout}>
           Logout
       </Button>
-    </Navbar>
+    </Navbar>*/
     <div>
     <Container fluid className="mt-1">
       <Card className="text-center">
