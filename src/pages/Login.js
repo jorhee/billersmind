@@ -41,13 +41,8 @@ export default function Login() {
 
                 alert(`You are now logged in`);
             
-            } else if (data.message === "Incorrect email or password") {
-
-                alert(`Incorrect email or password`);
-
             } else {
-
-                alert(`${email} does not exist`);
+                alert(data.message);
             }
 
         })
@@ -68,7 +63,7 @@ export default function Login() {
     return (
 
         (localStorage.getItem("token") !== null) ?
-            <Navigate to="/profiles/me" />
+            <Navigate to="/me" />
             :
             <Form onSubmit={(e) => authenticate(e)}>
                 <h1 className="my-5 text-center">Login</h1>

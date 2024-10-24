@@ -5,6 +5,7 @@ import { Container, Card, Button, Navbar, } from 'react-bootstrap';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the user icon
 
 import { useNavigate } from 'react-router-dom';
+import styles from './UserProfile.module.css';
 
 
 
@@ -43,20 +44,16 @@ export default function UserProfile() {
     fetchProfile();
   }, []);
 
-  const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login'); // Redirect to login page after logout
-    };
 
-  
+
+  const handleAddUser = () => {
+    navigate('/register'); 
+  };
+
+
 
 return (
   <>
-   /* <Navbar fixed="top" bg="light" className="justify-content-end">
-      <Button variant="outline-danger" onClick={handleLogout}>
-          Logout
-      </Button>
-    </Navbar>*/
     <div>
     <Container fluid className="mt-1">
       <Card className="text-center">
@@ -81,8 +78,8 @@ return (
           <Card.Text>Mobile No: {user.mobileNo}</Card.Text>
         </Card.Body>
         <Card.Footer>
-          <Button variant="primary" disabled>
-            Edit Profile
+          <Button variant="primary" onClick={handleAddUser}>
+              Add User
           </Button>
         </Card.Footer>
       </Card>

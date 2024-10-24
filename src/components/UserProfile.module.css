@@ -1,0 +1,11 @@
+/**{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}*/
+
+.UserProfile {
+  background-color: whitesmoke;
+  color: black;
+  padding: 20px;
+}

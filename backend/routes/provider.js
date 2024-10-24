@@ -4,8 +4,9 @@ const express = require("express");
 
 const providerController = require("../controllers/provider");
 
-const auth = require("../auth");
-const { verify, verifyAdmin, isLoggedIn } = auth;
+const auth = require("../middleware/auth");
+const { authMiddleware, verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
+const path = require('path');
 
 
 //[routing component]
@@ -13,7 +14,7 @@ const router = express.Router();
 
 
 // Route for adding a provider
-router.post('/add', verify, verifyAdmin, providerController.addProvider);
+router.post('/add-provider', providerController.addProvider);
 
 // Route for updating a provider by ID
 router.patch('/update/:id', verify, verifyAdmin, providerController.updateProvider);

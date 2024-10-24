@@ -7,8 +7,9 @@ const Patient = require("../models/Patient");
 const Payer = require("../models/Payer");
 const Provider = require("../models/Provider");
 
-const auth = require("../auth");
-const { errorHandler } = require("../auth");
+const auth = require("../middleware/auth");
+const { authMiddleware, verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
+
 const mongoose = require('mongoose');  // Import mongoose
 
 // export date validation from utils/dateValidation.js

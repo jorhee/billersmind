@@ -11,7 +11,8 @@ import ProfilePage from './pages/ProfilePage';
 import Footer from './pages/Footer';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
-
+import AddUser from './pages/AddUser';
+import AddProvider from './pages/AddProvider';
 
 
 
@@ -27,7 +28,10 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/profiles/me" element={<ProfilePage />} />
+        <Route path="/me" element={<ProfilePage />} />
+        <Route path="/register" element={<AddUser />} />
+        <Route path="/add-provider" element={<AddProvider />} />
+
       </Routes>
       <Footer />
     </Router>

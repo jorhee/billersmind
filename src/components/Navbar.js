@@ -17,14 +17,16 @@ export default function CustomNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link as={NavLink} to="/" exact="true">Home</Nav.Link>
-            <Nav.Link as={NavLink} to="/about" exact="true">About</Nav.Link>
-            <Nav.Link as={NavLink} to="/services" exact="true">Services</Nav.Link>
-            <Nav.Link as={NavLink} to="/contact" exact="true">Contact</Nav.Link>
             {user !== null ? (
               <Nav.Link as={NavLink} to="/logout" exact="true">Logout</Nav.Link>
             ) : (
+            <>
+              <Nav.Link as={NavLink} to="/" exact="true">Home</Nav.Link>
+              <Nav.Link as={NavLink} to="/about" exact="true">About</Nav.Link>
+              <Nav.Link as={NavLink} to="/services" exact="true">Services</Nav.Link>
+              <Nav.Link as={NavLink} to="/contact" exact="true">Contact</Nav.Link>
               <Nav.Link as={NavLink} to="/login" exact="true">Login</Nav.Link>
+            </>
             )}
           </Nav>
         </Navbar.Collapse>
