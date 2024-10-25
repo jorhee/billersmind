@@ -7,6 +7,9 @@ const app = express();
 const profileRoutes = require('./routes/profile');
 const providerRoutes = require('./routes/provider');
 const payerRoutes = require('./routes/payer');
+const patientRoutes = require('./routes/patient');
+
+
 
 
 require('dotenv').config();
@@ -41,6 +44,8 @@ app.use(cors(corsOptions));
 app.use('/profiles', profileRoutes);
 app.use('/providers', providerRoutes);
 app.use('/payers', payerRoutes);
+app.use('/patients', patientRoutes);
+
 
 
 // In your Express server

@@ -14,19 +14,19 @@ const router = express.Router();
 
 
 // Add Patient -
-router.post('/', verify, verifyAdmin, patientController.addPatient);
+router.post('/add-patient', verify, isLoggedIn, patientController.addPatient);
 
 // Route to retrieve all patients
-router.get('/all', verify, verifyAdmin, patientController.getAllPatients);
+router.get('/all', verify, isLoggedIn, patientController.getAllPatients);
 
 // Route to retrieve a patient by ID
-router.get('/:id', verify, verifyAdmin, patientController.getPatientById);
+router.get('/:id', verify, isLoggedIn, patientController.getPatientById);
 
 // Route to update a patient by ID
-router.put('/:id', verify, verifyAdmin, patientController.updatePatient);
+router.put('/:id', verify, isLoggedIn, patientController.updatePatient);
 
 // Route to delete a patient by ID
-router.delete('/delete/:id', verify, verifyAdmin, patientController.deletePatient);
+router.delete('/delete/:id', verify, isLoggedIn, patientController.deletePatient);
 
 
 

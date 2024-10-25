@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Table } from 'react-bootstrap';
+import { Card, Table } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function ProviderCard() {

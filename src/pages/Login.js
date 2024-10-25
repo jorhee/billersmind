@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
+
 
 export default function Login() {
 
@@ -61,43 +62,69 @@ export default function Login() {
     }, [email, password]);
 
     return (
+    <Container className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
+      {localStorage.getItem("token") !== null ? (
+        <Navigate to="/me" />
+      ) : (
+        <div className="bg-secondary rounded p-4 shadow" style={{ width: '400px', height: '50vh' }}> {/* Adjust the width as necessary */}
+          <Form onSubmit={authenticate} className="h-100"> {/* Ensure form fills the container height */}
+            <h1 className="text-center mb-4">
+              <box-icon name='lock-alt' size="lg" color="#e415ff"></box-icon>
+              Login
+            </h1>
 
-        (localStorage.getItem("token") !== null) ?
-            <Navigate to="/me" />
-            :
-            <Form onSubmit={(e) => authenticate(e)}>
-                <h1 className="my-5 text-center">Login</h1>
-                <Form.Group>
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control 
-                        type="email" 
-                        placeholder="Enter email" 
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Form.Group>
+            <Form.Group className="mb-3">
+              <Row className="align-items-center">
+                <Col xs={4}>
+                  <Form.Label className="d-flex align-items-center">
+                    <i class='bx bxs-envelope bx-md' style={{ color: '#e415ff' }}></i>
+                    <h2 className="p-2">Email</h2>
+                  </Form.Label>
+                </Col>
+                <Col xs={8}>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-100" // Make input full width of the parent
+                  />
+                </Col>
+              </Row>
+            </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control 
-                        type="password" 
-                        placeholder="Password" 
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </Form.Group>
+            <Form.Group className="mb-4">
+              <Row className="align-items-center">
+                <Col xs={4}>
+                  <Form.Label className="d-flex align-items-center">
+                    <i class='bx bx-key bx-md' style={{ color: '#e415ff' }}></i>
+                    <h2 className="p-2">Password</h2>
+                  </Form.Label>
+                </Col>
+                <Col xs={8}>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-100" // Make input full width of the parent
+                  />
+                </Col>
+              </Row>
+            </Form.Group>
 
-                { isActive ? 
-                    <Button variant="primary" type="submit" id="loginBtn">
-                        Login
-                    </Button>
-                    : 
-                    <Button variant="danger" type="submit" id="loginBtn" disabled>
-                        Login
-                    </Button>
-                }
-            </Form>       
-    )
-}
+            <div className="text-center">
+              <Button variant={isActive ? "primary" : "warning"} className="w-50" type="submit" id="loginBtn" disabled={!isActive}>
+                <i class='bx bxs-log-in-circle bx-lg' style={{ color: '#e415ff' }}></i>
+                
+              </Button>
+              
+            </div>
+          </Form>
+        </div>
+      )}
+    </Container>
+  );
+};

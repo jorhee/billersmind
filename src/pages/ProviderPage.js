@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Card, Table } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { FaUserMd, FaMapMarkerAlt, FaPhone, FaFax, FaIdBadge } from 'react-icons/fa';
 
 export default function ProviderPage () {
@@ -37,6 +37,8 @@ export default function ProviderPage () {
     }
   }, [providerId]);
 
+  const navigate = useNavigate();
+  /*
   return (
     <Container fluid className="p-4 bg-light">
       <Row className="mb-4">
@@ -94,7 +96,123 @@ export default function ProviderPage () {
         </Row>
       )}
     </Container>
+  );*/
+
+//v2 with sidebar:
+
+  return (
+    <Container fluid className="p-4 bg-light">
+      <Row className="mb-4">
+        <Col>
+          <h2 className="text-primary">
+            <FaUserMd className="me-2" />
+            Provider Dashboard
+          </h2>
+        </Col>
+      </Row>
+
+      {provider && (
+        <Row>
+          {/* Provider Table */}
+          <Col md={8}>
+            <Card className="shadow-sm">
+              <Card.Header className="bg-primary text-white">
+                <FaIdBadge className="me-2" />
+                {provider.name}
+              </Card.Header>
+              <Card.Body>
+                <Table bordered>
+                  <tbody>
+                    <tr>
+                      <td><strong>Address</strong></td>
+                      <td>
+                        <FaMapMarkerAlt className="me-2" />
+                        {`${provider.address.Address}, ${provider.address.City}, ${provider.address.State} ${provider.address.Zip}`}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Phone</strong></td>
+                      <td><FaPhone className="me-2" />{provider.phone}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Fax</strong></td>
+                      <td><FaFax className="me-2" />{provider.fax}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>NPI</strong></td>
+                      <td>{provider.npi}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>PTAN</strong></td>
+                      <td>{provider.ptan}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Tax ID</strong></td>
+                      <td>{provider.taxId}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          {/* Sidebar */}
+          <Col md={4}>
+            <Card className="shadow-sm">
+              <Card.Header className="bg-secondary text-white text-center">Actions</Card.Header>
+              <Card.Body>
+                <ul className="list-unstyled">
+                  <li className="my-2">
+                    <Button
+                      variant="link"
+                      onClick={() => navigate('/add-patient')}
+                      className="text-decoration-none text-primary"
+                    >
+                      Add Patient
+                    </Button>
+                  </li>
+                  <li className="my-2">
+                    <Button
+                      variant="link"
+                      onClick={() => navigate('/add-noe')}
+                      className="text-decoration-none text-primary"
+                    >
+                      Add NOE
+                    </Button>
+                  </li>
+                  <li className="my-2">
+                    <Button
+                      variant="link"
+                      onClick={() => navigate('/add-notr')}
+                      className="text-decoration-none text-primary"
+                    >
+                      Add NOTR
+                    </Button>
+                  </li>
+                  <li className="my-2">
+                    <Button
+                      variant="link"
+                      onClick={() => navigate('/add-claims')}
+                      className="text-decoration-none text-primary"
+                    >
+                      Add Claims
+                    </Button>
+                  </li>
+                </ul>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      )}
+    </Container>
   );
+
+
+
+
+
+
+
 };
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const IDLE_TIMEOUT = 15 * 60 * 1000; //  10 minutes in milliseconds

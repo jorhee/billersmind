@@ -8,6 +8,7 @@ import ProviderCard from './components/ProviderCard';
 import AddProvider from './components/AddProvider';
 import AddPayer from './components/AddPayer';
 import AddUser from './components/AddUser';
+import AddPatient from './components/AddPatient';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -41,6 +42,7 @@ function App() {
         <Route path="/add-payer" element={<AddPayer />} />
         <Route path="/payers/all" element={<Payer />} />
         <Route path="/providers/:providerId" element={<ProviderPage />} />
+        <Route path="/add-patient" element={<AddPatient />} />
 
 
 
