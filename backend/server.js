@@ -41,6 +41,10 @@ app.use(cors(corsOptions));
 app.use('/profiles', profileRoutes);
 app.use('/providers', providerRoutes);
 
+// In your Express server
+app.get('/ping', (req, res) => {
+    res.sendStatus(200); // Respond with a 200 OK status
+});
 
 
 // Start the server

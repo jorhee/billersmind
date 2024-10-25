@@ -14,7 +14,7 @@ import Logout from './pages/Logout';
 import AddUser from './pages/AddUser';
 import AddProvider from './pages/AddProvider';
 import IdleTimeout from './components/IdleTimeout';
-
+import ProviderCard from './components/ProviderCard';
 
 
 
@@ -33,6 +33,7 @@ function App() {
         <Route path="/me" element={<ProfilePage />} />
         <Route path="/register" element={<AddUser />} />
         <Route path="/add-provider" element={<AddProvider />} />
+        <Route path="/all" element={<ProviderCard />} />
 
       </Routes>
       <Footer />

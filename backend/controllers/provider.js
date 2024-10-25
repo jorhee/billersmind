@@ -106,10 +106,7 @@ module.exports.getAllProviders = async (req, res) => {
         const providers = await Provider.find();
 
         // Send the list of providers as the response
-        res.status(200).send({
-            message: 'Providers retrieved successfully',
-            providers
-        });
+        res.status(200).send(providers);
     } catch (error) {
         // Catch any errors and return a 500 status with the error message
         res.status(500).send({

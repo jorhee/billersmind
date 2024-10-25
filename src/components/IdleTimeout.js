@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Login from '../pages/Login';
 
-const IDLE_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
+const IDLE_TIMEOUT = 15 * 60 * 1000; //  10 minutes in milliseconds
+const PING_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-export default function IdleTimeout() {
+export default function IdleLogout() {
     const navigate = useNavigate();
 
     useEffect(() => {
         let timeout;
+        let pingTimeout;
 
         const handleActivity = () => {
             clearTimeout(timeout);
@@ -18,24 +19,35 @@ export default function IdleTimeout() {
         };
 
         const handleLogout = () => {
-            // Clear token or perform any cleanup needed
             localStorage.removeItem('token');
             alert('You have been logged out due to inactivity.');
-            navigate('/login'); // Redirect to login page
+            navigate('/login');
         };
 
-        // Attach event listeners
+        const pingServer = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/ping'); // Your server's ping endpoint
+                if (!response.ok) {
+                    handleLogout();
+                }
+            } catch (error) {
+                handleLogout(); // Server is unreachable
+            }
+        };
+
         window.addEventListener('mousemove', handleActivity);
         window.addEventListener('keydown', handleActivity);
         window.addEventListener('click', handleActivity);
         window.addEventListener('scroll', handleActivity);
+        handleActivity(); // Start the idle timeout
 
-        // Start the timeout
-        handleActivity();
+        // Start the server ping interval
+        pingServer(); // Initial ping
+        pingTimeout = setInterval(pingServer, PING_INTERVAL);
 
-        // Cleanup event listeners and timeout on component unmount
         return () => {
             clearTimeout(timeout);
+            clearInterval(pingTimeout);
             window.removeEventListener('mousemove', handleActivity);
             window.removeEventListener('keydown', handleActivity);
             window.removeEventListener('click', handleActivity);
@@ -43,10 +55,5 @@ export default function IdleTimeout() {
         };
     }, [navigate]);
 
-    return (
-        <div>
-            {/* Your app's content goes here */}
-            <Login />
-        </div>
-    );
+    return null; // No UI component to render
 }
