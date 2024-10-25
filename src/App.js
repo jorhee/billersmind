@@ -17,6 +17,7 @@ import Footer from './pages/Footer';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Payer from './pages/Payer';
+import ProviderPage from './pages/ProviderPage';
 
 
 
@@ -39,6 +40,8 @@ function App() {
         <Route path="/providers/all" element={<ProviderCard />} />
         <Route path="/add-payer" element={<AddPayer />} />
         <Route path="/payers/all" element={<Payer />} />
+        <Route path="/providers/:providerId" element={<ProviderPage />} />
+
 
 
       </Routes>

@@ -20,7 +20,10 @@ router.post('/add-provider', verify, isLoggedIn, verifyAdmin, providerController
 router.patch('/update/:id', verify, isLoggedIn, verifyAdmin, providerController.updateProvider);
 
 // Route for retrieving all providers
-router.get('/all', verify, isLoggedIn, verifyAdmin, providerController.getAllProviders);
+router.get('/all', verify, isLoggedIn, providerController.getAllProviders);
+
+// Route for retrieving all providers
+router.get('/:providerId', verify, isLoggedIn, providerController.getProviderById);
 
 // Route to delete a provider by ID
 router.delete('/delete/:id', verify, isLoggedIn, verifyAdmin, providerController.deleteProvider);

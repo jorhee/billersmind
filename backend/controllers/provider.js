@@ -63,6 +63,30 @@ module.exports.addProvider = async (req, res) => {
 };
 
 
+// To get Provider by ID:
+
+module.exports.getProviderById = async (req,res) => {
+
+    const providerId = req.params.providerId;
+
+       try {
+        const provider = await Provider.findById(providerId);
+        
+        if (!provider) {
+            return res.status(404).json({ message: 'Provider not found' });
+        }
+
+        // If provider is found, send it as a response
+        res.status(200).json(provider);
+    } catch (error) {
+        // Log and handle any errors, like invalid ObjectId format
+        console.error(error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+
+
 // Controller to update a provider by ID
 module.exports.updateProvider = async (req, res) => {
     const providerId = req.params.id; // Get the provider ID from the request URL

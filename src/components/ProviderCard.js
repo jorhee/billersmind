@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Table } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function ProviderCard() {
     const navigate = useNavigate();
@@ -72,7 +72,11 @@ export default function ProviderCard() {
                         providers.map((provider, index) => (
                             <tr key={provider._id}>
                                 <td>{index + 1}</td>
-                                <td>{provider.name || 'N/A'}</td>
+                                <td>
+                                <Link to={`/providers/${provider._id}`}>
+                                {provider.name || 'N/A'}
+                                </Link>
+                                </td>
                                 <td>{provider.address?.Address || 'N/A'}</td>
                                 <td>{provider.address?.City || 'N/A'}</td>
                                 <td>{provider.address?.State || 'N/A'}</td>
