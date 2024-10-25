@@ -4,8 +4,8 @@ const express = require("express");
 
 const noticeController = require("../controllers/notice");
 
-const auth = require("../auth");
-const { verify, verifyAdmin, isLoggedIn } = auth;
+const auth = require("../middleware/auth");
+const { authMiddleware, verify, verifyAdmin, isLoggedIn, errorHandler} = auth;
 
 //[routing component]
 const router = express.Router();

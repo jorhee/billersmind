@@ -1,7 +1,7 @@
 // src/components/UserProfile.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Card, Button, Navbar, Nav } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the user icon
 import './UserProfile.css';
 
@@ -51,6 +51,9 @@ export default function UserProfile() {
     navigate('/register'); 
   };
 
+  const handlePayerList = () => {
+    navigate('/payers/all'); 
+  };
 
 
 return (
@@ -85,8 +88,23 @@ return (
           <Card.Text>Mobile No: {user.mobileNo}</Card.Text>
         </Card.Body>
         <Card.Footer>
-          <Button variant="primary" onClick={handleAddUser}>
+          <Button 
+            variant="primary" 
+            className="text-center" 
+            onClick={() => navigate('/add-provider')}>
+            Add Provider
+          </Button>
+          <Button 
+            className="mx-1" 
+            variant="primary" 
+            onClick={handleAddUser}>
               Add User
+          </Button>
+          <Button 
+            className="mx-1" 
+            variant="primary" 
+            onClick={handlePayerList}>
+              Payer List
           </Button>
         </Card.Footer>
       </Card>

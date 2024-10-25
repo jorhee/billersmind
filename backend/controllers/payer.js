@@ -65,10 +65,7 @@ module.exports.getAllPayers = async (req, res) => {
         const payers = await Payer.find();
 
         // Send success response with the list of payers
-        res.status(200).send({
-            message: 'Payers retrieved successfully.',
-            payers
-        });
+        res.status(200).send(payers);
     } catch (error) {
         // Catch any errors and return a 500 status with the error message
         res.status(500).send({

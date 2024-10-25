@@ -98,13 +98,7 @@ export default function ProviderCard() {
                         </Table>
                     </Card.Body>
 
-                    <Button 
-                        variant="primary" 
-                        className="text-center" 
-                        onClick={() => navigate('/add-provider')}
-                    >
-                        Add Provider
-                    </Button>
+                    
                 </div>
             </Card>
 

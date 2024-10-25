@@ -9,6 +9,11 @@ const noticeSchema = new mongoose.Schema({
         ref: 'Patient', // Reference to Patient model
         required: true
     },
+   /* providerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Provider', // Reference to Provider model
+        required: true
+    },*/
     placeOfService: {
         type: String,
         enum: ['Home', 'ALF', 'SNF', 'BNC'], // Enum for place of service

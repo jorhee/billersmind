@@ -6,7 +6,7 @@ const app = express();
 
 const profileRoutes = require('./routes/profile');
 const providerRoutes = require('./routes/provider');
-
+const payerRoutes = require('./routes/payer');
 
 
 require('dotenv').config();
@@ -40,6 +40,8 @@ app.use(cors(corsOptions));
 //routes
 app.use('/profiles', profileRoutes);
 app.use('/providers', providerRoutes);
+app.use('/payers', payerRoutes);
+
 
 // In your Express server
 app.get('/ping', (req, res) => {
