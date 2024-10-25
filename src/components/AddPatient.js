@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function AddPatient() {
   const [lastName, setLastName] = useState('');
@@ -11,82 +11,59 @@ export default function AddPatient() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
-  const [cbsaCode, setCbsaCode] = useState('');
   const [memberId, setMemberId] = useState('');
-  const [providerId, setProviderId] = useState('');
-  const [providers, setProviders] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
+  const { providerId } = useParams(); // Get providerId from the route parameters
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    setIsActive(lastName && firstName && dateOfBirth && gender && memberId);
+  }, [lastName, firstName, dateOfBirth, gender, memberId]);
 
-    fetch('http://localhost:4000/providers/all', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setProviders(data.providers || []); // Use an empty array if data.providers is undefined
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching providers:', error);
-        setLoading(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (lastName && firstName && dateOfBirth && gender && memberId && providerId) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
-  }, [lastName, firstName, dateOfBirth, gender, memberId, providerId]);
-
-  function registerPatient(e) {
+  async function registerPatient(e) {
     e.preventDefault();
     const token = localStorage.getItem('token');
 
-    fetch('http://localhost:4000/patients/add-patient', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        lastName: lastName.toUpperCase(),
-        firstName: firstName.toUpperCase(),
-        dateOfBirth,
-        gender,
-        address: {
-          Address: address.toUpperCase(),
-          City: city.toUpperCase(),
-          State: state.toUpperCase(),
-          Zip: zip
+    try {
+      const response = await fetch(`http://localhost:4000/patients/${providerId}/add-patient`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
-        cbsaCode,
-        memberId: memberId.toUpperCase(),
-        providerId
-      })
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === 'Patient registered successfully') {
-          alert('Patient successfully added');
-          navigate(`/providers/${providerId}`);
-        } else {
-          alert(data.message);
-        }
+        body: JSON.stringify({
+          lastName: lastName.toUpperCase(),
+          firstName: firstName.toUpperCase(),
+          dateOfBirth, // Send as is, validate in backend
+          gender,
+          address: {
+            Address: address.toUpperCase(),
+            City: city.toUpperCase(),
+            State: state.toUpperCase(),
+            Zip: zip,
+          },
+          memberId: memberId.toUpperCase(),
+        }),
       });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Patient successfully added');
+        navigate(`/providers/${providerId}`);
+      } else {
+        alert(data.message || 'Error adding patient');
+      }
+    } catch (error) {
+      console.error('Error registering patient:', error);
+      alert('An error occurred. Please try again.');
+    }
   }
 
   return (
     <div className="text-auto">
-      <Button variant="secondary" className="mt-3" onClick={() => navigate(`/providers/${providerId}`)}>
+      <Button variant="secondary" className="mt-3" onClick={() => navigate(`/me`)}>
         Back to Provider Dashboard
       </Button>
       <Form onSubmit={registerPatient}>
@@ -118,7 +95,7 @@ export default function AddPatient() {
           <Form.Label>Date of Birth:</Form.Label>
           <Form.Control
             type="text"
-            placeholder="MM-DD-YYYY"
+            placeholder="MM/DD/YYYY"
             required
             value={dateOfBirth}
             onChange={(e) => setDateOfBirth(e.target.value)}
@@ -181,16 +158,6 @@ export default function AddPatient() {
         </Form.Group>
         
         <Form.Group>
-          <Form.Label>CBSA Code:</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter CBSA Code"
-            value={cbsaCode}
-            onChange={(e) => setCbsaCode(e.target.value)}
-          />
-        </Form.Group>
-        
-        <Form.Group>
           <Form.Label>Member ID:</Form.Label>
           <Form.Control
             type="text"
@@ -201,26 +168,6 @@ export default function AddPatient() {
           />
         </Form.Group>
 
-        <Form.Group>
-          <Form.Label>Provider ID:</Form.Label>
-          {loading ? (
-            <p>Loading providers...</p>
-          ) : (
-            <Form.Control
-              as="select"
-              required
-              value={providerId}
-              onChange={(e) => setProviderId(e.target.value)}
-            >
-              <option value="">Select Provider</option>
-              {providers.map((provider) => (
-                <option key={provider._id} value={provider._id}>
-                  {provider.name}
-                </option>
-              ))}
-            </Form.Control>
-          )}
-        </Form.Group>
 
         <div className="text-center mt-4">
           <Button variant={isActive ? "primary" : "danger"} type="submit" disabled={!isActive}>

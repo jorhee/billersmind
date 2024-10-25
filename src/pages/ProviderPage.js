@@ -38,65 +38,7 @@ export default function ProviderPage () {
   }, [providerId]);
 
   const navigate = useNavigate();
-  /*
-  return (
-    <Container fluid className="p-4 bg-light">
-      <Row className="mb-4">
-        <Col>
-          <h2 className="text-primary">
-            <FaUserMd className="me-2" />
-            Provider Dashboard
-          </h2>
-        </Col>
-      </Row>
-
-      {provider && (
-        <Row>
-          <Col md={12}>
-            <Card className="shadow-sm">
-              <Card.Header className="bg-primary text-white">
-                <FaIdBadge className="me-2" />
-                {provider.name}
-              </Card.Header>
-              <Card.Body>
-                <Table bordered>
-                  <tbody>
-                    <tr>
-                      <td><strong>Address</strong></td>
-                      <td>
-                        <FaMapMarkerAlt className="me-2" />
-                        {`${provider.address.Address}, ${provider.address.City}, ${provider.address.State} ${provider.address.Zip}`}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Phone</strong></td>
-                      <td><FaPhone className="me-2" />{provider.phone}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Fax</strong></td>
-                      <td><FaFax className="me-2" />{provider.fax}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>NPI</strong></td>
-                      <td>{provider.npi}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>PTAN</strong></td>
-                      <td>{provider.ptan}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Tax ID</strong></td>
-                      <td>{provider.taxId}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      )}
-    </Container>
-  );*/
+  
 
 //v2 with sidebar:
 
@@ -165,7 +107,7 @@ export default function ProviderPage () {
                   <li className="my-2">
                     <Button
                       variant="link"
-                      onClick={() => navigate('/add-patient')}
+                      onClick={() => navigate(`/patients/${providerId}/add-patient`)}
                       className="text-decoration-none text-primary"
                     >
                       Add Patient

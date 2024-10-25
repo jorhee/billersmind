@@ -116,7 +116,7 @@ export default function Login() {
             </Form.Group>
 
             <div className="text-center">
-              <Button variant={isActive ? "primary" : "warning"} className="w-50" type="submit" id="loginBtn" disabled={!isActive}>
+              <Button variant={isActive ? "primary" : "dark"} className="w-50" type="submit" id="loginBtn" disabled={!isActive}>
                 <i class='bx bxs-log-in-circle bx-lg' style={{ color: '#e415ff' }}></i>
                 
               </Button>

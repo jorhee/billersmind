@@ -42,7 +42,7 @@ function App() {
         <Route path="/add-payer" element={<AddPayer />} />
         <Route path="/payers/all" element={<Payer />} />
         <Route path="/providers/:providerId" element={<ProviderPage />} />
-        <Route path="/add-patient" element={<AddPatient />} />
+        <Route path="/patients/:providerId/add-patient" element={<AddPatient />} />
 
 
 

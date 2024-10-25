@@ -42,19 +42,6 @@ const patientSchema = new mongoose.Schema({
             set: v => v ? v.toUpperCase() : v // Convert to uppercase if the value exists
         }
     },
-    cbsaCode: {
-        type: String,
-        required: false,
-    },
-    dateOfDeath: {
-        type: Date,
-        required: false
-    },
-    payerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Payer', // Reference to Payer model
-        required: true
-    },
     memberId: {
         type: String,
         required: true,
