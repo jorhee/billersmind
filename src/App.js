@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import AddUser from './pages/AddUser';
 import AddProvider from './pages/AddProvider';
+import IdleTimeout from './components/IdleTimeout';
 
 
 
@@ -22,6 +23,7 @@ function App() {
     <>
     <Router>
       <Navbar />
+      <IdleTimeout />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

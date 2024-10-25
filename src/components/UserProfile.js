@@ -1,11 +1,12 @@
 // src/components/UserProfile.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Card, Button, Navbar, } from 'react-bootstrap';
+import { Container, Card, Button, Navbar, Nav } from 'react-bootstrap';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the user icon
+import './UserProfile.css';
 
 import { useNavigate } from 'react-router-dom';
-import styles from './UserProfile.module.css';
+
 
 
 
@@ -54,8 +55,14 @@ export default function UserProfile() {
 
 return (
   <>
-    <div>
-    <Container fluid className="mt-1">
+    <div className="UserProfile">
+    
+      <div className="pt-5">
+       
+     
+      </div>
+
+    <Container fluid className="mt-5">
       <Card className="text-center">
         <Card.Header>
           <h2>Welcome to Billers Mind</h2>

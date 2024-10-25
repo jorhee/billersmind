@@ -1,4 +1,4 @@
-/*CSS reset
+/*CSS reset*/
 
 .home * {
   margin: 0;
@@ -108,7 +108,7 @@ body{
 .navbar a:hover, 
   
 .navbar a.active{
-  color: var(--main-color);
+  color: white;
   border-bottom: 3px solid var(--main-color);
 }
 
@@ -287,4 +287,4 @@ span{
   85% {
     width: calc(100% + 8px);
   }
-}*/
+}

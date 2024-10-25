@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Login from '../pages/Login';
 
 
 export default function AddUser() {
@@ -30,10 +31,16 @@ export default function AddUser() {
 
     function registerUser(e) {
         e.preventDefault();
+
+        // Get the token from localStorage
+        const token = localStorage.getItem('token');
+
         fetch('http://localhost:4000/profiles/register', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`  
+                // Include the token in the headers
             },
             body: JSON.stringify({
                 firstName: firstName,
@@ -56,7 +63,7 @@ export default function AddUser() {
 
                 alert(data.message)
                 
-        		
+        		navigate('/me');
 
             } else {
                 alert(data.message);

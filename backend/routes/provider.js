@@ -14,16 +14,16 @@ const router = express.Router();
 
 
 // Route for adding a provider
-router.post('/add-provider', providerController.addProvider);
+router.post('/add-provider', verify, isLoggedIn, verifyAdmin, providerController.addProvider);
 
 // Route for updating a provider by ID
-router.patch('/update/:id', verify, verifyAdmin, providerController.updateProvider);
+router.patch('/update/:id', verify, isLoggedIn, verifyAdmin, providerController.updateProvider);
 
 // Route for retrieving all providers
-router.get('/all', verify, verifyAdmin, providerController.getAllProviders);
+router.get('/all', verify, isLoggedIn, verifyAdmin, providerController.getAllProviders);
 
 // Route to delete a provider by ID
-router.delete('/delete/:id', verify, verifyAdmin, providerController.deleteProvider);
+router.delete('/delete/:id', verify, isLoggedIn, verifyAdmin, providerController.deleteProvider);
 
 
 

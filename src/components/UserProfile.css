@@ -1,3 +1,5 @@
+
+
 /**{
   margin: 0;
   padding: 0;
@@ -5,6 +7,12 @@
 }*/
 
 .UserProfile {
+  background-color: slategray;
+  color: black;
+  padding: 20px;
+}
+
+.providerCard {
   background-color: whitesmoke;
   color: black;
   padding: 20px;

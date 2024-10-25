@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Login from '../pages/Login';
 
 export default function AddProvider() {
     const [name, setName] = useState('');
@@ -27,10 +28,17 @@ export default function AddProvider() {
 
     function registerProvider(e) {
         e.preventDefault();
+
+
+        const token = localStorage.getItem('token'); 
+        // Retrieve the token from localStorage or any other storage
+
         fetch('http://localhost:4000/providers/add-provider', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+                // Add the token to the Authorization header
             },
             body: JSON.stringify({
                 name: name.toUpperCase(),

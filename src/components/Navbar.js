@@ -13,7 +13,7 @@ export default function CustomNavbar() {
         <div className="logo-container">
           <img src="./images/bmfav.png" alt="bm favicon" id="logofav"/>
         </div>
-        <Navbar.Brand href="#home" className="logo">Billers <span>Mind BPO</span></Navbar.Brand>
+        <Navbar.Brand className="logo">Billers <span>Mind BPO</span></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
