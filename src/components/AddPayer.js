@@ -12,6 +12,7 @@ export default function AddPayer() {
     const [phone, setPhone] = useState('');
     const [fax, setFax] = useState('');
     const [isActive, setIsActive] = useState(false);
+    
     const navigate = useNavigate();
 
     // Enable button only when required fields are filled

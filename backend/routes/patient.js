@@ -16,6 +16,10 @@ const router = express.Router();
 // Add Patient -
 router.post('/:providerId/add-patient', verify, isLoggedIn, patientController.addPatient);
 
+//Get all Patients per ProviderID
+router.get('/:providerId/all', verify, isLoggedIn, patientController.getAllPatientsByProviderId);
+
+
 // Route to retrieve all patients
 router.get('/all', verify, isLoggedIn, patientController.getAllPatients);
 

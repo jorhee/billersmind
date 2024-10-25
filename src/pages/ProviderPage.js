@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { FaUserMd, FaMapMarkerAlt, FaPhone, FaFax, FaIdBadge } from 'react-icons/fa';
+import PatientsCard from '../components/PatientsCard';
+
 
 export default function ProviderPage () {
 
@@ -43,6 +45,7 @@ export default function ProviderPage () {
 //v2 with sidebar:
 
   return (
+    <>
     <Container fluid className="p-4 bg-light">
       <Row className="mb-4">
         <Col>
@@ -59,8 +62,8 @@ export default function ProviderPage () {
           <Col md={8}>
             <Card className="shadow-sm">
               <Card.Header className="bg-primary text-white">
-                <FaIdBadge className="me-2" />
-                {provider.name}
+                <h2><FaIdBadge className="me-2" />
+                {provider.name}</h2>
               </Card.Header>
               <Card.Body>
                 <Table bordered>
@@ -147,13 +150,9 @@ export default function ProviderPage () {
         </Row>
       )}
     </Container>
+    <PatientsCard />
+  </>
   );
-
-
-
-
-
-
 
 };
 

@@ -22,7 +22,7 @@ router.patch('/update/:id', verify, isLoggedIn, verifyAdmin, providerController.
 // Route for retrieving all providers
 router.get('/all', verify, isLoggedIn, providerController.getAllProviders);
 
-// Route for retrieving all providers
+// Route for retrieving one providers
 router.get('/:providerId', verify, isLoggedIn, providerController.getProviderById);
 
 // Route to delete a provider by ID
