@@ -14,6 +14,7 @@ export default function AddProvider() {
     const [npi, setNpi] = useState('');
     const [ptan, setPtan] = useState('');
     const [taxId, setTaxId] = useState('');
+    const [addedBy, setaddedBy] = useState('');
     const [isActive, setIsActive] = useState(false);
     const navigate = useNavigate();
 
@@ -53,6 +54,7 @@ export default function AddProvider() {
                 npi: npi.toUpperCase(),
                 ptan: ptan.toUpperCase(),
                 taxId: taxId.toUpperCase(),
+                addedBy: addedBy.toUpperCase(),
             }),
         })
             .then((res) => res.json())

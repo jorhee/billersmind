@@ -19,6 +19,8 @@ const mongoose = require('mongoose');  // Import mongoose
 
 module.exports.addProvider = async (req, res) => {
     const { name, address, phone, fax, npi, ptan, taxId } = req.body;
+    //const userId = req.user._id; // User ID from the authenticated user
+    //const   addedBy = req.user._id;
 
     try {
         // Optional: Check if NPI or PTAN already exists
@@ -35,7 +37,13 @@ module.exports.addProvider = async (req, res) => {
             fax,
             npi,
             ptan,
-            taxId
+            taxId,
+             addedBy: {
+                userId: req.user._id, // Store user ID
+                firstName: req.user.firstName, // Store first name
+                lastName: req.user.lastName, // Store last name
+                email: req.user.email, // Store email
+            }
         });
 
         // Save the provider to the database
@@ -49,8 +57,7 @@ module.exports.addProvider = async (req, res) => {
     } catch (error) {
         // Catch any errors and return a 500 status with the error message
         res.status(500).send({
-            message: 'Error adding provider',
-            error: error.message
+            message: error.message
         });
     }
 };

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User =require('./User')
 
 // Define the Provider Schema
 const providerSchema = new mongoose.Schema({
@@ -50,6 +51,25 @@ const providerSchema = new mongoose.Schema({
         type: String,
         required: true,
         set: v => v ? v.toUpperCase() : v // Convert to uppercase only if value exists
+    },
+    addedBy: {
+        userId: {
+            type: mongoose.Schema.Types.ObjectId, // Reference to the User model
+            ref: 'User',
+            required: true
+        },
+        firstName: {
+            type: String,
+            required: true
+        },
+        lastName: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        }
     }
 }, {
     timestamps: true // Adds createdAt and updatedAt fields

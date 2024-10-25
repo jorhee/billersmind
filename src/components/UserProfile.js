@@ -93,18 +93,7 @@ return (
     
     
     
-      <Card>
-            <Card.Body>
-                <Card.Title>Name</Card.Title>
-                <Card.Subtitle>description</Card.Subtitle>
-                <Card.Text>PHP price</Card.Text>
-                <Card.Subtitle>Enrollees:</Card.Subtitle>
-                <Card.Text>count</Card.Text>
-                <Card.Subtitle>Available Slots:</Card.Subtitle>
-                <Card.Text>slots</Card.Text>
-                
-            </Card.Body>
-        </Card>
+      
         </Container>
     </div>
     </>
