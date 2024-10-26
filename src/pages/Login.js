@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 
 export default function Login() {
 
+    const { login } = useContext(AuthContext); //new delete if not working
     // State hooks to store the values of the input fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -59,8 +61,12 @@ export default function Login() {
     }
 */
 
-    async function authenticate(e) {
 
+    //async function authenticate(e) {
+
+       
+
+        const authenticate = async (e) => { //new delete if not working
         // Prevents page redirection via form submission
         e.preventDefault();
 
@@ -77,30 +83,29 @@ export default function Login() {
             })
         });
         
+        if (!response.ok) {
+                throw new Error('Login failed. Please check your credentials.');
+            }
+
         const data = await response.json(); 
 
         // Check if the response is successful
-        if (response.ok) {
+       
+             //put this comment out back if not working
+
             // Assuming the token is in data.token
-            if (data.token) {
-                console.log(data.token);
-                localStorage.setItem('token', data.token);
+        if (data.token) {
+                
+                login(data.token);  // Call login function with token
                 navigate(`/me`);
             } else {
-                alert(data.message || 'Error getting token');
+                alert(data.message || 'Login unsuccessful');
             }
-        } else {
-            // Handle errors based on server response
-            alert(data.message || 'Login failed. Please check your credentials.');
+        } catch (error) {
+            console.error('Error during login:', error);
+            alert('An error occurred. Please try again.');
         }
-
-    } catch (error) {
-        console.error('Error logging in user:', error);
-        alert('An error occurred. Please try again.');
-    }
-}
-
-
+    };
 
     return (
     <Container className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
@@ -167,4 +172,6 @@ export default function Login() {
       
     </Container>
   );
+
 };
+

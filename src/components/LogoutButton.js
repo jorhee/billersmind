@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { BiLogOut } from 'react-icons/bi';
 import '../css/LogoutButton.css';
 
+
 export default function LogoutButton () {
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove the JWT token or auth key
+    logout();; // Remove the JWT token or auth key
     navigate('/login'); // Redirect to login page
   };
 

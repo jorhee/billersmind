@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import BackButton from './BackButton';
 import LogoutButton from './LogoutButton';
+import { AuthContext } from '../context/AuthContext';
 
 /*export default function CustomNavbar() {
 
@@ -41,7 +42,7 @@ import LogoutButton from './LogoutButton';
 }
 */
 
-
+/*
 export default function CustomNavbar() {
   const [user, setUser] = useState(null);
 
@@ -69,12 +70,15 @@ export default function CustomNavbar() {
   return (
     <Navbar className="header" expand="lg">
       <Container>
+
         <div className="logo-container">
           <img src="images/bmfav.png" alt="Billers Mind favicon" id="logofav" />
         </div>
+
         <Navbar.Brand className="logo">
           Billers <span>Mind BPO</span>
         </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="ms-auto">
@@ -100,4 +104,49 @@ export default function CustomNavbar() {
       </Container>
     </Navbar>
   );
+}*/
+
+//authContext version
+
+export default function CustomNavbar() {
+    const { isAuthenticated } = useContext(AuthContext);
+
+    return (
+        <Navbar className="header" expand="lg">
+            <Container>
+
+                <div className="logo-container">
+
+                  <img src="images/bmfav.png" alt="Billers Mind favicon" id="logofav" />
+                </div>
+
+                <Navbar.Brand className="logo">
+                  <Link to="/" className="navbar-brand">
+                  Billers <span>Mind BPO</span>
+                  </Link>
+                </Navbar.Brand>
+
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                
+                <Nav className="ms-auto">
+                        {isAuthenticated ? (
+                            <>
+                                <BackButton />
+                                <LogoutButton />
+                            </>
+                        ) : (
+                            <>
+                                <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+                                <Nav.Link as={NavLink} to="/about">About</Nav.Link>
+                                <Nav.Link as={NavLink} to="/services">Services</Nav.Link>
+                                <Nav.Link as={NavLink} to="/contact">Contact</Nav.Link>
+                                <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+                            </>
+                        )}
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    );
 }
