@@ -70,7 +70,7 @@ export default function CustomNavbar() {
     <Navbar className="header" expand="lg">
       <Container>
         <div className="logo-container">
-          <img src="./images/bmfav.png" alt="Billers Mind favicon" id="logofav" />
+          <img src="images/bmfav.png" alt="Billers Mind favicon" id="logofav" />
         </div>
         <Navbar.Brand className="logo">
           Billers <span>Mind BPO</span>

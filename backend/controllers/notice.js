@@ -206,6 +206,33 @@ module.exports.addNoticeOfElection = async (req, res) => {
     }
 };
 
+// Controller to retrieve all patients by ProviderID
+
+module.exports.getAllNoticesByProviderId = async (req, res) => {
+
+    const { providerId } = req.params; // Get provider ID from request parameters
+
+    try {
+        const notices = await Notice.find({ providerId: providerId }); 
+        // Find notices by provider ID
+
+        if (notices.length === 0) {
+            return res.status(404).send({
+                message: 'No NOE found for this provider.'
+            });
+        }
+
+        res.status(200).send(notices); // Send the list of noe as response
+    } catch (error) {
+        res.status(500).send({
+            message: 'Error retrieving NOE',
+            error: error.message
+        });
+    }
+
+};
+
+
 // Controller to retrieve all Notices of Election
 module.exports.getAllNoticesOfElection = async (req, res) => {
     try {
