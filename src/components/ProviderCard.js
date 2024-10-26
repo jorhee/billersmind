@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Table } from 'react-bootstrap';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 export default function ProviderCard() {
     const navigate = useNavigate();
@@ -40,11 +40,17 @@ export default function ProviderCard() {
         fetchProviders();
     }, [navigate]); // Run once when component loads
 
+    const location = useLocation();
+
     return (
-            <Card className="m-3 mb-3">
-    <div className="providerCard">
-        <Card.Body className="text-auto">
-            <Card.Title>Provider List</Card.Title>
+    <Card className="m-3 mb-3">
+        <div className="providerCard">
+            <Card.Body className="text-auto">
+                <Card.Title>
+                <Link to={location.pathname === '/providers/all' ? '/me' : '/providers/all'}>
+                  {location.pathname === '/providers/all' ? 'Back to Profile' : 'Provider List'}
+                </Link>
+                </Card.Title>
             <Card.Text>Billers Mind BPO Clients</Card.Text>
             
             {/* Bootstrap Table for displaying providers */}

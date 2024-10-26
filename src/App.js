@@ -26,6 +26,8 @@ import ProviderPage from './pages/ProviderPage';
 
 
 
+
+
 function App() {
   return (
     <>
@@ -47,6 +49,7 @@ function App() {
         <Route path="/providers/:providerId" element={<ProviderPage />} />
         <Route path="/patients/:providerId/add-patient" element={<AddPatient />} />
         <Route path="/patients/:providerId/all" element={<PatientsCard />} />
+
 
 
       </Routes>
