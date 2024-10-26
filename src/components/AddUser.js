@@ -19,23 +19,18 @@ export default function AddUser() {
 	const navigate = useNavigate();
 
 	useEffect(() =>{
-
-        if((firstName !== "" && lastName !== "" && email !== "" && mobileNo !== "" && password !== "" && confirmPassword !== "") && (password === confirmPassword) && (mobileNo.length === 11)){
-            setIsActive(true)
-        } else {
-            setIsActive(false)
-        }
-    }, [firstName,lastName,email,mobileNo,password,confirmPassword])
-
+        setIsActive((firstName !== "" && lastName !== "" && email !== "" && mobileNo !== "" && password !== "" && confirmPassword !== "") && (password === confirmPassword) && (mobileNo.length === 11)) 
+    }, [firstName,lastName,email,mobileNo,password,confirmPassword]);
 	
 
-    function registerUser(e) {
+    async function registerUser(e) {
         e.preventDefault();
 
-        // Get the token from localStorage
         const token = localStorage.getItem('token');
 
-        fetch('http://localhost:4000/profiles/register', {
+    try {
+        
+        const response = await  fetch('http://localhost:4000/profiles/register', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -43,35 +38,27 @@ export default function AddUser() {
                 // Include the token in the headers
             },
             body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
+                firstName: firstName.toUpperCase(),
+                lastName: lastName.toUpperCase(),
                 email: email,
                 mobileNo: mobileNo,
                 password:password
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            if(data.message === "User registered successfully"){
-                setFirstName('');
-                setLastName('');
-                setEmail('');
-                setMobileNo('');
-                setPassword('');
-                setConfirmPassword('');
+       
+        const data = await response.json();
 
-                alert(data.message)
-                
-        		navigate('/me');
-
-            } else {
-                alert(data.message);
+        if (response.ok) {
+            alert("User registered successfully");
+            navigate('/me');
+        }   else {
+                alert(data.message || 'Error adding user');
             }
-        })
-    }
-
-    	
+        } catch (error) {
+          console.error('Error registering user:', error);
+          alert('An error occurred. Please try again.');
+        }
+    };
 
     return (
     	<div>
@@ -144,19 +131,12 @@ export default function AddUser() {
                     onChange={e => {setConfirmPassword(e.target.value)}}
                 />
             </Form.Group>
-            { isActive ? 
-                <Button variant="primary" type="submit" id="submitBtn">
-                    Register User
-                </Button>
-                : 
-                <Button variant="danger" type="submit" id="adduserBtn" disabled>
-                    Register User
-                </Button>
-            }
-                
+                <div className="text-center mt-4">
+                  <Button variant={isActive ? "primary" : "danger"} type="submit" disabled={!isActive}>
+                    Register
+                  </Button>
+                </div>
         </Form>
-
-
         </div>
     )
 }

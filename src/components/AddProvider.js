@@ -20,21 +20,18 @@ export default function AddProvider() {
 
     // Enable button only when required fields are filled
     useEffect(() => {
-        if (name && npi && ptan && taxId) {
-            setIsActive(true);
-        } else {
-            setIsActive(false);
-        }
+        setIsActive(name && npi && ptan && taxId) 
     }, [name, npi, ptan, taxId]);
 
-    function registerProvider(e) {
+    async function registerProvider(e) {
         e.preventDefault();
-
 
         const token = localStorage.getItem('token'); 
         // Retrieve the token from localStorage or any other storage
 
-        fetch('http://localhost:4000/providers/add-provider', {
+        try {
+
+        const response = await fetch('http://localhost:4000/providers/add-provider', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,18 +53,21 @@ export default function AddProvider() {
                 taxId: taxId.toUpperCase(),
                 addedBy: addedBy.toUpperCase(),
             }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.message === 'Provider registered successfully') {
-                    alert('Provider successfully added');
-                    // Navigate back to the Provider List (profile or another page)
-                    navigate('/me');
-                } else {
-                    alert(data.message);
-                }
-            });
-    }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Provider successfully added');
+            navigate('/me');
+        } else {
+                alert(data.message || 'Error adding provider');
+            }
+        } catch (error) {
+              console.error('Error registering provider:', error);
+              alert('An error occurred. Please try again.');
+        }
+    };
 
     return (
         <div className="text-auto">
@@ -174,15 +174,11 @@ export default function AddProvider() {
                     onChange={(e) => setTaxId(e.target.value)}
                 />
             </Form.Group>
-            {isActive ? (
-                <Button variant="primary" type="submit">
+                <div className="text-center mt-4">
+                  <Button variant={isActive ? "primary" : "danger"} type="submit" disabled={!isActive}>
                     Register
-                </Button>
-            ) : (
-                <Button variant="danger" type="submit" disabled>
-                    Register
-                </Button>
-            )}
+                  </Button>
+                </div>
         </Form>
             
         </div>

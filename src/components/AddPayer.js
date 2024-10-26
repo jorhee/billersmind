@@ -17,19 +17,16 @@ export default function AddPayer() {
 
     // Enable button only when required fields are filled
     useEffect(() => {
-        if (name && payerId) {
-            setIsActive(true);
-        } else {
-            setIsActive(false);
-        }
+        setIsActive(name && payerId)     
     }, [name, payerId]);
 
-    function registerPayer(e) {
+    async function registerPayer(e) {
         e.preventDefault();
 
         const token = localStorage.getItem('token'); // Retrieve the token from localStorage
 
-        fetch('http://localhost:4000/payers/add-payer', {
+        try {
+        const response = await fetch('http://localhost:4000/payers/add-payer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,18 +44,21 @@ export default function AddPayer() {
                 phone: phone,
                 fax: fax,
             }),
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.message === 'Payer registered successfully') {
-                alert('Payer successfully added');
-                // Navigate back to the Payer List (profile or another page)
-                navigate('/payers/all');
-            } else {
-                alert(data.message);
-            }
         });
-    }
+        
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Payer successfully added');
+            navigate('/payers/all');
+        }   else {
+                alert(data.message || 'Error adding payer');
+            }
+        } catch (error) {
+          console.error('Error registering payer:', error);
+          alert('An error occurred. Please try again.');
+        }
+    };
 
     return (
         <div className="text-auto">
@@ -145,15 +145,11 @@ export default function AddPayer() {
                         onChange={(e) => setPayerId(e.target.value)}
                     />
                 </Form.Group>
-                {isActive ? (
-                    <Button variant="primary" type="submit">
-                        Register
-                    </Button>
-                ) : (
-                    <Button variant="danger" type="submit" disabled>
-                        Register
-                    </Button>
-                )}
+                <div className="text-center mt-4">
+                  <Button variant={isActive ? "primary" : "danger"} type="submit" disabled={!isActive}>
+                    Register
+                  </Button>
+                </div>
             </Form>
         </div>
     );
