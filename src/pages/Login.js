@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
@@ -11,7 +11,15 @@ export default function Login() {
     // State to determine whether submit button is enabled or not
     const [isActive, setIsActive] = useState(true);
 
+    const navigate = useNavigate();
 
+    useEffect(() => {
+
+        // Validation to enable submit button when all fields are populated and both passwords match
+        setIsActive(email !== '' && password !== '')
+    }, [email, password]);
+
+/*
     function authenticate(e) {
 
         // Prevents page redirection via form submission
@@ -40,7 +48,7 @@ export default function Login() {
                 setEmail('');
                 setPassword('');
 
-                alert(`You are now logged in`);
+                //alert(`You are now logged in`);
             
             } else {
                 alert(data.message);
@@ -49,24 +57,56 @@ export default function Login() {
         })
 
     }
+*/
 
-    useEffect(() => {
+    async function authenticate(e) {
 
-        // Validation to enable submit button when all fields are populated and both passwords match
-        if(email !== '' && password !== ''){
-            setIsActive(true);
-        }else{
-            setIsActive(false);
+        // Prevents page redirection via form submission
+        e.preventDefault();
+
+        try {
+
+        const response = await fetch('http://localhost:4000/profiles/login', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
+        
+        const data = await response.json(); 
+
+        // Check if the response is successful
+        if (response.ok) {
+            // Assuming the token is in data.token
+            if (data.token) {
+                console.log(data.token);
+                localStorage.setItem('token', data.token);
+                navigate(`/me`);
+            } else {
+                alert(data.message || 'Error getting token');
+            }
+        } else {
+            // Handle errors based on server response
+            alert(data.message || 'Login failed. Please check your credentials.');
         }
 
-    }, [email, password]);
+    } catch (error) {
+        console.error('Error logging in user:', error);
+        alert('An error occurred. Please try again.');
+    }
+}
+
+
 
     return (
     <Container className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
-      {localStorage.getItem("token") !== null ? (
-        <Navigate to="/me" />
-      ) : (
-        <div className="bg-secondary rounded p-4 shadow" style={{ width: '400px', height: '50vh' }}> {/* Adjust the width as necessary */}
+      
+
+      <div className="bg-secondary rounded p-4 shadow" style={{ width: '400px', height: '50vh' }}> {/* Adjust the width as necessary */}
           <Form onSubmit={authenticate} className="h-100"> {/* Ensure form fills the container height */}
             <h1 className="text-center mb-4">
               <box-icon name='lock-alt' size="lg" color="#e415ff"></box-icon>
@@ -77,7 +117,7 @@ export default function Login() {
               <Row className="align-items-center">
                 <Col xs={4}>
                   <Form.Label className="d-flex align-items-center">
-                    <i class='bx bxs-envelope bx-md' style={{ color: '#e415ff' }}></i>
+                    <i className='bx bxs-envelope bx-md' style={{ color: '#e415ff' }}></i>
                     <h2 className="p-2">Email</h2>
                   </Form.Label>
                 </Col>
@@ -98,7 +138,7 @@ export default function Login() {
               <Row className="align-items-center">
                 <Col xs={4}>
                   <Form.Label className="d-flex align-items-center">
-                    <i class='bx bx-key bx-md' style={{ color: '#e415ff' }}></i>
+                    <i className='bx bx-key bx-md' style={{ color: '#e415ff' }}></i>
                     <h2 className="p-2">Password</h2>
                   </Form.Label>
                 </Col>
@@ -117,14 +157,14 @@ export default function Login() {
 
             <div className="text-center">
               <Button variant={isActive ? "primary" : "dark"} className="w-50" type="submit" id="loginBtn" disabled={!isActive}>
-                <i class='bx bxs-log-in-circle bx-lg' style={{ color: '#e415ff' }}></i>
+                <i className='bx bxs-log-in-circle bx-lg' style={{ color: '#e415ff' }}></i>
                 
               </Button>
               
             </div>
           </Form>
         </div>
-      )}
+      
     </Container>
   );
 };

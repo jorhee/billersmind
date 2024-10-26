@@ -100,14 +100,7 @@ body{
 }
 
 
-.navbar a {
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
-}
-.navbar a:hover, 
-  
-.navbar a.active{
+.navbar a:hover, .navbar a.active{
   color: white;
   border-bottom: 3px solid var(--main-color);
 }

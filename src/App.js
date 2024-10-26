@@ -13,13 +13,14 @@ import PatientsCard from './components/PatientsCard';
 
 
 
+
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import ProfilePage from './pages/ProfilePage';
 import Footer from './pages/Footer';
 import Login from './pages/Login';
-import Logout from './pages/Logout';
+
 import Payer from './pages/Payer';
 import ProviderPage from './pages/ProviderPage';
 
@@ -39,7 +40,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
+        
         <Route path="/me" element={<ProfilePage />} />
         <Route path="/register" element={<AddUser />} />
         <Route path="/add-provider" element={<AddProvider />} />

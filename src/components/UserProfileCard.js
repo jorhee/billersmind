@@ -1,14 +1,12 @@
 // src/components/UserProfile.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Container, Card, Button } from 'react-bootstrap';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the user icon
-import './UserProfile.css';
-
+import '../css/UserProfile.css';
 import { useNavigate } from 'react-router-dom';
 
 
-
+/*
 
 export default function UserProfile() {
   const [user, setUser] = useState({
@@ -44,16 +42,51 @@ export default function UserProfile() {
 
     fetchProfile();
   }, []);
+*/
 
+export default function UserProfile() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    mobileNo: '',
+    email: '',
+    profilePicture: null, // Holds the profile picture
+  });
 
+  // Fetch user profile from the database
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Get token from local storage
+        const response = await fetch('http://localhost:4000/profiles/me', {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, // Include token in headers
+          },
+        });
 
-  const handleAddUser = () => {
-    navigate('/register'); 
-  };
+        if (response.status === 401) {
+          alert("Unauthorized: Please log in.");
+          navigate('/login');
+          return;
+        }
 
-  const handlePayerList = () => {
-    navigate('/payers/all'); 
-  };
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Fetched User Profile:', data); // Debugging log
+        setUser(data); // Update state with fetched user data
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]); // Run once when component loads
 
 
 return (
@@ -71,7 +104,7 @@ return (
           <h2>Welcome to Billers Mind</h2>
         </Card.Header>
         <Card.Body>
-          {/* Displaying the profile picture or the default icon */}
+          
           {user.profilePicture ? (
             <Card.Img
               variant="top"
@@ -90,28 +123,24 @@ return (
         <Card.Footer>
           <Button 
             variant="primary" 
-            className="text-center" 
+            className="text-center mx-1" 
             onClick={() => navigate('/add-provider')}>
             Add Provider
           </Button>
           <Button 
-            className="mx-1" 
             variant="primary" 
-            onClick={handleAddUser}>
+            className="text-center mx-1" 
+            onClick={() => navigate('/register')}>
               Add User
           </Button>
           <Button 
-            className="mx-1" 
             variant="primary" 
-            onClick={handlePayerList}>
+            className="text-center mx-1" 
+            onClick={() => navigate('/payers/all')}>
               Payer List
           </Button>
         </Card.Footer>
       </Card>
-    
-    
-    
-      
         </Container>
     </div>
     </>

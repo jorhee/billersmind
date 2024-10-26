@@ -9,11 +9,13 @@
 .UserProfile {
   background-color: slategray;
   color: black;
-  padding: 20px;
+  padding: 10px;
 }
 
 .providerCard {
   background-color: whitesmoke;
   color: black;
   padding: 20px;
+  padding-bottom: 10px;
+  min-height: 80vh;
 }
