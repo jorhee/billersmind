@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import TransPageNotFound from '../components/images/TransPageNotFound.png'
 
 export default function ErrorPage()  {
   const navigate = useNavigate();
@@ -9,13 +11,16 @@ export default function ErrorPage()  {
   };
 
   return (
+    <Container>
     <div style={styles.container}>
+      <img src={TransPageNotFound} alt="Error" style={styles.image} />
       <h1 style={styles.title}>404</h1>
       <p style={styles.message}>Oops! The page you're looking for doesn't exist.</p>
       <button style={styles.button} onClick={goBackHome}>
         Go Back Home
       </button>
     </div>
+    </ Container>
   );
 };
 
@@ -27,8 +32,13 @@ const styles = {
     justifyContent: 'center',
     height: '100vh',
     textAlign: 'center',
-    color: '#333',
-    backgroundColor: '#f5f5f5',
+    color: '#f5f5f5', // Light color for text on a dark background
+    backgroundColor: '#121212', // Dark background color
+  },
+  image: {
+    width: '500px', // Adjust size as needed
+    marginBottom: '20px',
+    
   },
   title: {
     fontSize: '5rem',

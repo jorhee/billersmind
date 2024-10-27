@@ -21,51 +21,6 @@ export default function Login() {
         setIsActive(email !== '' && password !== '')
     }, [email, password]);
 
-/*
-    function authenticate(e) {
-
-        // Prevents page redirection via form submission
-        e.preventDefault();
-        fetch('http://localhost:4000/profiles/login', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-
-                email: email,
-                password: password
-
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-
-            if(data.token){
-
-                console.log(data.token);
-                localStorage.setItem('token', data.token)
-
-                // Clear input fields after submission
-                setEmail('');
-                setPassword('');
-
-                //alert(`You are now logged in`);
-            
-            } else {
-                alert(data.message);
-            }
-
-        })
-
-    }
-*/
-
-
-    //async function authenticate(e) {
-
-       
-
         const authenticate = async (e) => { //new delete if not working
         // Prevents page redirection via form submission
         e.preventDefault();
@@ -89,15 +44,11 @@ export default function Login() {
                 throw new Error(data.message);
             }
 
-        // Check if the response is successful
-       
-             //put this comment out back if not working
-
-            // Assuming the token is in data.token
         if (data.token) {
                 
                 login(data.token);  // Call login function with token
                 navigate(`/me`);
+                
             } else {
                 alert(data.message || 'Login unsuccessful');
             }

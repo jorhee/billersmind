@@ -4,7 +4,8 @@ import { Link, NavLink } from 'react-router-dom';
 import BackButton from './BackButton';
 import LogoutButton from './LogoutButton';
 import { AuthContext } from '../context/AuthContext';
-
+import ProfileButton from './ProfileButton';
+import bmfav from './images/bmfav.png';
 
 
 //authContext version
@@ -16,7 +17,7 @@ export default function CustomNavbar() {
         <Navbar className="header" expand="lg">
             <Container>
                 <div className="logo-container">
-                  <img src="images/bmfav.png" alt="Billers Mind favicon" id="logofav" />
+                  <img src={bmfav} alt="Billers Mind favicon" id="logofav" />
                 </div>
                 <Navbar.Brand className="logo">
                   <Link to="/" className="navbar-brand">
@@ -29,6 +30,7 @@ export default function CustomNavbar() {
                         {isAuthenticated ? (
                             <>
                                 <BackButton />
+                                <ProfileButton />
                                 <LogoutButton />
                             </>
                         ) : (
