@@ -1,12 +1,12 @@
 import React from 'react';
 import '../css/Home.css';
-
+import { Container } from 'react-bootstrap';
 
 
 export default function Home() {
   return (
     <> 
-    
+    <Container>
     <div className="home pb-0 m-0" id="home">
       <div className="home-img">
         <img src="images/bmlogo.jpg" alt="Billers Mind Logo" />
@@ -32,7 +32,7 @@ export default function Home() {
         <a href="/contact" className="btncontact mt-3">CONTACT US</a>
       </div>
     </div>
-    
+    </ Container>
     </>
   )
 };

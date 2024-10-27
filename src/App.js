@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { Container } from 'react-bootstrap';
+
 
 import Navbar from './components/Navbar';
 import IdleTimeout from './components/IdleTimeout';
@@ -12,15 +14,12 @@ import AddUser from './components/AddUser';
 import AddPatient from './components/AddPatient';
 import PatientsCard from './components/PatientsCard';
 
-
-
-
-
+import ErrorPage from './pages/ErrorPage';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import ProfilePage from './pages/ProfilePage';
-//import Footer from './pages/Footer';
+import Footer from './pages/Footer';
 import Login from './pages/Login';
 
 import Payer from './pages/Payer';
@@ -34,13 +33,13 @@ import AddNotice from './pages/AddNotice';
 function App() {
   return (
     <>
-    
+    <Container>
     <Router>
       <Navbar/>
       <IdleTimeout />
       
       <Routes>
-        
+        <Route path="*" element={<ErrorPage />} />
         <Route path="/" element={<><Home /></>} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
@@ -58,9 +57,9 @@ function App() {
 
       </Routes>
       
-      
+      <Footer />
     </Router>
-    
+    </Container>
     </>
   );
 }
