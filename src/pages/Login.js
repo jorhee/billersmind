@@ -83,11 +83,11 @@ export default function Login() {
             })
         });
         
-        if (!response.ok) {
-                throw new Error('Login failed. Please check your credentials.');
-            }
-
         const data = await response.json(); 
+
+        if (!response.ok) {
+                throw new Error(data.message);
+            }
 
         // Check if the response is successful
        
@@ -102,8 +102,8 @@ export default function Login() {
                 alert(data.message || 'Login unsuccessful');
             }
         } catch (error) {
-            console.error('Error during login:', error);
-            alert('An error occurred. Please try again.');
+            //console.error('Error during login:', error);
+            alert(error.message);
         }
     };
 
@@ -123,7 +123,7 @@ export default function Login() {
                 <Col xs={4}>
                   <Form.Label className="d-flex align-items-center">
                     <i className='bx bxs-envelope bx-md' style={{ color: '#e415ff' }}></i>
-                    <h2 className="p-2">Email</h2>
+                    <h3 className="p-2">Email</h3>
                   </Form.Label>
                 </Col>
                 <Col xs={8}>
@@ -144,7 +144,7 @@ export default function Login() {
                 <Col xs={4}>
                   <Form.Label className="d-flex align-items-center">
                     <i className='bx bx-key bx-md' style={{ color: '#e415ff' }}></i>
-                    <h2 className="p-2">Password</h2>
+                    <h3 className="p-2">Password</h3>
                   </Form.Label>
                 </Col>
                 <Col xs={8}>

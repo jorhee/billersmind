@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 import Navbar from './components/Navbar';
 import IdleTimeout from './components/IdleTimeout';
@@ -14,16 +15,17 @@ import PatientsCard from './components/PatientsCard';
 
 
 
+
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import ProfilePage from './pages/ProfilePage';
-import Footer from './pages/Footer';
+//import Footer from './pages/Footer';
 import Login from './pages/Login';
 
 import Payer from './pages/Payer';
 import ProviderPage from './pages/ProviderPage';
-
+import AddNotice from './pages/AddNotice';
 
 
 
@@ -32,30 +34,33 @@ import ProviderPage from './pages/ProviderPage';
 function App() {
   return (
     <>
+    
     <Router>
-      <Navbar />
+      <Navbar/>
       <IdleTimeout />
+      
       <Routes>
-        <Route path="/" element={<Home />} />
+        
+        <Route path="/" element={<><Home /></>} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/login" element={<Login />} />
-        
         <Route path="/me" element={<ProfilePage />} />
         <Route path="/register" element={<AddUser />} />
         <Route path="/add-provider" element={<AddProvider />} />
-        <Route path="/providers/all" element={<ProviderCard />} />
+        <Route path="/providers/all" element={<ProviderCard /> } />
         <Route path="/add-payer" element={<AddPayer />} />
         <Route path="/payers/all" element={<Payer />} />
         <Route path="/providers/:providerId" element={<ProviderPage />} />
         <Route path="/patients/:providerId/add-patient" element={<AddPatient />} />
         <Route path="/patients/:providerId/all" element={<PatientsCard />} />
-
-
+        <Route path="/notices/add" element={<AddNotice />} />
 
       </Routes>
-      <Footer />
+      
+      
     </Router>
+    
     </>
   );
 }

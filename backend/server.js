@@ -8,6 +8,7 @@ const profileRoutes = require('./routes/profile');
 const providerRoutes = require('./routes/provider');
 const payerRoutes = require('./routes/payer');
 const patientRoutes = require('./routes/patient');
+const batchedNoaRoutes = require('./routes/batchedNoa');
 
 
 
@@ -45,7 +46,7 @@ app.use('/profiles', profileRoutes);
 app.use('/providers', providerRoutes);
 app.use('/payers', payerRoutes);
 app.use('/patients', patientRoutes);
-
+app.use('/batchednoa', batchedNoaRoutes);
 
 
 // In your Express server

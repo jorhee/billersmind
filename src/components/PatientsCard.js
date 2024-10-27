@@ -64,28 +64,6 @@ export default function PatientsCard() {
         fetchData();
     }, [providerId, navigate]); // Add providerId as a dependency
 
- /*   return (
-        <div>
-            <h2 className="text-center bg-secondary">All Patients for Provider: {providerName}</h2>
-            {patients.length > 0 ? (
-                <ul className="list-group">
-                    {patients.map((patient) => (
-                        <li key={patient._id} className="list-group-item">
-                            <strong>{patient.firstName} {patient.lastName}</strong><br />
-                            Date of Birth: {patient.dateOfBirth}<br />
-                            Gender: {patient.gender}<br />
-                            Address: {patient.address.Address}, {patient.address.City}, {patient.address.State}, {patient.address.Zip}<br />
-                            Member ID: {patient.memberId}<br />
-                            Status: {patient.isActive ? "Active" : "Inactive"}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p className="text-center">No patients found for this provider.</p>
-            )}
-        </div>
-    );
-}*/
 
 return (
         <Card className="m-3 mb-3">

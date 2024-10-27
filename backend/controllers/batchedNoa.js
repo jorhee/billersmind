@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const Patient = require("../models/Patient");
 const Payer = require("../models/Payer");
 const Provider = require("../models/Provider");
-const Notice = require("../models/Notice");
+const BatchedNoa = require("../models/BatchedNoa");
 
 
 const auth = require("../middleware/auth");
@@ -18,92 +18,44 @@ const validation = require("../utils/validation");
 const { validateDate } = validation;
 
 
-// Controller to add a Notice
-/*module.exports.addNoticeOfElection = async (req, res) => {
-    const {
-        patientId,
-        placeOfService,
-        payerId,
-        memberId,
-        admitDate,
-        benefitPeriod,
-        primaryDiagnosis,
-        AttMd
-        } = req.body; // Get the data from the request body
+
+//v3 from Chatgpt
+module.exports.addNoticeOfElection = async (req, res) => {
+
+    const { patientIds, providerId, placeOfService, payerId, memberId, admitDate, typeOfBill, primaryDiagnosis, AttMd } = req.body;
 
     try {
-        // Validate patientId
-        const patient = await Patient.findById(patientId);
-        if (!patient) {
-            return res.status(404).send({
-                message: 'Patient not found.'
-            });
+        // Find patients to ensure they belong to the specified provider
+        const patients = await Patient.find({ _id: { $in: patientIds }, providerId: providerId });
+
+        if (patients.length === 0) {
+            return res.status(404).json({ message: 'No matching patients found for the specified provider.' });
         }
 
-        // Validate payerId
-        const payer = await Payer.findById(payerId);
-        if (!payer) {
-            return res.status(404).send({
-                message: 'Payer not found.'
-            });
-        }
-
-        // Validate admitDate using validateDate function
-        const admitDateValidation = validateDate(admitDate);
-        if (!admitDateValidation.isValid) {
-            return res.status(400).send({
-                message: admitDateValidation.message
-            });
-        }
-
-        // Validate benefitPeriod dates
-        const parsedBenefitPeriod = await Promise.all(benefitPeriod.map(async (b) => {
-            const startDateValidation = validateDate(b.BeneStartDate);
-            const termDateValidation = validateDate(b.BeneTermDate);
-            if (!startDateValidation.isValid) {
-                throw new Error(startDateValidation.message);
-            }
-            if (!termDateValidation.isValid) {
-                throw new Error(termDateValidation.message);
-            }
-
-            return {
-                benefitNum: b.benefitNum,
-                BeneStartDate: startDateValidation.parsedDate,
-                BeneTermDate: termDateValidation.parsedDate
-            };
-        }));
-
-        // Create a new Notice instance
-        const newNotice = new Notice({
+        // Create notices for each selected patient
+        const notices = await Notice.insertMany(patientIds.map(patientId => ({
             patientId,
+            providerId,
             placeOfService,
             payerId,
             memberId,
-            admitDate: admitDateValidation.parsedDate,
-            benefitPeriod: parsedBenefitPeriod,
+            admitDate,
+            typeOfBill,
             primaryDiagnosis,
-            AttMd
-        });
+            AttMd,
+        })));
 
-        // Save the Notice to the database
-        const savedNotice = await newNotice.save();
-
-        // Send success response
-        res.status(201).send({
-            message: 'Notice added successfully.',
-            notice: savedNotice
-        });
+        res.status(201).json(notices);
     } catch (error) {
-        // Catch any errors and return a 500 status with the error message
-        res.status(500).send({
-            message: 'Error adding Notice',
-            error: error.message
-        });
+        console.error('Error adding notice:', error);
+        res.status(500).json({ message: 'Error adding notice.', error });
     }
-};*/
+};
+
+
 
 //v2: to autocalculate BeneTermDate.
+/*
 module.exports.addNoticeOfElection = async (req, res) => {
     const {
         patientId,
@@ -205,6 +157,93 @@ module.exports.addNoticeOfElection = async (req, res) => {
         });
     }
 };
+*/
+
+// Controller to add a Notice v1
+/*module.exports.addNoticeOfElection = async (req, res) => {
+    const {
+        patientId,
+        placeOfService,
+        payerId,
+        memberId,
+        admitDate,
+        benefitPeriod,
+        primaryDiagnosis,
+        AttMd
+        } = req.body; // Get the data from the request body
+
+    try {
+        // Validate patientId
+        const patient = await Patient.findById(patientId);
+        if (!patient) {
+            return res.status(404).send({
+                message: 'Patient not found.'
+            });
+        }
+
+        // Validate payerId
+        const payer = await Payer.findById(payerId);
+        if (!payer) {
+            return res.status(404).send({
+                message: 'Payer not found.'
+            });
+        }
+
+        // Validate admitDate using validateDate function
+        const admitDateValidation = validateDate(admitDate);
+        if (!admitDateValidation.isValid) {
+            return res.status(400).send({
+                message: admitDateValidation.message
+            });
+        }
+
+        // Validate benefitPeriod dates
+        const parsedBenefitPeriod = await Promise.all(benefitPeriod.map(async (b) => {
+            const startDateValidation = validateDate(b.BeneStartDate);
+            const termDateValidation = validateDate(b.BeneTermDate);
+            if (!startDateValidation.isValid) {
+                throw new Error(startDateValidation.message);
+            }
+            if (!termDateValidation.isValid) {
+                throw new Error(termDateValidation.message);
+            }
+
+            return {
+                benefitNum: b.benefitNum,
+                BeneStartDate: startDateValidation.parsedDate,
+                BeneTermDate: termDateValidation.parsedDate
+            };
+        }));
+
+        // Create a new Notice instance
+        const newNotice = new Notice({
+            patientId,
+            placeOfService,
+            payerId,
+            memberId,
+            admitDate: admitDateValidation.parsedDate,
+            benefitPeriod: parsedBenefitPeriod,
+            primaryDiagnosis,
+            AttMd
+        });
+
+        // Save the Notice to the database
+        const savedNotice = await newNotice.save();
+
+        // Send success response
+        res.status(201).send({
+            message: 'Notice added successfully.',
+            notice: savedNotice
+        });
+    } catch (error) {
+        // Catch any errors and return a 500 status with the error message
+        res.status(500).send({
+            message: 'Error adding Notice',
+            error: error.message
+        });
+    }
+};*/
+
 
 // Controller to retrieve all patients by ProviderID
 

@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { FaUserMd, FaMapMarkerAlt, FaPhone, FaFax, FaIdBadge } from 'react-icons/fa';
 import PatientsCard from '../components/PatientsCard';
+import AddNotice from './AddNotice';
+import ProviderDropdown from '../components/ProviderDropdown';
 
 
 export default function ProviderPage () {
@@ -53,6 +55,7 @@ export default function ProviderPage () {
             <FaUserMd className="me-2" />
             Provider Dashboard
           </h2>
+          <ProviderDropdown />
         </Col>
       </Row>
 
@@ -151,6 +154,8 @@ export default function ProviderPage () {
       )}
     </Container>
     <PatientsCard />
+    <AddNotice />
+    
   </>
   );
 
