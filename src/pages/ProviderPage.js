@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { FaUserMd, FaMapMarkerAlt, FaPhone, FaFax, FaIdBadge } from 'react-icons/fa';
 import PatientsCard from '../components/PatientsCard';
-import AddNotice from './AddNotice';
+import BatchedNoaCard from '../components/BatchedNoaCard';
+
 import ProviderDropdown from '../components/ProviderDropdown';
 
 
@@ -122,16 +123,16 @@ export default function ProviderPage () {
                   <li className="my-2">
                     <Button
                       variant="link"
-                      onClick={() => navigate('/add-noe')}
+                      onClick={() => navigate(`/batchedNoa/${providerId}/batch`)}
                       className="text-decoration-none text-primary"
                     >
-                      Add NOE
+                      Batch NOA
                     </Button>
                   </li>
                   <li className="my-2">
                     <Button
                       variant="link"
-                      onClick={() => navigate('/add-notr')}
+                      onClick={() => navigate('/batchednoa/:providerId/batch')}
                       className="text-decoration-none text-primary"
                     >
                       Add NOTR
@@ -154,7 +155,8 @@ export default function ProviderPage () {
       )}
     </Container>
     <PatientsCard />
-    <AddNotice />
+    <BatchedNoaCard />
+    
     
   </>
   );

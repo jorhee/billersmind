@@ -1,0 +1,15 @@
+.batched-noa-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+.batched-noa-details, .benefit-period-section, .attending-md-section {
+    margin-bottom: 16px;
+}
+
+.benefit-period {
+    padding-left: 16px;
+}
+

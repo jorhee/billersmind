@@ -46,7 +46,7 @@ app.use('/profiles', profileRoutes);
 app.use('/providers', providerRoutes);
 app.use('/payers', payerRoutes);
 app.use('/patients', patientRoutes);
-app.use('/batchednoa', batchedNoaRoutes);
+app.use('/batchedNoa', batchedNoaRoutes);
 
 
 // In your Express server

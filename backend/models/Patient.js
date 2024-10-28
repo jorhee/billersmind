@@ -55,8 +55,12 @@ const patientSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
-    }
-
+    },
+    NoaStatus: {
+        type: String,
+        enum: ['Not Sent', 'Sent'], // Added to track the NOA status
+        default: 'Not Sent' // Default status
+    },
 }, {
     timestamps: true // Adds createdAt and updatedAt fields
 });

@@ -12,16 +12,16 @@ const router = express.Router();
 
 
 // Route to add a Notice of Election
-router.post('/add', verify, isLoggedIn, batchedNoaController.addNoticeOfElection);
+router.post('/:providerId/batch', verify, isLoggedIn, batchedNoaController.createBatchedNoa);
 
 //Get all Patients per ProviderID
-router.get('/:providerId/all', verify, isLoggedIn, batchedNoaController.getAllNoticesByProviderId);
+router.get('/:providerId/all', verify, isLoggedIn, batchedNoaController.getAllNoaByProviderId);
 
 // Route to retrieve all Notices of Election
 router.get('/all', verify, isLoggedIn, batchedNoaController.getAllNoticesOfElection);
 
 // Route to retrieve a Notice of Election by ID
-router.get('/:id', verify, isLoggedIn, batchedNoaController.getNoticeOfElectionById);
+router.get('/:id', verify, isLoggedIn, batchedNoaController.getNoaById);
 
 // Route to update a Notice of Election by ID
 router.put('/update/:id', verify, isLoggedIn, batchedNoaController.updateNoticeOfElection);

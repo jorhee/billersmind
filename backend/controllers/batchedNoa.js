@@ -19,44 +19,9 @@ const { validateDate } = validation;
 
 
 
-//v3 from Chatgpt
-module.exports.addNoticeOfElection = async (req, res) => {
-
-    const { patientIds, providerId, placeOfService, payerId, memberId, admitDate, typeOfBill, primaryDiagnosis, AttMd } = req.body;
-
-    try {
-        // Find patients to ensure they belong to the specified provider
-        const patients = await Patient.find({ _id: { $in: patientIds }, providerId: providerId });
-
-        if (patients.length === 0) {
-            return res.status(404).json({ message: 'No matching patients found for the specified provider.' });
-        }
-
-        // Create notices for each selected patient
-        const notices = await Notice.insertMany(patientIds.map(patientId => ({
-            patientId,
-            providerId,
-            placeOfService,
-            payerId,
-            memberId,
-            admitDate,
-            typeOfBill,
-            primaryDiagnosis,
-            AttMd,
-        })));
-
-        res.status(201).json(notices);
-    } catch (error) {
-        console.error('Error adding notice:', error);
-        res.status(500).json({ message: 'Error adding notice.', error });
-    }
-};
-
-
-
 //v2: to autocalculate BeneTermDate.
-/*
-module.exports.addNoticeOfElection = async (req, res) => {
+
+module.exports.createBatchedNoa = async (req, res) => {
     const {
         patientId,
         placeOfService,
@@ -70,12 +35,20 @@ module.exports.addNoticeOfElection = async (req, res) => {
     } = req.body; // Get the data from the request body
 
     try {
-        // Validate patientId
-        const patient = await Patient.findById(patientId);
-        if (!patient) {
-            return res.status(404).send({
-                message: 'Patient not found.'
-            });
+
+        const { providerId } = req.params; // Get providerId from request params
+
+        const provider = await Provider.findById(providerId);
+        if (!provider) {
+            return res.status(404).json({ message: 'Provider not found.' });
+        }
+
+        // Fetch the patients associated with the provider
+        const patients = await Patient.find({ providerId });
+
+        // Check if there are patients for the given provider
+        if (!patients.length) {
+            return res.status(404).json({ message: 'No patients found for this provider.' });
         }
 
         // Validate payerId
@@ -86,7 +59,7 @@ module.exports.addNoticeOfElection = async (req, res) => {
             });
         }
 
-        // Validate admitDate using validateDate function
+        /// Validate admitDate using validateDate function
         const admitDateValidation = validateDate(admitDate);
         if (!admitDateValidation.isValid) {
             return res.status(400).send({
@@ -94,7 +67,19 @@ module.exports.addNoticeOfElection = async (req, res) => {
             });
         }
 
-        // Validate benefitPeriod dates and calculate BeneTermDate
+        console.log(admitDateValidation);
+        // Check for duplicate entries in the BatchedNoa collection
+        const existingNoa = await BatchedNoa.findOne({
+            patientId,
+            admitDate: admitDateValidation.parsedDate,
+            payerId
+        });
+
+        if (existingNoa) {
+            return res.status(400).json({ message: 'Duplicate entry found for the same Patient ID, Admit Date, and Payer ID.' });
+        }
+
+         // Validate benefitPeriod dates and calculate BeneTermDate
         const parsedBenefitPeriod = await Promise.all(benefitPeriod.map(async (b) => {
             // Validate BeneStartDate
             const startDateValidation = validateDate(b.BeneStartDate);
@@ -106,6 +91,8 @@ module.exports.addNoticeOfElection = async (req, res) => {
             const startDateParts = startDateValidation.parsedDate.split('/').map(num => parseInt(num, 10));
             const BeneStartDate = new Date(Date.UTC(startDateParts[2], startDateParts[0] - 1, startDateParts[1]));
 
+            
+
             // Calculate BeneTermDate based on benefitNum
             let BeneTermDate;
             if (b.benefitNum === 1 || b.benefitNum === 2) {
@@ -116,10 +103,16 @@ module.exports.addNoticeOfElection = async (req, res) => {
                 // +59 days for benefitNum greater than 2
                 BeneTermDate = new Date(BeneStartDate);
                 BeneTermDate.setUTCDate(BeneStartDate.getUTCDate() + 59);
+            } else {
+                throw new Error("Invalid benefitNum value");
+            }
+
+            if (!BeneTermDate) {
+                throw new Error("BeneTermDate could not be calculated");
             }
 
             // Format BeneTermDate to MM-DD-YYYY
-            const formattedBeneTermDate = `${String(BeneTermDate.getUTCMonth() + 1).padStart(2, '0')}-${String(BeneTermDate.getUTCDate()).padStart(2, '0')}-${BeneTermDate.getUTCFullYear()}`;
+            const formattedBeneTermDate = `${String(BeneTermDate.getUTCMonth() + 1).padStart(2, '0')}/${String(BeneTermDate.getUTCDate()).padStart(2, '0')}/${BeneTermDate.getUTCFullYear()}`;
 
             return {
                 benefitNum: b.benefitNum,
@@ -128,8 +121,11 @@ module.exports.addNoticeOfElection = async (req, res) => {
             };
         }));
 
-        // Create a new Notice instance
-        const newNotice = new Notice({
+        
+
+         // Create a new Notice instance
+        const newBatchedNoa = new BatchedNoa({
+            providerId,
             patientId,
             placeOfService,
             payerId,
@@ -142,12 +138,12 @@ module.exports.addNoticeOfElection = async (req, res) => {
         });
 
         // Save the Notice to the database
-        const savedNotice = await newNotice.save();
+        const savedBatchedNoa = await newBatchedNoa.save();
 
         // Send success response
         res.status(201).send({
             message: 'Notice added successfully.',
-            notice: savedNotice
+            notice: savedBatchedNoa
         });
     } catch (error) {
         // Catch any errors and return a 500 status with the error message
@@ -157,107 +153,22 @@ module.exports.addNoticeOfElection = async (req, res) => {
         });
     }
 };
-*/
 
-// Controller to add a Notice v1
-/*module.exports.addNoticeOfElection = async (req, res) => {
-    const {
-        patientId,
-        placeOfService,
-        payerId,
-        memberId,
-        admitDate,
-        benefitPeriod,
-        primaryDiagnosis,
-        AttMd
-        } = req.body; // Get the data from the request body
-
-    try {
-        // Validate patientId
-        const patient = await Patient.findById(patientId);
-        if (!patient) {
-            return res.status(404).send({
-                message: 'Patient not found.'
-            });
-        }
-
-        // Validate payerId
-        const payer = await Payer.findById(payerId);
-        if (!payer) {
-            return res.status(404).send({
-                message: 'Payer not found.'
-            });
-        }
-
-        // Validate admitDate using validateDate function
-        const admitDateValidation = validateDate(admitDate);
-        if (!admitDateValidation.isValid) {
-            return res.status(400).send({
-                message: admitDateValidation.message
-            });
-        }
-
-        // Validate benefitPeriod dates
-        const parsedBenefitPeriod = await Promise.all(benefitPeriod.map(async (b) => {
-            const startDateValidation = validateDate(b.BeneStartDate);
-            const termDateValidation = validateDate(b.BeneTermDate);
-            if (!startDateValidation.isValid) {
-                throw new Error(startDateValidation.message);
-            }
-            if (!termDateValidation.isValid) {
-                throw new Error(termDateValidation.message);
-            }
-
-            return {
-                benefitNum: b.benefitNum,
-                BeneStartDate: startDateValidation.parsedDate,
-                BeneTermDate: termDateValidation.parsedDate
-            };
-        }));
-
-        // Create a new Notice instance
-        const newNotice = new Notice({
-            patientId,
-            placeOfService,
-            payerId,
-            memberId,
-            admitDate: admitDateValidation.parsedDate,
-            benefitPeriod: parsedBenefitPeriod,
-            primaryDiagnosis,
-            AttMd
-        });
-
-        // Save the Notice to the database
-        const savedNotice = await newNotice.save();
-
-        // Send success response
-        res.status(201).send({
-            message: 'Notice added successfully.',
-            notice: savedNotice
-        });
-    } catch (error) {
-        // Catch any errors and return a 500 status with the error message
-        res.status(500).send({
-            message: 'Error adding Notice',
-            error: error.message
-        });
-    }
-};*/
 
 
 // Controller to retrieve all patients by ProviderID
 
-module.exports.getAllNoticesByProviderId = async (req, res) => {
+module.exports.getAllNoaByProviderId = async (req, res) => {
 
     const { providerId } = req.params; // Get provider ID from request parameters
 
     try {
-        const notices = await Notice.find({ providerId: providerId }); 
+        const notices = await BatchedNoa.find({ providerId: providerId }); 
         // Find notices by provider ID
 
         if (notices.length === 0) {
             return res.status(404).send({
-                message: 'No NOE found for this provider.'
+                message: 'No NOA found for this provider.'
             });
         }
 
@@ -275,7 +186,7 @@ module.exports.getAllNoticesByProviderId = async (req, res) => {
 // Controller to retrieve all Notices of Election
 module.exports.getAllNoticesOfElection = async (req, res) => {
     try {
-        const notices = await Notice.find(); // Retrieve all Notices of Election
+        const notices = await BatchedNoa.find(); // Retrieve all Notices of Election
         res.status(200).send(notices); // Send the notices as a response
     } catch (error) {
         res.status(500).send({
@@ -286,11 +197,11 @@ module.exports.getAllNoticesOfElection = async (req, res) => {
 };
 
 // Controller to retrieve a single Notice of Election by ID
-module.exports.getNoticeOfElectionById = async (req, res) => {
+module.exports.getNoaById = async (req, res) => {
     const { id } = req.params; // Get Notice ID from request parameters
 
     try {
-        const notice = await Notice.findById(id); // Find the Notice of Election by ID
+        const notice = await BatchedNoa.findById(id); // Find the Notice of Election by ID
 
         if (!notice) {
             return res.status(404).send({
