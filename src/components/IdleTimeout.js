@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const IDLE_TIMEOUT = 15 * 60 * 1000; //  10 minutes in milliseconds
+const IDLE_TIMEOUT = 15 * 60 * 1000; //  15 minutes in milliseconds
 const PING_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 export default function IdleLogout() {
@@ -12,19 +12,28 @@ export default function IdleLogout() {
         let pingTimeout;
 
         const handleActivity = () => {
+            if (localStorage.getItem('token')) { 
+            // Only reset timeout if user is logged in
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 handleLogout();
             }, IDLE_TIMEOUT);
-        };
+        }
+
+    };
 
         const handleLogout = () => {
+            if (localStorage.getItem('token')) { 
+            // Ensure user is logged in before logging out
             localStorage.removeItem('token');
             alert('You have been logged out due to inactivity.');
             navigate('/login');
-        };
+        }
+    };
 
         const pingServer = async () => {
+        if (localStorage.getItem('token')) { 
+        // Only ping server if user is logged in
             try {
                 const response = await fetch('http://localhost:4000/ping'); // Your server's ping endpoint
                 if (!response.ok) {
@@ -33,8 +42,11 @@ export default function IdleLogout() {
             } catch (error) {
                 handleLogout(); // Server is unreachable
             }
-        };
+        }
+    };
 
+         // Set up event listeners and initial timeout if logged in
+        if (localStorage.getItem('token')) {
         window.addEventListener('mousemove', handleActivity);
         window.addEventListener('keydown', handleActivity);
         window.addEventListener('click', handleActivity);
@@ -44,6 +56,7 @@ export default function IdleLogout() {
         // Start the server ping interval
         pingServer(); // Initial ping
         pingTimeout = setInterval(pingServer, PING_INTERVAL);
+    };
 
         return () => {
             clearTimeout(timeout);
