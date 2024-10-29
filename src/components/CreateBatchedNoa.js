@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../css/CreateBatchedNoa.css'
-import { FaUser, FaHospital, FaClipboardList, FaCalendar, FaIdCard, FaCalendarAlt, FaStethoscope  } from 'react-icons/fa'; // Importing icons
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
+import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { BsFillPersonFill, BsPlusCircleFill } from 'react-icons/bs';
 
 
 export default function CreateBatchedNoa() {
@@ -74,81 +74,199 @@ export default function CreateBatchedNoa() {
     }
 
 return (
-        <div>
-        <Container>
-            <h2>Create Batched NOA</h2>
-            <form onSubmit={registerBatchedNoa}>
-                <label>Patient ID:</label>
-                <input type="text" value={patientId} onChange={e => setPatientId(e.target.value)} required />
+    <Container className="my-4 mx-5">
+        <Card className="p-4 shadow-lg" style={{ backgroundColor: '#f8f9fa' }}>
+            <h2 className="text-center text-purple mb-4">Create Batched NOA</h2>
+            <Form onSubmit={registerBatchedNoa}>
+                
+                {/* Patient ID */}
+                <Form.Group controlId="patientId" className="mb-3">
+                    <Form.Label><BsFillPersonFill className="me-2 text-purple"/> Patient ID:</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        value={patientId} 
+                        onChange={e => setPatientId(e.target.value)} 
+                        required 
+                        className="bg-light border border-secondary"
+                    />
+                </Form.Group>
 
-                <label>Place of Service:</label>
-                <input type="text" value={placeOfService} onChange={e => setPlaceOfService(e.target.value)} required />
+                {/* Place of Service */}
+                <Form.Group controlId="placeOfService" className="mb-3">
+                    <Form.Label className="text-purple">Place of Service:</Form.Label>
+                    <Form.Select 
+                        value={placeOfService} 
+                        onChange={e => setPlaceOfService(e.target.value)} 
+                        required 
+                        className="bg-light border border-secondary"
+                    >
+                        <option value="" disabled>Select Place of Service</option>
+                        <option value="HOME">HOME</option>
+                        <option value="ALF">ALF</option>
+                        <option value="SNF">SNF</option>
+                        <option value="BNC">BNC</option>
+                    </Form.Select>
+                </Form.Group>
 
-                <label>Payer ID:</label>
-                <input type="text" value={payerId} onChange={e => setPayerId(e.target.value)} required />
+                {/* Payer ID */}
+                <Form.Group controlId="payerId" className="mb-3">
+                    <Form.Label className="text-purple">Payer ID:</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        value={payerId} 
+                        onChange={e => setPayerId(e.target.value)} 
+                        required 
+                        className="bg-light border border-secondary"
+                    />
+                </Form.Group>
 
-                <label>Member ID:</label>
-                <input type="text" value={memberId} onChange={e => setMemberId(e.target.value)} required />
+                {/* Member ID */}
+                <Form.Group controlId="memberId" className="mb-3">
+                    <Form.Label className="text-purple">Member ID:</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        value={memberId} 
+                        onChange={e => setMemberId(e.target.value)} 
+                        required 
+                        className="bg-light border border-secondary"
+                    />
+                </Form.Group>
 
-                <label>Admit Date:</label>
-                <input type="text" value={admitDate} onChange={e => setAdmitDate(e.target.value)} required />
+                {/* Admit Date */}
+                <Form.Group controlId="admitDate" className="mb-3">
+                    <Form.Label className="text-purple">Admit Date:</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        value={admitDate} 
+                        onChange={e => setAdmitDate(e.target.value)} 
+                        required 
+                        className="bg-light border border-secondary"
+                        placeholder="MM/DD/YYYY"
+                    />
+                </Form.Group>
 
-                <label>Type of Bill:</label>
-                <input type="text" value={typeOfBill} onChange={e => setTypeOfBill(e.target.value)} required />
+                {/* Type of Bill */}
+                <Form.Group controlId="typeOfBill" className="mb-3">
+                    <Form.Label className="text-purple">Type of Bill:</Form.Label>
+                    <Form.Select 
+                        type="text" 
+                        value={typeOfBill} 
+                        onChange={e => setTypeOfBill(e.target.value)} 
+                        required 
+                        className="bg-light border border-secondary"
+                    >
+                        <option value="" disabled>Select Type of Bill</option>
+                        <option value="81A">81A</option>
+                        <option value="81C">81C</option>
+                        <option value="81B">81B</option>
+                        <option value="81D">81D</option>
+                    </Form.Select>
+                </Form.Group>
 
-                <label>Primary Diagnosis:</label>
-                <input type="text" value={primaryDiagnosis} onChange={e => setPrimaryDiagnosis(e.target.value)} required />
+                {/* Primary Diagnosis */}
+                <Form.Group controlId="primaryDiagnosis" className="mb-3">
+                    <Form.Label className="text-purple">Primary Diagnosis:</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        value={primaryDiagnosis} 
+                        onChange={e => setPrimaryDiagnosis(e.target.value)} 
+                        required 
+                        className="bg-light border border-secondary"
+                    />
+                </Form.Group>
 
-                <fieldset>
-                    <legend>Attending MD:</legend>
-                    <label>Last Name:</label>
-                    <input type="text" value={AttMd.lastName} onChange={e => setAttMd({ ...AttMd, lastName: e.target.value })} required />
-                    
-                    <label>First Name:</label>
-                    <input type="text" value={AttMd.firstName} onChange={e => setAttMd({ ...AttMd, firstName: e.target.value })} required />
-                    
-                    <label>NPI:</label>
-                    <input type="text" value={AttMd.npi} onChange={e => setAttMd({ ...AttMd, npi: e.target.value })} required />
+                {/* Attending MD */}
+                <fieldset className="border p-3 rounded mb-4">
+                    <legend className="w-auto text-purple">Attending MD</legend>
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group controlId="attLastName" className="mb-3">
+                                <Form.Label className="text-purple">Last Name:</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    value={AttMd.lastName} 
+                                    onChange={e => setAttMd({ ...AttMd, lastName: e.target.value })} 
+                                    required 
+                                    className="bg-light border border-secondary"
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId="attFirstName" className="mb-3">
+                                <Form.Label className="text-purple">First Name:</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    value={AttMd.firstName} 
+                                    onChange={e => setAttMd({ ...AttMd, firstName: e.target.value })} 
+                                    required 
+                                    className="bg-light border border-secondary"
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={12}>
+                            <Form.Group controlId="attNPI" className="mb-3">
+                                <Form.Label className="text-purple">NPI:</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    value={AttMd.npi} 
+                                    onChange={e => setAttMd({ ...AttMd, npi: e.target.value })} 
+                                    required 
+                                    className="bg-light border border-secondary"
+                                    placeholder="10-digit number"
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
                 </fieldset>
 
-                <fieldset>
-                    <legend>Benefit Period</legend>
+                {/* Benefit Period */}
+                <fieldset className="border p-3 rounded mb-4">
+                    <legend className="w-auto text-purple">Benefit Period</legend>
                     {benefitPeriod.map((period, index) => (
-                        <div key={index}>
-                            <label>Benefit Number:</label>
-                            <input
-                                type="number"
-                                value={period.benefitNum}
-                                onChange={e => {
-                                    const newBenefitPeriod = [...benefitPeriod];
-                                    newBenefitPeriod[index].benefitNum = Number(e.target.value);
-                                    setBenefitPeriod(newBenefitPeriod);
-                                }}
-                                required
-                            />
-                            <label>Bene Start Date:</label>
-                            <input
-                                type="text"
-                                value={period.BeneStartDate}
-                                onChange={e => {
-                                    const newBenefitPeriod = [...benefitPeriod];
-                                    newBenefitPeriod[index].BeneStartDate = e.target.value;
-                                    setBenefitPeriod(newBenefitPeriod);
-                                }}
-                                required
-                                
-                            />
-                        </div>
+                        <Row key={index} className="align-items-center mb-2">
+                            <Col md={6}>
+                                <Form.Group controlId={`benefitNum-${index}`} className="mb-3">
+                                    <Form.Label className="text-purple">Benefit Number:</Form.Label>
+                                    <Form.Control 
+                                        type="number" 
+                                        value={period.benefitNum} 
+                                        onChange={e => {
+                                            const newBenefitPeriod = [...benefitPeriod];
+                                            newBenefitPeriod[index].benefitNum = Number(e.target.value);
+                                            setBenefitPeriod(newBenefitPeriod);
+                                        }} 
+                                        required 
+                                        className="bg-light border border-secondary"
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group controlId={`beneStartDate-${index}`} className="mb-3">
+                                    <Form.Label className="text-purple">Bene Start Date:</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        value={period.BeneStartDate} 
+                                        onChange={e => {
+                                            const newBenefitPeriod = [...benefitPeriod];
+                                            newBenefitPeriod[index].BeneStartDate = e.target.value;
+                                            setBenefitPeriod(newBenefitPeriod);
+                                        }} 
+                                        required
+                                        placeholder="MM/DD/YYYY" 
+                                        className="bg-light border border-secondary"
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
                     ))}
-                    <button type="button" onClick={() => setBenefitPeriod([...benefitPeriod, { benefitNum: '', BeneStartDate: '' }])}>
-                        Add Benefit Period
-                    </button>
+                    
                 </fieldset>
 
-                <button type="submit">Create Batched NOA</button>
-            </form>
-            </Container>
-        </div>
-    );
-}
-
+                <Button variant="primary" type="submit" className="w-100 mt-3">
+                    Create Batched NOA
+                </Button>
+            </Form>
+        </Card>
+    </Container>
+);
+};
