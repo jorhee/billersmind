@@ -23,7 +23,7 @@ export default function CreateBatchedNoa() {
         firstName: '',
         npi: ''
     });
-    const [benefitPeriod, setBenefitPeriod] = useState([{ benefitNum: '', BeneStartDate: '' }]);
+    const [benefitPeriod, setBenefitPeriod] = useState([{ benefitNum: 0, BeneStartDate: '' }]);
 
     async function registerBatchedNoa(e) {
         e.preventDefault();
@@ -121,7 +121,7 @@ return (
                                 value={period.benefitNum}
                                 onChange={e => {
                                     const newBenefitPeriod = [...benefitPeriod];
-                                    newBenefitPeriod[index].benefitNum = e.target.value;
+                                    newBenefitPeriod[index].benefitNum = Number(e.target.value);
                                     setBenefitPeriod(newBenefitPeriod);
                                 }}
                                 required
