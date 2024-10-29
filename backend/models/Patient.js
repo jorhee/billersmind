@@ -16,7 +16,7 @@ const patientSchema = new mongoose.Schema({
         set: v => v ? v.toUpperCase() : v // Convert to uppercase if the value exists
     },
     dateOfBirth: {
-        type: String,
+        type: Date,
         required: [true, 'Dob is required']
     },
     gender: {
@@ -56,11 +56,11 @@ const patientSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    NoaStatus: {
-        type: String,
-        enum: ['Not Sent', 'Sent'], // Added to track the NOA status
-        default: 'Not Sent' // Default status
-    },
+    noaId: {
+        type: mongoose.Schema.Types.ObjectId, // Reference to the BatchedNoa model
+        ref: 'BatchedNoa',
+        required: false
+        },
 }, {
     timestamps: true // Adds createdAt and updatedAt fields
 });

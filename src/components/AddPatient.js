@@ -94,7 +94,7 @@ export default function AddPatient() {
         <Form.Group>
           <Form.Label>Date of Birth:</Form.Label>
           <Form.Control
-            type="text"
+            type="date"
             placeholder="MM/DD/YYYY"
             required
             value={dateOfBirth}

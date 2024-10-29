@@ -86,7 +86,68 @@ const batchedNoaSchema = new mongoose.Schema({
                 message: 'NPI must be a 10-digit number.'
             }
         }
-    }
+    },
+    sentDate: {
+        type: String,
+        required: false,
+        validate: {
+            validator: validateDate,
+            message: 'Invalid date format for BeneStartDate.'
+        }
+    },
+    finalizedDate: {
+        type: String,
+        required: false,
+        validate: {
+            validator: validateDate,
+            message: 'Invalid date format for BeneStartDate.'
+        }
+    },
+    noaStatus:{
+        type: String,
+        required: false,
+        default: 'Initially sent'
+    },
+    dcDate: {
+        type: String,
+        required: false,
+        validate: {
+            validator: validateDate,
+            message: 'Invalid date format for BeneStartDate.'
+        }
+    },
+    dcReason: {
+        type: String,
+        required: false,
+        enum: ['Revoked.', 'Death.', 'Transfer to other Hospice.', 'Moves out of serice area.', 'No longer terminally ill.', 'Discharge for a cause.']
+    },
+    comments: [{
+       remarks: {
+        type: String,
+        required: false,        
+       },
+       actions:{
+        type: String,
+        required: false, 
+       },
+       status: {
+        type: String,
+        required: false,
+        enum: ['In-progress', 'Closed', 'Resolved'],
+        default: 'In-progress'
+       },
+       userId: {
+        type: mongoose.Schema.Types.ObjectId, // Reference to the User model
+        ref: 'User',
+        required: false
+        },
+       date: {
+        type: Date,
+        default: Date.now,
+        required: false
+       },
+    }]
+
 }, {
     timestamps: true // Adds createdAt and updatedAt fields
 });

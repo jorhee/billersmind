@@ -1,6 +1,7 @@
 import React from 'react';
 import '../css/Home.css';
 import { Container } from 'react-bootstrap';
+import bmlogo from '../components/images/bmlogo.jpg';
 
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
     <Container>
     <div className="home pb-0 m-0" id="home">
       <div className="home-img">
-        <img src="images/bmlogo.jpg" alt="Billers Mind Logo" />
+        <img src={bmlogo} alt="Billers Mind Logo" />
           <div className="social-icons text-center">
             <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
               <i className="bx bxl-linkedin-square"></i>
