@@ -90,10 +90,6 @@ const batchedNoaSchema = new mongoose.Schema({
     sentDate: {
         type: String,
         required: false,
-        validate: {
-            validator: validateDate,
-            message: 'Invalid date format for BeneStartDate.'
-        }
     },
     finalizedDate: {
         type: String,
@@ -120,6 +116,11 @@ const batchedNoaSchema = new mongoose.Schema({
         type: String,
         required: false,
         enum: ['Revoked.', 'Death.', 'Transfer to other Hospice.', 'Moves out of serice area.', 'No longer terminally ill.', 'Discharge for a cause.']
+    },
+    isNoaLate: {
+        type: Boolean,
+        default: false,
+        required: false
     },
     comments: [{
        remarks: {

@@ -31,7 +31,9 @@ module.exports.createBatchedNoa = async (req, res) => {
         typeOfBill,
         benefitPeriod,
         primaryDiagnosis,
-        AttMd
+        AttMd,
+        sentDate,
+        isNoaLate
     } = req.body; // Get the data from the request body
 
     try {
@@ -54,7 +56,7 @@ module.exports.createBatchedNoa = async (req, res) => {
         // Validate payerId
         const payer = await Payer.findById(payerId);
         if (!payer) {
-            return res.status(404).send({
+            return res.status(404).json({
                 message: 'Payer not found.'
             });
         }
@@ -62,7 +64,7 @@ module.exports.createBatchedNoa = async (req, res) => {
         /// Validate admitDate using validateDate function
         const admitDateValidation = validateDate(admitDate);
         if (!admitDateValidation.isValid) {
-            return res.status(400).send({
+            return res.status(400).json({
                 message: admitDateValidation.message
             });
         }
@@ -104,11 +106,11 @@ module.exports.createBatchedNoa = async (req, res) => {
                 BeneTermDate = new Date(BeneStartDate);
                 BeneTermDate.setUTCDate(BeneStartDate.getUTCDate() + 59);
             } else {
-                throw new Error("Invalid benefitNum value");
+                throw new notyf.error("Invalid benefitNum value");
             }
 
             if (!BeneTermDate) {
-                throw new Error("BeneTermDate could not be calculated");
+                throw new notyf.error("BeneTermDate could not be calculated");
             }
 
             // Format BeneTermDate to MM-DD-YYYY
@@ -122,7 +124,7 @@ module.exports.createBatchedNoa = async (req, res) => {
         }));
 
         
-
+            
          // Create a new Notice instance
         const newBatchedNoa = new BatchedNoa({
             providerId,
@@ -134,20 +136,22 @@ module.exports.createBatchedNoa = async (req, res) => {
             typeOfBill,
             benefitPeriod: parsedBenefitPeriod,
             primaryDiagnosis,
-            AttMd
+            AttMd,
+            sentDate,
+            isNoaLate
         });
-
+            
         // Save the Notice to the database
         const savedBatchedNoa = await newBatchedNoa.save();
 
         // Send success response
-        res.status(201).send({
+        res.status(201).json({
             message: 'Notice added successfully.',
             notice: savedBatchedNoa
         });
     } catch (error) {
         // Catch any errors and return a 500 status with the error message
-        res.status(500).send({
+        res.status(500).json({
             message: 'Error adding Notice',
             error: error.message
         });

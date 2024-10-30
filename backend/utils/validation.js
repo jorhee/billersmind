@@ -1,5 +1,4 @@
 // utils/validation.js
-const dayjs = require('dayjs');
 
 //v1.
 /*
@@ -93,47 +92,36 @@ module.exports.validateDate = (date) => {
 
 //v2. for date format not string.
 
-
-
     
-
-module.exports.dateValidator = (input) => {
-    // Check if the input matches the MM/DD/YYYY format
+// dateValidator.js
+/*module.exports.dateValidator = (input) => {
+    // Regular expression for validating MM/DD/YYYY format
     const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$/;
 
+    // Check if the input matches the regex
     if (!regex.test(input)) {
-        return {
-            valid: false,
-            message: 'Invalid date format. Please use MM/DD/YYYY.'
-        };
+        return { valid: false, message: 'Date must be in MM/DD/YYYY format.' };
     }
 
-    // Parse the input date
-    const parsedDate = dayjs(input, 'MM/DD/YYYY');
-
-    // Check if the parsed date is valid
-    if (!parsedDate.isValid()) {
-        return {
-            valid: false,
-            message: 'Invalid date. Please check the day and month values.'
-        };
+    const [month, day, year] = input.split('/').map(Number);
+    
+    // Check for valid days in the month
+    const daysInMonth = new Date(year, month, 0).getDate();
+    if (day > daysInMonth) {
+        return { valid: false, message: 'Invalid date: day exceeds the number of days in the month.' };
     }
 
-    // Return the valid date in the same format
-    return {
-        valid: true,
-        date: parsedDate.format('MM/DD/YYYY')
-    };
-}
-// Export the function as default
+    // Handle leap year check for February
+    if (month === 2 && day === 29) {
+        const isLeapYear = (year) => (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        if (!isLeapYear(year)) {
+            return { valid: false, message: 'Invalid date: February 29 is not valid in a non-leap year.' };
+        }
+    }
 
-
-
-// Example usage:
-/*
-const result = dateValidator('02/29/2024'); // Leap year
-if (result.valid) {
-    console.log(`Valid date: ${result.date}`);
-} else {
-    console.log(result.message);
+    // Return the date in MM/DD/YYYY format
+    return { valid: true, date: input }; // Return the date as inputted
 }*/
+
+
+

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../css/CreateBatchedNoa.css'
 
 import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { BsFillPersonFill, BsPlusCircleFill } from 'react-icons/bs';
+import { BsFillPersonFill } from 'react-icons/bs';
 
 
 export default function CreateBatchedNoa() {

@@ -19,7 +19,7 @@ const router = express.Router();
 router.post('/add-payer', verify, isLoggedIn, verifyAdmin, payerController.addPayer);
 
 // Route to retrieve all payers
-router.get('/all', verify, isLoggedIn, verifyAdmin, payerController.getAllPayers);
+router.get('/all', verify, isLoggedIn, payerController.getAllPayers);
 
 // Route to update a payer by ID
 router.put('/update/:id', verify, isLoggedIn, verifyAdmin, payerController.updatePayer);

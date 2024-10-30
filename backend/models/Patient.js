@@ -16,7 +16,7 @@ const patientSchema = new mongoose.Schema({
         set: v => v ? v.toUpperCase() : v // Convert to uppercase if the value exists
     },
     dateOfBirth: {
-        type: Date,
+        type: String,
         required: [true, 'Dob is required']
     },
     gender: {
@@ -56,11 +56,16 @@ const patientSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    noaId: {
+    noaId: [{
         type: mongoose.Schema.Types.ObjectId, // Reference to the BatchedNoa model
         ref: 'BatchedNoa',
         required: false
-        },
+    }],
+    finalClaimId: [{
+        type: mongoose.Schema.Types.ObjectId, // Reference to the FinalClaim model
+        ref: 'FinalClaim',
+        required: false
+    }]
 }, {
     timestamps: true // Adds createdAt and updatedAt fields
 });

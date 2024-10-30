@@ -14,13 +14,13 @@ const mongoose = require('mongoose');  // Import mongoose
 // export date validation from utils/dateValidation.js
 const validation = require("../utils/validation");
 
-const { validateDate, dateValidator } = validation;
+const { validateDate } = validation;
 
 
 
 //addpatient v1 date as string:
 
-/*module.exports.addPatient = async (req, res) => {
+module.exports.addPatient = async (req, res) => {
     const {
         lastName,
         firstName,
@@ -93,78 +93,8 @@ const { validateDate, dateValidator } = validation;
         });
     }
 };
-*/
 
-//addPatient v2 date as date format not as string with validator from dayjs:
 
-module.exports.addPatient = async (req, res) => {
-    const {
-        lastName,
-        firstName,
-        dateOfBirth,
-        gender,
-        address,
-        memberId
-    } = req.body;
-
-    const { providerId } = req.params; // Get providerId from req.params
-
-    try {
-        // Validate dateOfBirth
-        const dateValidationResult = dateValidator(dateOfBirth);
-        if (!dateValidationResult.valid) {
-            return res.status(400).send({
-                message: dateValidationResult.message // Return the validation message
-            });
-        }
-
-        // Check for duplicate patient based on normalized memberId and dateOfBirth
-        const existingPatient = await Patient.findOne({
-            memberId,
-            dateOfBirth: dateValidationResult.date // Use validated date
-        });
-
-        if (existingPatient) {
-            return res.status(400).send({
-                message: 'A patient with the same date of birth and memberId already exists.'
-            });
-        }
-
-        // Validate if providerId exists in the Provider collection
-        const provider = await Provider.findById(providerId);
-        if (!provider) {
-            return res.status(400).send({
-                message: 'Invalid providerId. Provider not found in the database.'
-            });
-        }
-
-        // Create a new patient instance
-        const newPatient = new Patient({
-            lastName,
-            firstName,
-            dateOfBirth: dateValidationResult.date, // Store the validated date
-            gender,
-            address,
-            memberId, // Store the normalized memberId
-            providerId // Store the validated providerId from params
-        });
-
-        // Save the patient to the database
-        const savedPatient = await newPatient.save();
-
-        // Send success response
-        res.status(201).send({
-            message: "Patient added successfully",
-            patient: savedPatient
-        });
-    } catch (error) {
-        // Catch any errors and return a 500 status with the error message
-        res.status(500).send({
-            message: 'Error adding patient',
-            error: error.message
-        });
-    }
-};
 
 
 // Controller to retrieve all patients

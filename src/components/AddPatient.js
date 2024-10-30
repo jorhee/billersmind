@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function AddPatient() {
@@ -62,14 +62,17 @@ export default function AddPatient() {
   }
 
   return (
-    <div className="text-auto">
+    <Container className="d-flex">
+    
+    <div className="text-purple bg-secondary px-5 w-100 p-5">
+    <div className="w-100">
       <Button variant="secondary" className="mt-3" onClick={() => navigate(`/me`)}>
         Back to Provider Dashboard
       </Button>
       <Form onSubmit={registerPatient}>
         <h1 className="my-5 text-center">Register New Patient</h1>
 
-        <Form.Group>
+        <Form.Group className="d-inline-block me-3">
           <Form.Label>Last Name:</Form.Label>
           <Form.Control
             type="text"
@@ -80,7 +83,7 @@ export default function AddPatient() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="d-inline-block me-3">
           <Form.Label>First Name:</Form.Label>
           <Form.Control
             type="text"
@@ -91,10 +94,10 @@ export default function AddPatient() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="d-inline-block me-3">
           <Form.Label>Date of Birth:</Form.Label>
           <Form.Control
-            type="date"
+            type="text"
             placeholder="MM/DD/YYYY"
             required
             value={dateOfBirth}
@@ -102,7 +105,7 @@ export default function AddPatient() {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className="d-inline-block me-3">
           <Form.Label>Gender:</Form.Label>
           <Form.Control
             as="select"
@@ -116,8 +119,8 @@ export default function AddPatient() {
             <option value="U">Unknown</option>
           </Form.Control>
         </Form.Group>
-
-        <Form.Group>
+        <br/>
+        <Form.Group className="d-inline-block me-3 w-50">
           <Form.Label>Address:</Form.Label>
           <Form.Control
             type="text"
@@ -127,7 +130,7 @@ export default function AddPatient() {
           />
         </Form.Group>
         
-        <Form.Group>
+        <Form.Group className="d-inline-block me-3">
           <Form.Label>City:</Form.Label>
           <Form.Control
             type="text"
@@ -137,7 +140,7 @@ export default function AddPatient() {
           />
         </Form.Group>
         
-        <Form.Group>
+        <Form.Group className="d-inline-block me-3">
           <Form.Label>State:</Form.Label>
           <Form.Control
             type="text"
@@ -147,7 +150,7 @@ export default function AddPatient() {
           />
         </Form.Group>
         
-        <Form.Group>
+        <Form.Group className="d-inline-block me-3">
           <Form.Label>Zip Code:</Form.Label>
           <Form.Control
             type="text"
@@ -157,7 +160,7 @@ export default function AddPatient() {
           />
         </Form.Group>
         
-        <Form.Group>
+        <Form.Group className="d-block w-25">
           <Form.Label>Member ID:</Form.Label>
           <Form.Control
             type="text"
@@ -175,6 +178,9 @@ export default function AddPatient() {
           </Button>
         </div>
       </Form>
+      </div>
     </div>
+    
+    </ Container>
   );
 }
