@@ -143,7 +143,7 @@ const batchedNoaSchema = new mongoose.Schema({
         required: false
         },
        date: {
-        type: Date,
+        type: String,
         default: Date.now,
         required: false
        },

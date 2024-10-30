@@ -52,7 +52,6 @@ export default function ProviderCard() {
                 </Link>
                 </Card.Title>
             <Card.Text>Billers Mind BPO Clients</Card.Text>
-            
             {/* Bootstrap Table for displaying providers */}
             <Table striped bordered hover responsive="md" className="mt-3">
                 <thead>
@@ -70,7 +69,7 @@ export default function ProviderCard() {
                         <th>Tax ID</th>
                         <th>Created At</th>
                         <th>Updated At</th>
-                        <th>Added By</th> {/* New column for user who added the provider */}
+                        <th>Added By</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,19 +97,15 @@ export default function ProviderCard() {
                             </tr>
                         ))
                     ) : (
-                        <tr>
-                            <td colSpan="14" className="text-center"> {/* Adjusted colspan for new column */}
+                        <tr><td colSpan="14" className="text-center"> {/* Adjusted colspan for new column */}
                                 No Providers Found
-                            </td>
-                        </tr>
+                            </td></tr>
                     )}
                 </tbody>
                         </Table>
-                    </Card.Body>
-
-                    
+                    </Card.Body>  
+                             
                 </div>
-            </Card>
-
+            </Card>  
     );
 }

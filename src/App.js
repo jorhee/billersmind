@@ -41,7 +41,6 @@ function App() {
     <Router>
       <Navbar/>
       <IdleTimeout />
-      
       <Routes>
         <Route path="*" element={<ErrorPage />} />
         <Route path="/" element={<><Home /></>} />
@@ -59,11 +58,7 @@ function App() {
         <Route path="/patients/:providerId/all" element={<><PatientsCard /><BatchedNoaCard/></>} />
         <Route path="/batchedNoa/:providerId/all" element={<BatchedNoaListsPage />} />
         <Route path="/batchedNoa/:providerId/batch" element={<CreateBatchedNoa />} />
-        
-
-
       </Routes>
-      
       <Footer />
     </Router>
     </Container>

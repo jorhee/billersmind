@@ -42,7 +42,7 @@ module.exports.createBatchedNoa = async (req, res) => {
 
         const provider = await Provider.findById(providerId);
         if (!provider) {
-            return res.status(404).json({ message: 'Provider not found.' });
+            return res.status(404).send({ message: 'Provider not found.' });
         }
 
         // Fetch the patients associated with the provider
@@ -50,13 +50,13 @@ module.exports.createBatchedNoa = async (req, res) => {
 
         // Check if there are patients for the given provider
         if (!patients.length) {
-            return res.status(404).json({ message: 'No patients found for this provider.' });
+            return res.status(404).send({ message: 'No patients found for this provider.' });
         }
 
         // Validate payerId
         const payer = await Payer.findById(payerId);
         if (!payer) {
-            return res.status(404).json({
+            return res.status(404).send({
                 message: 'Payer not found.'
             });
         }
@@ -64,7 +64,7 @@ module.exports.createBatchedNoa = async (req, res) => {
         /// Validate admitDate using validateDate function
         const admitDateValidation = validateDate(admitDate);
         if (!admitDateValidation.isValid) {
-            return res.status(400).json({
+            return res.status(400).send({
                 message: admitDateValidation.message
             });
         }
@@ -78,7 +78,7 @@ module.exports.createBatchedNoa = async (req, res) => {
         });
 
         if (existingNoa) {
-            return res.status(400).json({ message: 'Duplicate entry found for the same Patient ID, Admit Date, and Payer ID.' });
+            return res.status(400).send({ message: 'Duplicate entry found for the same Patient ID, Admit Date, and Payer ID.' });
         }
 
          // Validate benefitPeriod dates and calculate BeneTermDate
@@ -106,11 +106,11 @@ module.exports.createBatchedNoa = async (req, res) => {
                 BeneTermDate = new Date(BeneStartDate);
                 BeneTermDate.setUTCDate(BeneStartDate.getUTCDate() + 59);
             } else {
-                throw new notyf.error("Invalid benefitNum value");
+                throw new Error("Invalid benefitNum value");
             }
 
             if (!BeneTermDate) {
-                throw new notyf.error("BeneTermDate could not be calculated");
+                throw new Error("BeneTermDate could not be calculated");
             }
 
             // Format BeneTermDate to MM-DD-YYYY
@@ -123,8 +123,37 @@ module.exports.createBatchedNoa = async (req, res) => {
             };
         }));
 
+            // Automatically set the sentDate to the current date and format it as MM/DD/YYYY
+        const sentDate = (() => {
+            const today = new Date();
+            const month = String(today.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const day = String(today.getUTCDate()).padStart(2, '0');
+            const year = today.getUTCFullYear();
+            return `${month}/${day}/${year}`;
+        })();
+
+        // Calculate the difference in days between admitDate and sentDate
+        const admitDateParts = admitDateValidation.parsedDate.split('/').map(num => parseInt(num, 10));
+        const parsedAdmitDate = new Date(Date.UTC(admitDateParts[2], admitDateParts[0] - 1, admitDateParts[1]));
+
+        const sentDateParts = sentDate.split('/').map(num => parseInt(num, 10));
+        const parsedSentDate = new Date(Date.UTC(sentDateParts[2], sentDateParts[0] - 1, sentDateParts[1]));
+
+        const timeDifference = parsedSentDate - parsedAdmitDate; // Difference in milliseconds
+        const dayDifference = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+
+        // Set isNoaLate to true if the sentDate is more than 5 days after admitDate
+        const isNoaLate = dayDifference > 5;
+
+        // Create the comment if isNoaLate is true
+        const comments = isNoaLate ? [{
+            remarks: `Late NOA sent on ${sentDate}`,
+            actions: null, // or whatever action you want to define
+            status: 'In-progress',
+            userId: null, // Assuming you will fill this in later
+            date: new Date() // Automatically set the date to now
+        }] : [];
         
-            
          // Create a new Notice instance
         const newBatchedNoa = new BatchedNoa({
             providerId,
@@ -138,20 +167,21 @@ module.exports.createBatchedNoa = async (req, res) => {
             primaryDiagnosis,
             AttMd,
             sentDate,
-            isNoaLate
+            isNoaLate,
+            comments
         });
             
         // Save the Notice to the database
         const savedBatchedNoa = await newBatchedNoa.save();
 
         // Send success response
-        res.status(201).json({
+        res.status(201).send({
             message: 'Notice added successfully.',
             notice: savedBatchedNoa
         });
     } catch (error) {
         // Catch any errors and return a 500 status with the error message
-        res.status(500).json({
+        res.status(500).send({
             message: 'Error adding Notice',
             error: error.message
         });

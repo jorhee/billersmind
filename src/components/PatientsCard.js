@@ -76,7 +76,6 @@ return (
                         </Link>
                     </Card.Title>
                     <Card.Text>All Patients for Provider: {providerName}</Card.Text>
-
                     <Table striped bordered hover responsive="md" className="mt-3">
                         <thead>
                             <tr>
