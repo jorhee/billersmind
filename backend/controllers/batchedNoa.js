@@ -69,7 +69,7 @@ module.exports.createBatchedNoa = async (req, res) => {
             });
         }
 
-        console.log(admitDateValidation);
+        
         // Check for duplicate entries in the BatchedNoa collection
         const existingNoa = await BatchedNoa.findOne({
             patientId,

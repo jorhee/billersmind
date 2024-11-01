@@ -6,8 +6,10 @@ export default function BatchedNoaCard() {
     const navigate = useNavigate();
     const location = useLocation();
     const { providerId } = useParams(); // Get providerId from URL parameters
+    const { patientId } = useParams(); // Get providerId from URL parameters
     const [batchedNoas, setBatchedNoas] = useState([]);
     const [providerName, setProviderName] = useState('');
+    const [patientData, setPatientData] = useState({});
 
     // Fetch Batched NOAs and provider name by providerId
     useEffect(() => {
@@ -55,6 +57,25 @@ export default function BatchedNoaCard() {
                 console.log('Fetched Provider:', providerData); // Debugging log
                 setProviderName(providerData.name);
 
+
+                 // Fetch each patient’s name based on patientId in batchedNoas
+                const patientDataMap = {};
+                for (const noa of batchedNoasData) {
+                    const { patientId } = noa;
+                    if (patientId && !patientDataMap[patientId]) {
+                        const patientResponse = await fetch(`http://localhost:4000/patients/${patientId}`, {
+                            method: 'GET',
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${token}`
+                            }
+                        });
+                        if (!patientResponse.ok) throw new Error(`Patient fetch error: ${patientResponse.status}`);
+                        const patientInfo = await patientResponse.json();
+                        patientDataMap[patientId] = `${patientInfo.lastName}, ${patientInfo.firstName}`;
+                    }
+                }
+                setPatientData(patientDataMap);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -85,9 +106,12 @@ return (
                                 <th>Place of Service</th>
                                 <th>Admit Date</th>
                                 <th>Type of Bill</th>
-                                <th>Benefit Period#</th>
+                                <th>Bene#</th>
                                 <th>Bene Start Date</th>
                                 <th>Bene Term Date</th>
+                                <th>Sent Date</th>
+                                <th>Finalized Date</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,7 +123,7 @@ return (
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <td>{index + 1}</td>
-                                        <td>{`${noa.AttMd.lastName || 'N/A'}, ${noa.AttMd.firstName || 'N/A'}`}</td>
+                                        <td>{patientData[noa.patientId] || 'N/A'}</td>
                                         <td>{noa.memberId || 'N/A'}</td>
                                         <td>{noa.placeOfService || 'N/A'}</td>
                                         <td>{noa.admitDate || 'N/A'}</td>
@@ -119,6 +143,9 @@ return (
                                                 ? noa.benefitPeriod.map(benefit => benefit.BeneTermDate).join(', ') 
                                                 : 'N/A'}
                                         </td>
+                                        <td>{noa.sentDate || 'N/A'}</td>
+                                        <td>{noa.finalizedDate}</td>
+                                        <td>{noa.noaStatus || 'N/A'}</td>
                                     </tr>
                                 ))
                             ) : (
