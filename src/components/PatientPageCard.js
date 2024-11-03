@@ -4,12 +4,16 @@ import { Card, Table, Button } from 'react-bootstrap';
 import { FaUser, FaBirthdayCake, FaMapMarkerAlt, FaHospital } from 'react-icons/fa';
 
 export default function PatientPageCard() {
-const navigate = useNavigate();
+    const navigate = useNavigate();
     const { patientId } = useParams();
     const [patient, setPatient] = useState(null);
     const [noaData, setNoaData] = useState([]);
     const [providerData, setProviderData] = useState(null);
     const [payerNames, setPayerNames] = useState({}); // State to store payer names by payerId
+
+    const handleRowClick = (noaId) => {
+        navigate(`/batchedNoa/${noaId}`);
+    };
 
     useEffect(() => {
         const fetchPatientData = async () => {
@@ -86,6 +90,8 @@ const navigate = useNavigate();
 
     if (!patient) return <p>Loading patient data...</p>;
 
+    
+
     return (
     <Card className="m-3 p-3">
         <Card.Header>
@@ -141,7 +147,7 @@ const navigate = useNavigate();
                     </thead>
                     <tbody>
                         {noaData.map((noa, index) => (
-                            <tr key={noa._id}>
+                            <tr key={noa._id} onClick={() => handleRowClick(noa._id)} style={{ cursor: 'pointer' }}>
                                 <td>{index + 1}</td>
                                 <td>{payerNames[noa.payerId] || 'Fetching payer...'}</td>
                                 <td>{noa.memberId}</td>
