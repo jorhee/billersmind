@@ -21,13 +21,13 @@ router.get('/:providerId/all', verify, isLoggedIn, batchedNoaController.getAllNo
 router.get('/all', verify, isLoggedIn, batchedNoaController.getAllNoticesOfElection);
 
 // Route to retrieve a Notice of Election by ID
-router.get('/:id', verify, isLoggedIn, batchedNoaController.getNoaById);
+router.get('/:noaId', verify, isLoggedIn, batchedNoaController.getNoaById);
 
 // Route to update a Notice of Election by ID
-router.put('/update/:id', verify, isLoggedIn, batchedNoaController.updateNoticeOfElection);
+router.put('/update/:noaId', verify, isLoggedIn, batchedNoaController.updateNoticeOfElection);
 
 // Route to delete a Notice of Election by ID
-router.delete('/delete/:id', verify, isLoggedIn, batchedNoaController.deleteNoticeOfElection);
+router.delete('/delete/:noaId', verify, isLoggedIn, batchedNoaController.deleteNoticeOfElection);
 
 
 

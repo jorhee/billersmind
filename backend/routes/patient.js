@@ -24,13 +24,13 @@ router.get('/:providerId/all', verify, isLoggedIn, patientController.getAllPatie
 router.get('/all', verify, isLoggedIn, patientController.getAllPatients);
 
 // Route to retrieve a patient by ID
-router.get('/:id', verify, isLoggedIn, patientController.getPatientById);
+router.get('/:patientId', verify, isLoggedIn, patientController.getPatientById);
 
 // Route to update a patient by ID
-router.put('/:id', verify, isLoggedIn, patientController.updatePatient);
+router.put('/:patientId', verify, isLoggedIn, patientController.updatePatient);
 
 // Route to delete a patient by ID
-router.delete('/delete/:id', verify, isLoggedIn, patientController.deletePatient);
+router.delete('/:patientId', verify, isLoggedIn, patientController.deletePatient);
 
 
 

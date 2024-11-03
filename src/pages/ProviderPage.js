@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { FaUserMd, FaMapMarkerAlt, FaPhone, FaFax, FaIdBadge } from 'react-icons/fa';
-import PatientsCard from '../components/PatientsCard';
+import PatientsListCard from '../components/PatientsListCard';
 import BatchedNoaCard from '../components/BatchedNoaCard';
 
 import ProviderDropdown from '../components/ProviderDropdown';
@@ -154,7 +154,7 @@ export default function ProviderPage () {
         </Row>
       )}
     </Container>
-    <PatientsCard />
+    <PatientsListCard />
     <BatchedNoaCard />
     
     

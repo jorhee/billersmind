@@ -112,10 +112,10 @@ module.exports.getAllPatients = async (req, res) => {
 
 // Controller to retrieve a single patient by ID
 module.exports.getPatientById = async (req, res) => {
-    const { id } = req.params; // Get patient ID from request parameters
+    const { patientId } = req.params; // Get patient ID from request parameters
 
     try {
-        const patient = await Patient.findById(id); // Find patient by ID
+        const patient = await Patient.findById(patientId); // Find patient by ID
 
         if (!patient) {
             return res.status(404).send({
@@ -161,11 +161,11 @@ module.exports.getAllPatientsByProviderId = async (req, res) => {
 
 // Controller to update a patient by ID
 module.exports.updatePatient = async (req, res) => {
-    const { id } = req.params; // Get patient ID from request parameters
+    const { patientId } = req.params; // Get patient ID from request parameters
     const updates = req.body; // Get the updates from the request body
 
     try {
-        const updatedPatient = await Patient.findByIdAndUpdate(id, updates, {
+        const updatedPatient = await Patient.findByIdAndUpdate(patientId, updates, {
             new: true, // Return the updated document
             runValidators: true // Validate the update against the schema
         });
@@ -190,10 +190,10 @@ module.exports.updatePatient = async (req, res) => {
 
 // Controller to delete a patient by ID
 module.exports.deletePatient = async (req, res) => {
-    const { id } = req.params; // Get patient ID from request parameters
+    const { patientId } = req.params; // Get patient ID from request parameters
 
     try {
-        const deletedPatient = await Patient.findByIdAndDelete(id); // Find and delete the patient
+        const deletedPatient = await Patient.findByIdAndDelete(patientId); // Find and delete the patient
 
         if (!deletedPatient) {
             return res.status(404).send({

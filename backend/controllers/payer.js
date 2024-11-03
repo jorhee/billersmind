@@ -78,12 +78,12 @@ module.exports.getAllPayers = async (req, res) => {
 // Controller to update a payer by ID
 
 module.exports.updatePayer = async (req, res) => {
-    const { id } = req.params; // Get the payer ID from the request parameters
+    const { payerId } = req.params; // Get the payer ID from the request parameters
     const updates = req.body;  // Get the updated data from the request body
 
     try {
         // Find and update the payer by ID
-        const updatedPayer = await Payer.findByIdAndUpdate(id, updates, {
+        const updatedPayer = await Payer.findByIdAndUpdate(payerId, updates, {
             new: true, // Return the updated document
             runValidators: true // Run validation on the updated data
         });
@@ -110,10 +110,10 @@ module.exports.updatePayer = async (req, res) => {
 
 // Controller to delete a payer by ID
 module.exports.deletePayer = async (req, res) => {
-    const { id } = req.params; // Get the payer ID from request parameters
+    const { payerId } = req.params; // Get the payer ID from request parameters
 
     try {
-        const deletedPayer = await Payer.findByIdAndDelete(id); // Find and delete the payer
+        const deletedPayer = await Payer.findByIdAndDelete(payerId); // Find and delete the payer
 
         if (!deletedPayer) {
             return res.status(404).send({

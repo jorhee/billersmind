@@ -6,7 +6,6 @@ export default function BatchedNoaCard() {
     const navigate = useNavigate();
     const location = useLocation();
     const { providerId } = useParams(); // Get providerId from URL parameters
-   
     const [batchedNoas, setBatchedNoas] = useState([]);
     const [providerName, setProviderName] = useState('');
     const [patientData, setPatientData] = useState({});
@@ -70,6 +69,7 @@ export default function BatchedNoaCard() {
                                 "Authorization": `Bearer ${token}`
                             }
                         });
+
                         if (!patientResponse.ok) throw new Error(`Patient fetch error: ${patientResponse.status}`);
                         const patientInfo = await patientResponse.json();
                         patientDataMap[patientId] = `${patientInfo.lastName}, ${patientInfo.firstName}`;
@@ -123,7 +123,7 @@ return (
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <td>{index + 1}</td>
-                                        <td>{patientData[noa.patientId] || 'N/A'}</td>
+                                        <td>{patientData[noa.patientId] || 'Not Found'}</td>
                                         <td>{noa.memberId || 'N/A'}</td>
                                         <td>{noa.placeOfService || 'N/A'}</td>
                                         <td>{noa.admitDate || 'N/A'}</td>

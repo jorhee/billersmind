@@ -22,10 +22,10 @@ router.post('/add-payer', verify, isLoggedIn, verifyAdmin, payerController.addPa
 router.get('/all', verify, isLoggedIn, payerController.getAllPayers);
 
 // Route to update a payer by ID
-router.put('/update/:id', verify, isLoggedIn, verifyAdmin, payerController.updatePayer);
+router.put('/:payerId', verify, isLoggedIn, verifyAdmin, payerController.updatePayer);
 
 // Route to delete a payer
-router.delete('/delete/:id', verify, isLoggedIn, verifyAdmin, payerController.deletePayer);
+router.delete('/:payerId', verify, isLoggedIn, verifyAdmin, payerController.deletePayer);
 
 //[export route system]
 module.exports = router;
