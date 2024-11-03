@@ -64,6 +64,7 @@ module.exports.getAllPayers = async (req, res) => {
         // Retrieve all payers from the database
         const payers = await Payer.find();
 
+
         // Send success response with the list of payers
         res.status(200).send(payers);
     } catch (error) {
@@ -72,6 +73,23 @@ module.exports.getAllPayers = async (req, res) => {
             message: 'Error retrieving payers',
             error: error.message
         });
+    }
+};
+
+
+//Get payer by ID:
+
+module.exports.getPayerById = async (req, res) => {
+
+try {
+        const payer = await Payer.findById(req.params.payerId);
+        if (!payer) {
+            return res.status(404).json({ message: 'Payer not found' });
+        }
+        res.json(payer);
+    } catch (error) {
+        console.error('Error fetching payer:', error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 

@@ -22,7 +22,10 @@ router.post('/add-payer', verify, isLoggedIn, verifyAdmin, payerController.addPa
 router.get('/all', verify, isLoggedIn, payerController.getAllPayers);
 
 // Route to update a payer by ID
-router.put('/:payerId', verify, isLoggedIn, verifyAdmin, payerController.updatePayer);
+router.put('/:payerId', verify, isLoggedIn, payerController.updatePayer);
+
+//Route to retrieve a payer by ID
+router.get('/:payerId', verify, isLoggedIn, payerController.getPayerById);
 
 // Route to delete a payer
 router.delete('/:payerId', verify, isLoggedIn, verifyAdmin, payerController.deletePayer);
