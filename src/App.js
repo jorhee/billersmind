@@ -12,8 +12,8 @@ import AddProvider from './components/AddProvider';
 import AddPayer from './components/AddPayer';
 import AddUser from './components/AddUser';
 import AddPatient from './components/AddPatient';
-import PatientsCard from './components/PatientsCard';
-import BatchedNoaCard from './components/BatchedNoaCard';
+import PatientsListCard from './components/PatientsListCard';
+
 import CreateBatchedNoa from './components/CreateBatchedNoa';
 
 
@@ -55,7 +55,7 @@ function App() {
         <Route path="/payers/all" element={<Payer />} />
         <Route path="/providers/:providerId" element={<ProviderPage />} />
         <Route path="/patients/:providerId/add-patient" element={<AddPatient />} />
-        <Route path="/patients/:providerId/all" element={<><PatientsCard /><BatchedNoaCard/></>} />
+        <Route path="/patients/:providerId/all" element={<><PatientsListCard /></>} />
         <Route path="/batchedNoa/:providerId/all" element={<BatchedNoaListsPage />} />
         <Route path="/batchedNoa/:providerId/batch" element={<CreateBatchedNoa />} />
       </Routes>

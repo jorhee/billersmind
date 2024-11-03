@@ -6,7 +6,7 @@ export default function BatchedNoaCard() {
     const navigate = useNavigate();
     const location = useLocation();
     const { providerId } = useParams(); // Get providerId from URL parameters
-    const { patientId } = useParams(); // Get providerId from URL parameters
+   
     const [batchedNoas, setBatchedNoas] = useState([]);
     const [providerName, setProviderName] = useState('');
     const [patientData, setPatientData] = useState({});
