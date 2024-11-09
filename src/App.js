@@ -29,6 +29,7 @@ import Login from './pages/Login';
 import Payer from './pages/Payer';
 import ProviderPage from './pages/ProviderPage';
 import BatchedNoaListsPage from './pages/BatchedNoaListsPage';
+import SentElecClaims from './pages/SentElecClaims';
 
 
 
@@ -61,6 +62,7 @@ function App() {
         <Route path="/patients/:patientId" element={<><PatientPageCard /></>} />
         <Route path="/batchedNoa/:providerId/all" element={<BatchedNoaListsPage />} />
         <Route path="/batchedNoa/:providerId/batch" element={<CreateBatchedNoa />} />
+        <Route path="/patients/edi" element={<SentElecClaims />} />
       </Routes>
       <Footer />
     </Router>
