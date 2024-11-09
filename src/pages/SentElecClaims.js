@@ -147,9 +147,11 @@ function SentElecClaims() {
 
 export default SentElecClaims;
 */
+//table version 1:
+
 import React, { useState } from 'react';
 import { parseEDIFile } from '../components/ediParser';
-import PatientInfo from '../components/PatientInfo';
+import { Table } from 'react-bootstrap';
 
 function SentElecClaims() {
   const [file, setFile] = useState(null);
@@ -203,14 +205,39 @@ function SentElecClaims() {
         </div>
       )}
 
-      {/* Display parsed patient data */}
+      {/* Display patient data in a React Bootstrap Table */}
       <div>
         {patients.length > 0 ? (
-          patients.map((patient, index) => (
-            <div key={index}>
-              <PatientInfo patient={patient} />
-            </div>
-          ))
+          <Table striped bordered hover responsive>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Member ID</th>
+                <th>Address</th>
+                <th>DOB</th>
+                <th>Gender</th>
+                <th>Insurance Name</th>
+                <th>Payer ID</th> {/* New column for payer ID */}
+                <th>Claim ID</th>
+                <th>Claim Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {patients.map((patient, index) => (
+                <tr key={index}>
+                  <td>{patient.firstName} {patient.lastName}</td>
+                  <td>{patient.memberID}</td>
+                  <td>{patient.address}, {patient.city}, {patient.state} {patient.zip}</td>
+                  <td>{patient.dob}</td>
+                  <td>{patient.gender}</td>
+                  <td>{patient.insurance?.payerName}</td>
+                  <td>{patient.insurance?.payerID}</td> {/* Display payer ID */}
+                  <td>{patient.claim?.claimID}</td>
+                  <td>{patient.claim?.amount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         ) : (
           <p>No patients to display.</p>
         )}
