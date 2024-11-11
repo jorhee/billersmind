@@ -30,6 +30,7 @@ import Payer from './pages/Payer';
 import ProviderPage from './pages/ProviderPage';
 import BatchedNoaListsPage from './pages/BatchedNoaListsPage';
 import SentElecClaims from './pages/SentElecClaims';
+import ContactUs from './pages/ContactUs';
 
 
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="/" element={<><Home /></>} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/me" element={<ProfilePage />} />
         <Route path="/register" element={<AddUser />} />

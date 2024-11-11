@@ -1,63 +1,48 @@
-
-/*
-export default function About () {
-  return (
-    <section id="about" style={{ padding: '20px' }}>
-      <h3>About Us</h3>
-      <p>Billers Mind BPO is committed to providing top-notch business process outsourcing services.</p>
-      
-    </section>
-  );
-}*/
-
 import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { FaBrain, FaUsers, FaRegHandshake } from 'react-icons/fa';
+import '../css/About.css';
 
 export default function About()  {
   return (
-    <Container className="my-5" id="about">
-      <h1 className="text-center mb-4" style={{ color: '#6a0dad' }}>About Us</h1>
+    <div className="about-container">
+      <h1 className="about-header">About Us</h1>
 
-      {/* Mission and Vision */}
-      <Row className="text-center mb-5">
-        <Col md={6} className="mb-4">
-          <FaBrain size={50} style={{ color: '#6a0dad' }} />
-          <h3 className="mt-3">Our Mission</h3>
-          <p>
-            At Billers Mind BPO, our mission is to streamline and enhance business processes,
-            providing tailored solutions that empower businesses to focus on growth.
-          </p>
-        </Col>
-        <Col md={6} className="mb-4">
-          <FaRegHandshake size={50} style={{ color: '#6a0dad' }} />
-          <h3 className="mt-3">Our Vision</h3>
-          <p>
-            To be a leading BPO provider recognized for innovative, tech-driven solutions
-            and unmatched client support that fosters long-term partnerships.
-          </p>
-        </Col>
-      </Row>
+      <p className="about-description">
+        Billers Mind BPO specializes in providing comprehensive medical billing and quality services
+        tailored for home health, hospice, and other healthcare providers. Our team is dedicated to
+        empowering healthcare organizations to focus on their primary mission—delivering outstanding patient care.
+      </p>
 
-      {/* Team Section */}
-      <h2 className="text-center mb-4">Meet the Team</h2>
-      <Row>
-        {/* Example team member */}
-        <Col md={4} className="mb-4">
-          <Card className="h-100">
-            <Card.Body className="text-center">
-              <FaUsers size={50} style={{ color: '#6a0dad' }} />
-              <Card.Title className="mt-3">John Doe</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">CEO & Founder</Card.Subtitle>
-              <Card.Text>
-                John brings over a decade of experience in the BPO industry, guiding our team with
-                passion and expertise.
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        {/* Repeat similar columns for other team members */}
-      </Row>
-    </Container>
+      <div className="about-section">
+        <h2 className="about-section-header">Vision</h2>
+        <p className="about-text">
+          To become the most trusted partner for healthcare providers, delivering exceptional medical
+          billing and quality services that empower clinicians and organizations to focus on what matters
+          most—improving patient care and outcomes.
+        </p>
+      </div>
+
+      <div className="about-section">
+        <h2 className="about-section-header">Mission</h2>
+        <p className="about-text">
+          At Billers Mind BPO, our mission is to streamline healthcare administration for home health,
+          hospice, and other medical services by providing accurate, efficient, and reliable billing and
+          quality solutions. We aim to reduce the financial and administrative burdens on healthcare
+          providers, ensuring they receive timely reimbursements and have the support needed to maintain
+          high standards of care.
+        </p>
+      </div>
+
+      <div className="about-section">
+        <h2 className="about-section-header">Goals</h2>
+        <ul className="about-list">
+          <li>Optimize Billing Accuracy: Minimize errors and denials to improve revenue cycles, ensuring providers are promptly reimbursed for their services.</li>
+          <li>Enhance Client Satisfaction: Deliver exceptional support and tailored services that exceed the expectations of our healthcare clients.</li>
+          <li>Drive Operational Efficiency: Continuously improve our processes and adopt innovative technologies to offer faster, more effective billing solutions.</li>
+          <li>Support Compliance and Quality: Maintain rigorous quality control standards to ensure adherence to industry regulations and provide reliable data insights for quality improvement in patient care.</li>
+          <li>Foster Long-Term Partnerships: Build trust and loyalty by consistently meeting our clients’ needs and helping them achieve financial and operational success.</li>
+        </ul>
+      </div>
+    </div>
   );
 };
+

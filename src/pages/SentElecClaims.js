@@ -148,7 +148,6 @@ function SentElecClaims() {
 export default SentElecClaims;
 */
 //table version 1:
-
 import React, { useState } from 'react';
 import { parseEDIFile } from '../components/ediParser';
 import { Table } from 'react-bootstrap';
@@ -220,6 +219,9 @@ function SentElecClaims() {
                 <th>Payer ID</th> {/* New column for payer ID */}
                 <th>Claim ID</th>
                 <th>Claim Amount</th>
+                <th>Facility Code</th> {/* New column for facility code */}
+                <th>Service Date</th> {/* New column for service date */}
+                <th>Service Type</th> {/* New column for service type */}
               </tr>
             </thead>
             <tbody>
@@ -234,6 +236,9 @@ function SentElecClaims() {
                   <td>{patient.insurance?.payerID}</td> {/* Display payer ID */}
                   <td>{patient.claim?.claimID}</td>
                   <td>{patient.claim?.amount}</td>
+                  <td>{patient.claim?.facilityCode}</td> {/* Display facility code */}
+                  <td>{patient.claim?.serviceDate}</td> {/* Display service date */}
+                  <td>{patient.claim?.serviceType}</td> {/* Display service type */}
                 </tr>
               ))}
             </tbody>

@@ -313,7 +313,7 @@ export function parseEDIFile(text) {
 }
 */
 
-/*
+
 export function parseEDIFile(text) {
   const lines = text.split('~');
   const patients = [];
@@ -390,8 +390,8 @@ export function parseEDIFile(text) {
   // Return patients and providerInfo (only one provider per file)
   return { patients, providerInfo };
 }
-*/
 
+/*
 export function parseEDIFile(text) {
   const lines = text.split('~');
   const patients = [];
@@ -467,3 +467,4 @@ export function parseEDIFile(text) {
   // Return both patients and providerInfo (the provider is shared for all patients)
   return { patients, providerInfo };
 }
+*/
