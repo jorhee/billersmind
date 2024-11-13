@@ -1,3 +1,5 @@
+import React from 'react';
+
 import UserProfileCard from '../components/UserProfileCard';
 import ProviderCard from '../components/ProviderCard';
 

@@ -314,6 +314,7 @@ export function parseEDIFile(text) {
 */
 
 
+
 export function parseEDIFile(text) {
   const lines = text.split('~');
   const patients = [];
