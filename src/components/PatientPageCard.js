@@ -23,7 +23,7 @@ export default function PatientPageCard() {
                 const token = localStorage.getItem('token');
 
                 // Fetch patient data
-                const patientResponse = await fetch(`http://localhost:4000/patients/${patientId}`, {
+                const patientResponse = await fetch(`${process.env.REACT_APP_BE_URL}/patients/${patientId}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export default function PatientPageCard() {
                 if (Array.isArray(patientData.noaId) && patientData.noaId.length > 0) {
                     const noaResponses = await Promise.all(
                         patientData.noaId.map(async noaId => {
-                            const response = await fetch(`http://localhost:4000/batchedNoa/${noaId}`, {
+                            const response = await fetch(`${process.env.REACT_APP_BE_URL}/batchedNoa/${noaId}`, {
                                 method: 'GET',
                                 headers: {
                                     "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export default function PatientPageCard() {
 
                             // Fetch payer data for each NOA entry
                             if (data && data.payerId) {
-                                const payerResponse = await fetch(`http://localhost:4000/payers/${data.payerId}`, {
+                                const payerResponse = await fetch(`${process.env.REACT_APP_BE_URL}/payers/${data.payerId}`, {
                                     method: 'GET',
                                     headers: {
                                         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function PatientPageCard() {
 
                 // Fetch provider data based on patient providerId
                 if (patientData.providerId) {
-                    const providerResponse = await fetch(`http://localhost:4000/providers/${patientData.providerId}`, {
+                    const providerResponse = await fetch(`${process.env.REACT_APP_BE_URL}/providers/${patientData.providerId}`, {
                         method: 'GET',
                         headers: {
                             "Content-Type": "application/json",

@@ -14,7 +14,7 @@ export default function ProviderDropdown() {
         try {
             const token = localStorage.getItem('token'); 
             // Get token from local storage
-            const response = await fetch('http://localhost:4000/providers/all', {
+            const response = await fetch(`${process.env.REACT_APP_BE_URL}/providers/all`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

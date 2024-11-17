@@ -28,7 +28,7 @@ export default function AddPatient() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`http://localhost:4000/patients/${providerId}/add-patient`, {
+      const response = await fetch(`${process.env.REACT_APP_BE_URL}/patients/${providerId}/add-patient`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

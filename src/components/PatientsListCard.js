@@ -20,7 +20,7 @@ export default function PatientsListCard() {
                 const token = localStorage.getItem('token'); // Get token from local storage
 
                 // Fetch patients
-                const patientsResponse = await fetch(`http://localhost:4000/patients/${providerId}/all`, {
+                const patientsResponse = await fetch(`${process.env.REACT_APP_BE_URL}/patients/${providerId}/all`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export default function PatientsListCard() {
                 setPatients(patientsData); // Update state with fetched patient data
 
                 // Fetch provider name
-                const providerResponse = await fetch(`http://localhost:4000/providers/${providerId}`, {
+                const providerResponse = await fetch(`${process.env.REACT_APP_BE_URL}/providers/${providerId}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",

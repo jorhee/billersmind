@@ -18,7 +18,7 @@ export default function ProviderPage () {
       try {
         const token = localStorage.getItem('token'); // Retrieve token from local storage
 
-        const response = await fetch(`http://localhost:4000/providers/${providerId}`, {
+        const response = await fetch(`${process.env.REACT_APP_BE_URL}/providers/${providerId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`, // Include token in the request header

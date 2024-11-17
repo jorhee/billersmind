@@ -30,7 +30,7 @@ export default function CreateBatchedNoa() {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://localhost:4000/batchedNoa/${providerId}/batch`, {
+            const response = await fetch(`${process.env.REACT_APP_BE_URL}/batchedNoa/${providerId}/batch`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

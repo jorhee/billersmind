@@ -14,7 +14,7 @@ export default function Payer () {
             try {
                 const token = localStorage.getItem('token'); // Retrieve token from local storage
 
-                const response = await fetch('http://localhost:4000/payers/all', {
+                const response = await fetch(`${process.env.REACT_APP_BE_URL}/payers/all`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`, // Include token in the request header

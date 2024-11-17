@@ -36,7 +36,7 @@ export default function IdleLogout() {
         if (localStorage.getItem('token')) { 
         // Only ping server if user is logged in
             try {
-                const response = await fetch('http://localhost:4000/ping'); // Your server's ping endpoint
+                const response = await fetch(`${process.env.REACT_APP_BE_URL}/ping`); // Your server's ping endpoint
                 if (!response.ok) {
                     handleLogout();
                 }

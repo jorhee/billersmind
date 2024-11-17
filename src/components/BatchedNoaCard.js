@@ -19,7 +19,7 @@ export default function BatchedNoaCard() {
                 const token = localStorage.getItem('token'); // Retrieve token from local storage
 
                 // Fetch Batched NOAs
-                const batchedNoasResponse = await fetch(`http://localhost:4000/batchedNoa/${providerId}/all`, {
+                const batchedNoasResponse = await fetch(`${process.env.REACT_APP_BE_URL}/batchedNoa/${providerId}/all`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export default function BatchedNoaCard() {
                 setBatchedNoas(batchedNoasData); // Update state with Batched NOA data
 
                 // Fetch provider name
-                const providerResponse = await fetch(`http://localhost:4000/providers/${providerId}`, {
+                const providerResponse = await fetch(`${process.env.REACT_APP_BE_URL}/providers/${providerId}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export default function BatchedNoaCard() {
                 for (const noa of batchedNoasData) {
                     const { patientId } = noa;
                     if (patientId && !patientDataMap[patientId]) {
-                        const patientResponse = await fetch(`http://localhost:4000/patients/${patientId}`, {
+                        const patientResponse = await fetch(`${process.env.REACT_APP_BE_URL}/patients/${patientId}`, {
                             method: 'GET',
                             headers: {
                                 "Content-Type": "application/json",

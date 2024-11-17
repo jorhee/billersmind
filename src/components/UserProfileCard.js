@@ -6,44 +6,6 @@ import '../css/UserProfile.css';
 import { useNavigate } from 'react-router-dom';
 
 
-/*
-
-export default function UserProfile() {
-  const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    mobileNo: '',
-    email: '',
-    profilePicture: null // Add this to hold the profile picture
-  });
-
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const token = localStorage.getItem('token'); // Get JWT token from localStorage
-      console.log('Token:', token); // Check if token exists
-
-      if (!token) {
-      console.error('No token found, user might not be logged in.');
-      return; // Exit if there's no token
-      }
-      try {
-        const response = await axios.get('http://localhost:4000/profiles/me', {
-          headers: { Authorization: `Bearer ${token}` }, // Attach token to headers
-        });
-        setUser(response.data); // Set the profile data in state
-        console.log(response.data)
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    fetchProfile();
-  }, []);
-*/
-
 export default function UserProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -59,7 +21,7 @@ export default function UserProfile() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token'); // Get token from local storage
-        const response = await fetch('http://localhost:4000/profiles/me', {
+        const response = await fetch(`${process.env.REACT_APP_BE_URL}/profiles/me`, {
           method: 'GET',
           headers: {
             "Content-Type": "application/json",

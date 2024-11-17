@@ -28,7 +28,7 @@ export default function AddPayer() {
         const token = localStorage.getItem('token'); // Retrieve the token from localStorage
 
         try {
-        const response = await fetch('http://localhost:4000/payers/add-payer', {
+        const response = await fetch(`${process.env.REACT_APP_BE_URL}/payers/add-payer`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

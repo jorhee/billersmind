@@ -33,7 +33,7 @@ export default function AddProvider() {
 
         try {
 
-        const response = await fetch('http://localhost:4000/providers/add-provider', {
+        const response = await fetch(`${process.env.REACT_APP_BE_URL}/providers/add-provider`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
