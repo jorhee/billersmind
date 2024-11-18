@@ -1,30 +1,20 @@
-# Use official Node.js image
+# Use an official Node.js runtime as a parent image
 FROM node:18
 
-# Set working directory in container
+# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to install dependencies
+# Copy the package.json and package-lock.json
 COPY package*.json ./
+
+# Install the app dependencies
 RUN npm install
 
-# Set the OpenSSL legacy provider environment variable to avoid the crypto error
-ENV NODE_OPTIONS="--openssl-legacy-provider"
-
-# Set the environment variable for the backend URL
-ENV REACT_APP_BE_URL=http://34.83.186.103
-
-# Copy the rest of the application
+# Copy the rest of your application files
 COPY . .
 
-# Build the React app for production
-RUN npm run build
-
-# Install serve to serve the static files
-RUN npm install -g serve
-
-# Expose the port for the app
+# Expose the port your app will run on
 EXPOSE 8080
 
-# Command to run the app
-CMD ["serve", "-s", "build", "-l", "8080"]
+# Define the command to run your app
+CMD ["npm", "start"]
