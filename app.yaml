@@ -1,7 +1,7 @@
 runtime: nodejs18
 
 env_variables:
-  REACT_APP_BE_URL: "http://34.83.186.103"
+  REACT_APP_BE_URL: "https://billersmindbackend-337780895889.us-central1.run.app"
   NODE_OPTIONS: "--openssl-legacy-provider"
 
 handlers:
