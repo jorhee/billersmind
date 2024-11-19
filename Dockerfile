@@ -12,7 +12,7 @@ RUN npm install
 #ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 # Set the environment variable for the backend URL
-#ENV REACT_APP_BE_URL=http://34.83.186.103
+#ENV REACT_APP_BE_URL=https://billersmindbackend-337780895889.us-central1.run.app
 
 # Copy the rest of the application
 COPY . .
