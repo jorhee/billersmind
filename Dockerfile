@@ -1,29 +1,37 @@
-# Use official Node.js image
-FROM node:18
+# Build Stage
+FROM node:18 AS builder
 
-# Set working directory in container
+# Set working directory in the container
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Set the OpenSSL legacy provider environment variable to avoid the crypto error
-#ENV NODE_OPTIONS="--openssl-legacy-provider"
-
-# Set the environment variable for the backend URL
-#ENV REACT_APP_BE_URL=https://billersmindbackend-337780895889.us-central1.run.app
-
 # Copy the rest of the application
 COPY . .
+
+# Accept a build-time argument for the backend URL
+ARG REACT_APP_BE_URL
+# Set the environment variable (used during the build)
+ENV REACT_APP_BE_URL=${REACT_APP_BE_URL}
 
 # Build the React app for production
 RUN npm run build
 
-# Install serve to serve the static files
+# Production Stage
+FROM node:18-slim
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Install serve globally to serve static files
 RUN npm install -g serve
 
-# Expose the port for the app
+# Copy the production build files from the builder stage
+COPY --from=builder /usr/src/app/build ./build
+
+# Expose the port for Cloud Run
 EXPOSE 8080
 
 # Command to run the app
