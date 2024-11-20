@@ -38,6 +38,8 @@ export default function Login() {
             })
         });
         
+        console.log('Backend URL:', process.env.REACT_APP_BE_URL);
+
         const data = await response.json(); 
 
         if (!response.ok) {
