@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import TransPageNotFound from '../components/images/TransPageNotFound.png'
+import TransPageNotFound from '../components/images/TransPageNotFound.png';
+import { AuthContext } from '../context/AuthContext';
+import BackButton from '../components/BackButton';
 
 export default function ErrorPage()  {
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const goBackHome = () => {
@@ -16,9 +19,15 @@ export default function ErrorPage()  {
       <img src={TransPageNotFound} alt="Error" style={styles.image} />
       <h1 style={styles.title}>404</h1>
       <p style={styles.message}>Oops! The page you're looking for doesn't exist.</p>
+      { isAuthenticated ? (
+          <>
+            <BackButton />
+          </>
+        ) : (
       <button style={styles.button} onClick={goBackHome}>
         Go Back Home
       </button>
+      )}
     </div>
     </ Container>
   );

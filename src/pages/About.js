@@ -7,6 +7,7 @@ export default function About()  {
       <h1 className="about-header">About Us</h1>
 
       <p className="about-description">
+      Billers Mind BPO is a medical billing and outsourcing service company with more than 14 years of experience. We prioritize quality and compassion while adhering to best practices. Our goal is to provide new and existing clients with resources to stay updated on current medicare and medicaid regulations. Since our founding, Billers Mind US has been known for exceptional efficiency and the highest level of professionalism.
         Billers Mind BPO specializes in providing comprehensive medical billing and quality services
         tailored for home health, hospice, and other healthcare providers. Our team is dedicated to
         empowering healthcare organizations to focus on their primary mission—delivering outstanding patient care.

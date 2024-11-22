@@ -28,8 +28,6 @@ export default function Home() {
         <h3>Hello</h3>
         <h1>Welcome to <span>Billers Mind </span>BPO</h1>
         <h3 className="text-animation">We are a <span></span></h3>
-        <p>Billers Mind is a medical billing and outsourcing service company with more than 14 years of experience. We prioritize quality and compassion while adhering to best practices. Our goal is to provide new and existing clients with resources to stay updated on current medicare and medicaid regulations. Since our founding, Billers Mind US has been known for exceptional efficiency and the highest level of professionalism.</p>
-       
         <a href="/contact" className="btncontact mt-3">CONTACT US</a>
       </div>
     </div>
