@@ -2,6 +2,7 @@ import React from 'react';
 //import ReactDOM from 'react-dom/client';
 //import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'notyf/notyf.min.css';
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { createRoot } from 'react-dom/client';

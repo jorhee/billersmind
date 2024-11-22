@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import '../css/notyf.css';
+import { Notyf } from 'notyf';
 import { AuthContext } from '../context/AuthContext';
 
 
 export default function Login() {
 
+    const notyf = new Notyf({
+      position: {
+        x: 'center', // Horizontal axis: center
+        y: 'center', // Vertical axis: center
+      },
+      duration: 3000, // Optional: Notification duration in milliseconds
+    });
     const { login } = useContext(AuthContext); //new delete if not working
     // State hooks to store the values of the input fields
     const [email, setEmail] = useState("");
@@ -48,15 +57,17 @@ export default function Login() {
 
         if (data.token) {
                 
+                console.log(data.token);
                 login(data.token);  // Call login function with token
+                notyf.success(`Successful Login`);
                 navigate(`/me`);
                 
             } else {
-                alert(data.message || 'Login unsuccessful');
+                notyf.error(data.message || 'Login failed');
             }
         } catch (error) {
             //console.error('Error during login:', error);
-            alert(error.message);
+            notyf.error(error.message);
         }
     };
 

@@ -1,0 +1,21 @@
+/* General toast styling */
+.notyf__toast {
+    width: 400px;        /* Make the toast wider */
+    font-size: 18px;     /* Increase font size */
+    padding: 20px;       /* Add more padding */
+    border-radius: 10px; /* Optional: Rounded corners */
+}
+
+/* Success toast customization */
+.notyf__toast--success {
+    background-color: #4caf50; /* Green background for success */
+    color: white;             /* Text color */
+}
+
+/* Error toast customization */
+.notyf__toast--error {
+    background-color: #f44336; /* Red background for error */
+    color: white;             /* Text color */
+    font-weight: bold;        /* Optional: Make text bold */
+    border: 2px solid #d32f2f; /* Optional: Add a border for emphasis */
+}
