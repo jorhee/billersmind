@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../css/CreateBatchedNoa.css'
+import '../css/notyf.css';
+import { Notyf } from 'notyf';
 
 import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { BsFillPersonFill } from 'react-icons/bs';
@@ -8,6 +10,13 @@ import { BsFillPersonFill } from 'react-icons/bs';
 
 export default function CreateBatchedNoa() {
 
+    const notyf = new Notyf({
+      position: {
+        x: 'center', // Horizontal axis: center
+        y: 'center', // Vertical axis: center
+      },
+      duration: 3000, // Optional: Notification duration in milliseconds
+    });
     const { providerId } = useParams(); 
     const navigate = useNavigate(); 
 
@@ -60,16 +69,16 @@ export default function CreateBatchedNoa() {
 
             if (response.ok) {
             	console.log('Response:', response);
-                alert('Batched NOA successfully created');
+                notyf.success('NOA successfully created');
                 navigate(`/providers/${providerId}`);
             } else {
-                alert(data.message || 'Error creating Batched NOA');
+                notyf.error(data.message || 'Error creating Batched NOA');
                 console.log('Data:', data);
             }
             console.log({ patientId, placeOfService, payerId, memberId, admitDate, typeOfBill, benefitPeriod, primaryDiagnosis, AttMd });
         } catch (error) {
             console.error('Error registering Batched NOA:', error);
-            alert('An error occurred. Please try again.');
+            notyf.error('An error occurred. Please try again.');
         }
     }
 

@@ -91,32 +91,31 @@ const PING_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 export default function IdleLogout() {
     const navigate = useNavigate();
-    const notyf = new Notyf({
-      position: {
-        x: 'center', // Horizontal axis: center
-        y: 'center', // Vertical axis: center
-      },
-      duration: 3000, // Optional: Notification duration in milliseconds
-    });
     const { logout } = useContext(AuthContext);
 
     useEffect(() => {
+        const notyf = new Notyf({
+            position: {
+                x: 'center', // Horizontal axis: center
+                y: 'center', // Vertical axis: center
+            },
+            duration: 3000, // Notification duration in milliseconds
+        });
+
         let timeoutId;
         let pingIntervalId;
 
         const handleActivity = () => {
             if (localStorage.getItem('token')) {
-                // Reset timeout when user interacts
                 clearTimeout(timeoutId);
                 timeoutId = setTimeout(handleLogout, IDLE_TIMEOUT);
             }
         };
 
         const handleLogout = () => {
-            logout(); // Call logout from context
+            logout();
             notyf.error('You have been logged out due to inactivity.');
-            navigate('/login'); // Redirect to login page
-            
+            navigate('/login');
         };
 
         const pingServer = async () => {
@@ -127,25 +126,22 @@ export default function IdleLogout() {
                         handleLogout();
                     }
                 } catch (error) {
-                    handleLogout(); // Log out if the server is unreachable
+                    handleLogout();
                 }
             }
         };
 
-        // Add activity listeners and initialize timers
         if (localStorage.getItem('token')) {
             window.addEventListener('mousemove', handleActivity);
             window.addEventListener('keydown', handleActivity);
             window.addEventListener('click', handleActivity);
             window.addEventListener('scroll', handleActivity);
 
-            // Set the initial idle timeout and ping interval
             timeoutId = setTimeout(handleLogout, IDLE_TIMEOUT);
             pingServer();
             pingIntervalId = setInterval(pingServer, PING_INTERVAL);
         }
 
-        // Cleanup on component unmount
         return () => {
             clearTimeout(timeoutId);
             clearInterval(pingIntervalId);
@@ -154,7 +150,7 @@ export default function IdleLogout() {
             window.removeEventListener('click', handleActivity);
             window.removeEventListener('scroll', handleActivity);
         };
-    }, [notyf, navigate, logout]);
+    }, [logout, navigate]);
 
-    return null; // This component doesn't render any UI
+    return null;
 }

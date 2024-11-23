@@ -31,6 +31,8 @@ import ProviderPage from './pages/ProviderPage';
 import BatchedNoaListsPage from './pages/BatchedNoaListsPage';
 import SentElecClaims from './pages/SentElecClaims';
 import Contact from './pages/Contact';
+import GetNoaPage from './pages/GetNoaPage';
+
 
 
 
@@ -64,6 +66,7 @@ function App() {
         <Route path="/patients/:patientId" element={<><PatientPageCard /></>} />
         <Route path="/batchedNoa/:providerId/all" element={<BatchedNoaListsPage />} />
         <Route path="/batchedNoa/:providerId/batch" element={<CreateBatchedNoa />} />
+        <Route path="/batchedNoa/:noaId" element={<GetNoaPage />} />
         <Route path="/patients/edi" element={<SentElecClaims />} />
       </Routes>
       <Footer />
