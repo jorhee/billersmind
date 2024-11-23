@@ -1,7 +1,7 @@
 /* General toast styling */
 .notyf__toast {
     width: 400px;        /* Make the toast wider */
-    font-size: 18px;     /* Increase font size */
+    font-size: 25px;     /* Increase font size */
     padding: 20px;       /* Add more padding */
     border-radius: 10px; /* Optional: Rounded corners */
 }

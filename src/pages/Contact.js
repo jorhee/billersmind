@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { FaUser, FaEnvelope, FaPhone, FaPen } from 'react-icons/fa';
-import { Card, Button, Form } from 'react-bootstrap';
+import { Card, Button, Form, Container } from 'react-bootstrap';
 
-export default function ContactUs() {
+
+export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,7 +27,14 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="container my-5">
+    <>
+    <Container>
+    <div className="my-5" id="contact" 
+    style={{ 
+      height: "80vh",
+      scrollBehavior: "smooth",
+      margin: 0
+     }}>
       <Card className="p-4 shadow">
         <Card.Body>
           <h3 className="text-center mb-4">Contact Us</h3>
@@ -106,5 +114,7 @@ export default function ContactUs() {
         </Card.Body>
       </Card>
     </div>
+    </ Container>
+    </>
   );
 };

@@ -193,6 +193,14 @@ span{
   background-color: var(--main-color);
   box-shadow: 0 0 25px var(--main-color);
 }
+
+
+.btncontact-container {
+  display: flex;
+  justify-content: center;  /* Center horizontally */
+  align-items: center;      /* Center vertically */
+}
+
 .btncontact{
   display: inline-block;
   padding: 1rem 2.8rem;
@@ -212,6 +220,7 @@ span{
   color: var(--text-color);
   box-shadow: 0 0 25px var(--main-color);
 }
+
 .text-animation{
   font-size: 34px;
   font-weight: 600;
@@ -243,19 +252,19 @@ span{
 @keyframes words{
   0%,
   20%{
-    content: 'Medical Biller'
+    content: 'Hospice Biller'
   }
   21%,
   40%{
-    content: 'Home Health Biller';
+    content: 'HH Biller';
   }
   41%,
   60%{
-    content: 'Hospice Biller';
+    content: 'ALW Biller';
   }
   61%,
   80%{
-    content: 'Oasis/POC coder';
+    content: 'Oasis Coder';
   }
   81%,
   100%{
