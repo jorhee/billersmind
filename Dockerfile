@@ -3,6 +3,11 @@ FROM node:18 AS builder
 
 WORKDIR /usr/src/app
 
+
+# Update npm to the latest version
+RUN npm install -g npm@10.9.1
+
+
 # Copy only package.json and lock file to cache dependencies
 COPY package*.json ./
 
