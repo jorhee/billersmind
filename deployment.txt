@@ -4,11 +4,14 @@
 1 step.
 docker build --build-arg REACT_APP_BE_URL=https://billersmindbackend-337780895889.us-central1.run.app -t gcr.io/backendbillersmind/react-frontend .
 
+docker build --no-cache --build-arg REACT_APP_BE_URL=https://billersmindbackend-337780895889.us-central1.run.app -t gcr.io/backendbillersmind/react-frontend .
+
+
 
 2 step.
 docker push gcr.io/backendbillersmind/react-frontend
 
-
+Skip step1 and step2 if no changes to env variable and GCR was already pushed.
 
 3 step.
 gcloud run deploy react-frontend \
@@ -17,5 +20,6 @@ gcloud run deploy react-frontend \
     --region us-central1 \
     --allow-unauthenticated \
     --set-env-vars "REACT_APP_BE_URL=https://billersmindbackend-337780895889.us-central1.run.app"
+
 
 
