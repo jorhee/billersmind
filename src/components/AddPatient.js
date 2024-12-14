@@ -68,7 +68,7 @@ export default function AddPatient() {
     
     <div className="text-purple bg-secondary px-5 w-100 p-5">
     <div className="w-100">
-      <Button variant="secondary" className="mt-3" onClick={() => navigate(`/me`)}>
+      <Button variant="secondary" className="mt-3" onClick={() => navigate(`/providers/${providerId}`)}>
         Back to Provider Dashboard
       </Button>
       <Form onSubmit={registerPatient}>

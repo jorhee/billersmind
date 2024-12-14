@@ -6,6 +6,7 @@ import 'notyf/notyf.min.css';
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { createRoot } from 'react-dom/client';
+import "./index.css";  // Import your CSS file
 
 /*
 const root = ReactDOM.createRoot(document.getElementById('root'));

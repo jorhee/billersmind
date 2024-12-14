@@ -6,6 +6,7 @@ import LogoutButton from './LogoutButton';
 import { AuthContext } from '../context/AuthContext';
 import ProfileButton from './ProfileButton';
 import bmfav from './images/bmfav.png';
+import HospiceCalculatorPage from '../pages/HospiceCalculatorPage';
 
 
 //authContext version
@@ -32,10 +33,12 @@ export default function CustomNavbar() {
                                 <BackButton />
                                 <ProfileButton />
                                 <LogoutButton />
+                                <HospiceCalculatorPage />
                             </>
                         ) : (
                             <>
                                 <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+                                <Nav.Link as={NavLink} to="/hospiceCalculator">Hospice Calculator</Nav.Link>
                                 <Nav.Link as={NavLink} to="/about">About</Nav.Link>
                                 <Nav.Link as={NavLink} to="/services">Services</Nav.Link>
                                 <Nav.Link as={NavLink} to="/contact">Contact</Nav.Link>

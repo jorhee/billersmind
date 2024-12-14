@@ -43,6 +43,7 @@ export default function BatchedNoaCard() {
 
                 const batchedNoasData = await batchedNoasResponse.json();
                 setBatchedNoas(batchedNoasData);
+                console.log('Fetched NOA:', batchedNoasData);
 
                 // Fetch provider name
                 const providerResponse = await fetch(`${process.env.REACT_APP_BE_URL}/providers/${providerId}`, {
@@ -186,7 +187,7 @@ export default function BatchedNoaCard() {
                                         <td>{noa.sentDate || 'N/A'}</td>
                                         <td
                                             style={{
-                                                color: noa.isNoaLate ? 'red' : 'inherit',
+                                                color: noa.isNoaLate ? 'red' : 'blue',
                                                 fontWeight: noa.isNoaLate ? 'bold' : 'normal',
                                             }}
                                         >

@@ -52,7 +52,6 @@ export default function ProviderCard() {
                 </Link>
                 </Card.Title>
             <Card.Text>Billers Mind BPO Clients</Card.Text>
-            {/* Bootstrap Table for displaying providers */}
             <Table striped bordered hover responsive="md" className="mt-3">
                 <thead>
                     <tr>
@@ -93,18 +92,16 @@ export default function ProviderCard() {
                                 <td>{provider.taxId || 'N/A'}</td>
                                 <td>{new Date(provider.createdAt).toLocaleString() || 'N/A'}</td>
                                 <td>{new Date(provider.updatedAt).toLocaleString() || 'N/A'}</td>
-                                <td>{provider.addedBy?.email || 'N/A'}</td> {/* Display the user's email */}
+                                <td>{provider.addedBy?.email || 'N/A'}</td>
                             </tr>
                         ))
                     ) : (
-                        <tr><td colSpan="14" className="text-center"> {/* Adjusted colspan for new column */}
-                                No Providers Found
-                            </td></tr>
+                        <tr><td colSpan="14" className="text-center">No Providers Found</td>
+                        </tr>
                     )}
                 </tbody>
                         </Table>
-                    </Card.Body>  
-                             
+                    </Card.Body>
                 </div>
             </Card>  
     );

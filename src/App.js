@@ -32,6 +32,7 @@ import BatchedNoaListsPage from './pages/BatchedNoaListsPage';
 import SentElecClaims from './pages/SentElecClaims';
 import Contact from './pages/Contact';
 import GetNoaPage from './pages/GetNoaPage';
+import HospiceCalculatorPage from './pages/HospiceCalculatorPage';
 
 
 
@@ -43,7 +44,7 @@ function App() {
   return (
     <>
     <Container>
-    <Router>
+    <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <Navbar/>
       <IdleTimeout />
       <Routes>
@@ -68,6 +69,7 @@ function App() {
         <Route path="/batchedNoa/:providerId/batch" element={<CreateBatchedNoa />} />
         <Route path="/batchedNoa/:noaId" element={<GetNoaPage />} />
         <Route path="/patients/edi" element={<SentElecClaims />} />
+        <Route path="/hospiceCalculator" element={<HospiceCalculatorPage />} />
       </Routes>
       <Footer />
     </Router>
