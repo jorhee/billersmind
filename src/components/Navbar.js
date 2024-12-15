@@ -6,7 +6,7 @@ import LogoutButton from './LogoutButton';
 import { AuthContext } from '../context/AuthContext';
 import ProfileButton from './ProfileButton';
 import bmfav from './images/bmfav.png';
-import HospiceCalculatorPage from '../pages/HospiceCalculatorPage';
+
 
 
 //authContext version
@@ -25,7 +25,12 @@ export default function CustomNavbar() {
                   Billers <span>Mind BPO</span>
                   </Link>
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle 
+                    aria-controls="basic-navbar-nav"
+                    style={{
+                    borderColor: "transparent",
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E")`,
+                        }} />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto">
                         {isAuthenticated ? (
@@ -33,7 +38,6 @@ export default function CustomNavbar() {
                                 <BackButton />
                                 <ProfileButton />
                                 <LogoutButton />
-                                <HospiceCalculatorPage />
                             </>
                         ) : (
                             <>
